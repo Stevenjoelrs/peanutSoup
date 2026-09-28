@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { afiliarEstudiante } from './afiliacion.controller.js';
+import { afiliarEstudiante, consultarVigenciaAfiliacion } from './afiliacion.controller.js';
 import { authenticateStudent, requireAuth } from '../shared/middleware/auth.js';
 
 const router = Router();
@@ -12,5 +12,8 @@ router.post('/', afiliarEstudiante);
 
 // US-01 — Alias funcional
 router.post('/solicitar', afiliarEstudiante);
+
+// US-12 — Vigencia actual de la cobertura (fecha de término y elegibilidad)
+router.get('/vigencia', consultarVigenciaAfiliacion);
 
 export default router;

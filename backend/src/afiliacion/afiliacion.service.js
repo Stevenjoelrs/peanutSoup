@@ -9,6 +9,9 @@ import * as repo from './afiliacion.repository.js';
  * a la respuesta HTTP vigente.
  */
 
+/** Regla de política: solo se puede renovar con 30 días o menos restantes. */
+export const LIMITE_RENOVACION_DIAS = 30;
+
 const esFechaInvalida = (valor) => Number.isNaN(new Date(valor).getTime());
 
 /**
@@ -71,4 +74,48 @@ export const registrarAfiliacion = async ({ id_estudiante, periodo_semestral, fe
     }
     throw error;
   }
+};
+
+/**
+ * US-12 — Vigencia actual, días restantes y elegibilidad de renovación.
+ *
+ * Cuando el estudiante nunca se afilió la respuesta es 200 con
+ * `tiene_afiliacion: false`: no es un error, es el estado inicial de cualquiera
+ * que entra por primera vez al portal.
+ */
+export const consultarVigencia = async (id_estudiante) => {
+  const vigente = await repo.buscarVigencia(id_estudiante);
+
+  if (!vigente) {
+    return {
+      mensaje: 'El estudiante no registra afiliaciones previas.',
+      data: {
+        estudiante_id: id_estudiante,
+        tiene_afiliacion: false,
+        vigente: null,
+        dias_para_vencer: null,
+        limite_renovacion_dias: LIMITE_RENOVACION_DIAS,
+        elegible_renovacion: false
+      }
+    };
+  }
+
+  const dias = parseInt(vigente.dias_para_vencer, 10);
+  const inicio = new Date(vigente.fecha_inicio);
+  const fin = new Date(vigente.fecha_vencimiento);
+  const total = fin - inicio;
+  const progreso = total > 0 ? Math.max(0, Math.min(100, Math.round(((Date.now() - inicio) / total) * 100))) : 0;
+
+  return {
+    mensaje: 'Vigencia de la afiliación consultada.',
+    data: {
+      estudiante_id: id_estudiante,
+      tiene_afiliacion: true,
+      vigente,
+      dias_para_vencer: dias,
+      limite_renovacion_dias: LIMITE_RENOVACION_DIAS,
+      elegible_renovacion: vigente.elegible_renovacion,
+      progreso_semestre_porcentaje: Number.isNaN(progreso) ? 0 : progreso
+    }
+  };
 };

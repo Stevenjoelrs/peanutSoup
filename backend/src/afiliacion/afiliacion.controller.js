@@ -23,3 +23,9 @@ export const afiliarEstudiante = manejar(async (req, res) => {
   });
   return successResponse(res, mensaje, data, 201);
 });
+
+/** US-12 — GET /api/afiliaciones/vigencia */
+export const consultarVigenciaAfiliacion = manejar(async (req, res) => {
+  const { mensaje, data } = await servicio.consultarVigencia(req.user.id_estudiante);
+  return successResponse(res, mensaje, data);
+});
