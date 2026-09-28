@@ -119,3 +119,75 @@ export const consultarVigencia = async (id_estudiante) => {
     }
   };
 };
+
+/**
+ * US-12 — renovar la afiliación.
+ *
+ * Regla dura: solo se renueva con 30 días o menos para el vencimiento, y el
+ * traspaso tiene que ser atómico. Si se cerrara la afiliación vieja antes de
+ * abrir la nueva y la inserción fallara, el estudiante se quedaría sin cobertura
+ * por un error ajeno.
+ */
+export const renovarAfiliacion = async ({
+  id_estudiante,
+  nuevo_periodo_semestral,
+  nueva_fecha_inicio,
+  nueva_fecha_vencimiento
+}) => {
+  if (!nuevo_periodo_semestral || !nueva_fecha_inicio || !nueva_fecha_vencimiento) {
+    throw badRequest(
+      'Los campos nuevo_periodo_semestral, nueva_fecha_inicio y nueva_fecha_vencimiento son obligatorios.'
+    );
+  }
+  if (esFechaInvalida(nueva_fecha_inicio) || esFechaInvalida(nueva_fecha_vencimiento)) {
+    throw badRequest('Las fechas deben tener formato YYYY-MM-DD.');
+  }
+  if (new Date(nueva_fecha_vencimiento) < new Date(nueva_fecha_inicio)) {
+    throw badRequest('La nueva fecha de vencimiento no puede ser anterior a la fecha de inicio.');
+  }
+
+  try {
+    return await repo.conTransaccion(async (client) => {
+      const actual = await repo.buscarUltimaAfiliacionActiva(client, id_estudiante);
+      if (!actual) {
+        throw notFound('No se encontró ninguna afiliación previa para este estudiante.');
+      }
+      const diasRestantes = parseInt(actual.dias_para_vencer, 10);
+      if (diasRestantes > LIMITE_RENOVACION_DIAS) {
+        throw badRequest(
+          `No procede la renovación. Faltan ${diasRestantes} días para el vencimiento (${actual.fecha_vencimiento}). El SSU solo permite renovar cuando restan ${LIMITE_RENOVACION_DIAS} días o menos.`,
+          {
+            dias_restantes: diasRestantes,
+            fecha_vencimiento_actual: actual.fecha_vencimiento,
+            limite_politica_dias: LIMITE_RENOVACION_DIAS
+          }
+        );
+      }
+      await repo.inactivarAfiliacion(client, actual.id_afiliacion);
+      const nueva = await repo.insertarAfiliacionConCliente(client, {
+        id_estudiante,
+        periodo_semestral: nuevo_periodo_semestral,
+        fecha_inicio: nueva_fecha_inicio,
+        fecha_vencimiento: nueva_fecha_vencimiento
+      });
+      return {
+        mensaje: `Renovación exitosa para el periodo ${nuevo_periodo_semestral}. Cobertura extendida hasta ${nueva_fecha_vencimiento}.`,
+        data: {
+          estudiante: { id_estudiante: actual.id_estudiante, nombre_completo: actual.nombre_completo, sis: actual.sis },
+          afiliacion_anterior: {
+            id_afiliacion: actual.id_afiliacion,
+            periodo_semestral: actual.periodo_semestral,
+            fecha_vencimiento: actual.fecha_vencimiento,
+            nuevo_estado: 'INACTIVA'
+          },
+          afiliacion_renovada: nueva
+        }
+      };
+    });
+  } catch (error) {
+    if (error.code === '23505') {
+      throw conflict('Ya existe una afiliación registrada para el nuevo periodo semestral indicado.');
+    }
+    throw error;
+  }
+};

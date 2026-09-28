@@ -29,3 +29,14 @@ export const consultarVigenciaAfiliacion = manejar(async (req, res) => {
   const { mensaje, data } = await servicio.consultarVigencia(req.user.id_estudiante);
   return successResponse(res, mensaje, data);
 });
+
+/** US-12 — POST /api/afiliaciones/renovar */
+export const renovarAfiliacion = manejar(async (req, res) => {
+  const { mensaje, data } = await servicio.renovarAfiliacion({
+    id_estudiante: req.user.id_estudiante,
+    nuevo_periodo_semestral: req.body.nuevo_periodo_semestral,
+    nueva_fecha_inicio: req.body.nueva_fecha_inicio,
+    nueva_fecha_vencimiento: req.body.nueva_fecha_vencimiento
+  });
+  return successResponse(res, mensaje, data, 201);
+});

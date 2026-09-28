@@ -1,4 +1,4 @@
-import { query } from '../shared/config/db.js';
+import { query, conTransaccion } from '../shared/config/db.js';
 
 /**
  * CAPA DE DATOS — módulo de afiliación
@@ -68,3 +68,42 @@ export const buscarVigencia = async (id_estudiante) => {
   );
   return result.rows[0] ?? null;
 };
+
+/** US-12 — Última afiliación vigente, con los días que le quedan. */
+export const buscarUltimaAfiliacionActiva = async (client, id_estudiante) => {
+  const resultado = await client.query(
+    `SELECT a.id_afiliacion, a.id_estudiante, a.periodo_semestral, a.fecha_inicio, a.fecha_vencimiento,
+            a.estado, (a.fecha_vencimiento - CURRENT_DATE) AS dias_para_vencer,
+            e.nombre_completo, e.sis
+     FROM afiliaciones a
+     JOIN estudiantes e ON a.id_estudiante = e.id_estudiante
+     WHERE a.id_estudiante = $1
+       AND a.estado = 'ACTIVA'
+     ORDER BY a.fecha_vencimiento DESC
+     LIMIT 1`,
+    [id_estudiante]
+  );
+  return resultado.rows[0] ?? null;
+};
+
+export const inactivarAfiliacion = async (client, id_afiliacion) => {
+  await client.query(`UPDATE afiliaciones SET estado = 'INACTIVA' WHERE id_afiliacion = $1`, [id_afiliacion]);
+};
+
+/** Inserción con el cliente de la transacción: comparte el mismo bloqueo. */
+export const insertarAfiliacionConCliente = async (client, datos) => {
+  const resultado = await client.query(
+    `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+     VALUES ($1, $2, $3, $4, 'ACTIVA')
+     RETURNING id_afiliacion, id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado, created_at`,
+    [datos.id_estudiante, datos.periodo_semestral, datos.fecha_inicio, datos.fecha_vencimiento]
+  );
+  return resultado.rows[0];
+};
+
+/**
+ * Transacción atómica: cierra la afiliación anterior y abre la nueva, o no pasa
+ * ninguna de las dos. Reexportada desde la capa de datos compartida: el único
+ * que pide el cliente del pool es src/shared/config/db.js.
+ */
+export { conTransaccion };
