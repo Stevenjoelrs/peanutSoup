@@ -15,6 +15,23 @@ export const LIMITE_RENOVACION_DIAS = 30;
 const esFechaInvalida = (valor) => Number.isNaN(new Date(valor).getTime());
 
 /**
+ * El driver `pg` devuelve las columnas DATE como objetos Date en la medianoche
+ * local de ese día. Interpolar ese objeto en un mensaje produciría algo como
+ * "Sun Jan 31 2027 00:00:00 GMT-0400 (Bolivia Time)", que no es un mensaje de
+ * producto. Se reconstruye el calendario con los getters locales, que son
+ * exactos independientemente de la zona horaria del proceso.
+ */
+const fechaComoTexto = (valor) => {
+  if (!valor) return null;
+  if (typeof valor === 'string') return valor.slice(0, 10);
+  const d = new Date(valor);
+  if (Number.isNaN(d.getTime())) return null;
+  const mes = String(d.getMonth() + 1).padStart(2, '0');
+  const dia = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${mes}-${dia}`;
+};
+
+/**
  * US-01 — registrar la afiliación semestral del estudiante del token.
  */
 export const registrarAfiliacion = async ({ id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento }) => {
@@ -155,10 +172,10 @@ export const renovarAfiliacion = async ({
       const diasRestantes = parseInt(actual.dias_para_vencer, 10);
       if (diasRestantes > LIMITE_RENOVACION_DIAS) {
         throw badRequest(
-          `No procede la renovación. Faltan ${diasRestantes} días para el vencimiento (${actual.fecha_vencimiento}). El SSU solo permite renovar cuando restan ${LIMITE_RENOVACION_DIAS} días o menos.`,
+          `No procede la renovación. Faltan ${diasRestantes} días para el vencimiento (${fechaComoTexto(actual.fecha_vencimiento)}). El SSU solo permite renovar cuando restan ${LIMITE_RENOVACION_DIAS} días o menos.`,
           {
             dias_restantes: diasRestantes,
-            fecha_vencimiento_actual: actual.fecha_vencimiento,
+            fecha_vencimiento_actual: fechaComoTexto(actual.fecha_vencimiento),
             limite_politica_dias: LIMITE_RENOVACION_DIAS
           }
         );
