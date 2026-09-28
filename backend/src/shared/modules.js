@@ -27,6 +27,8 @@
 
 // --- Módulos de negocio ---------------------------------------------------
 import afiliacionRoutes from '../afiliacion/afiliacion.routes.js';
+import authRoutes from '../auth/auth.routes.js';
+import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
 
 // --- Infraestructura compartida -----------------------------------------
 import systemRoutes from './routes/system.routes.js';
@@ -37,11 +39,25 @@ import systemRoutes from './routes/system.routes.js';
  */
 export const apiModules = [
   {
+    dominio: 'auth',
+    descripcion: 'Autenticación JWT del estudiante con SIS + Cédula de Identidad',
+    prefijo: '/api/auth',
+    router: authRoutes,
+    publica: false
+  },
+  {
     dominio: 'afiliacion',
     descripcion: 'Afiliación semestral del estudiante (US-01)',
     prefijo: '/api/afiliaciones',
     router: afiliacionRoutes,
     publica: false
+  },
+  {
+    dominio: 'estudiantes',
+    descripcion: 'Consulta del padrón de estudiantes',
+    prefijo: '/api/estudiantes',
+    router: estudiantesRoutes,
+    publica: true
   },
   {
     dominio: 'sistema',

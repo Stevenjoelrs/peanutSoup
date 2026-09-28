@@ -12,16 +12,9 @@ import * as repo from './afiliacion.repository.js';
 const esFechaInvalida = (valor) => Number.isNaN(new Date(valor).getTime());
 
 /**
- * US-01 — registrar la afiliación semestral de un estudiante del padrón.
- *
- * El estudiante llega por su matrícula (`sis`). Es provisional: en cuanto exista
- * sesión, la identidad se resolverá desde el token y esta función desaparece del
- * camino de alta.
+ * US-01 — registrar la afiliación semestral del estudiante del token.
  */
-export const registrarAfiliacion = async ({ sis, periodo_semestral, fecha_inicio, fecha_vencimiento }) => {
-  if (!sis) {
-    throw badRequest('El campo sis es requerido.');
-  }
+export const registrarAfiliacion = async ({ id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento }) => {
   if (!periodo_semestral || !fecha_inicio || !fecha_vencimiento) {
     throw badRequest('Los campos periodo_semestral, fecha_inicio y fecha_vencimiento son requeridos.');
   }
@@ -34,7 +27,7 @@ export const registrarAfiliacion = async ({ sis, periodo_semestral, fecha_inicio
     throw badRequest('La fecha de vencimiento no puede ser anterior a la fecha de inicio.');
   }
 
-  const estudiante = await repo.buscarEstudiantePorSis(sis);
+  const estudiante = await repo.buscarEstudiantePorId(id_estudiante);
   if (!estudiante) {
     throw notFound('El estudiante no se encontró en el padrón universitario.');
   }

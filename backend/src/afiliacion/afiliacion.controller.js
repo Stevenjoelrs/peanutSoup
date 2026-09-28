@@ -12,12 +12,11 @@ import * as servicio from './afiliacion.service.js';
 
 /**
  * US-01 — POST /api/afiliaciones  y  POST /api/afiliaciones/solicitar
- *
- * El estudiante se identifica por su matrícula porque todavía no hay sesión.
+ * El id_estudiante se toma SIEMPRE del JWT (req.user), nunca del body.
  */
 export const afiliarEstudiante = manejar(async (req, res) => {
   const { mensaje, data } = await servicio.registrarAfiliacion({
-    sis: req.body.sis,
+    id_estudiante: req.user.id_estudiante,
     periodo_semestral: req.body.periodo_semestral,
     fecha_inicio: req.body.fecha_inicio,
     fecha_vencimiento: req.body.fecha_vencimiento
