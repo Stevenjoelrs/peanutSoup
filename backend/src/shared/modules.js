@@ -25,6 +25,9 @@
  * ===========================================================================
  */
 
+// --- Módulos de negocio ---------------------------------------------------
+import afiliacionRoutes from '../afiliacion/afiliacion.routes.js';
+
 // --- Infraestructura compartida -----------------------------------------
 import systemRoutes from './routes/system.routes.js';
 
@@ -34,20 +37,19 @@ import systemRoutes from './routes/system.routes.js';
  */
 export const apiModules = [
   {
+    dominio: 'afiliacion',
+    descripcion: 'Afiliación semestral del estudiante (US-01)',
+    prefijo: '/api/afiliaciones',
+    router: afiliacionRoutes,
+    publica: false
+  },
+  {
     dominio: 'sistema',
     descripcion: 'Health check de la API y de la conexión a Supabase',
     prefijo: '/api/system',
     router: systemRoutes,
     publica: true
   }
-  // Ejemplo de lo que se agrega al desarrollar una funcionalidad:
-  // {
-  //   dominio: 'afiliacion',
-  //   descripcion: 'Afiliación semestral, renovación y vigencia (US-01, US-12)',
-  //   prefijo: '/api/afiliaciones',
-  //   router: afiliacionRoutes,
-  //   publica: false
-  // }
 ];
 
 /**
