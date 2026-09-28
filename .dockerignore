@@ -1,0 +1,40 @@
+# =============================================================================
+# SSU - UMSS | Contexto de build de la imagen Docker
+# -----------------------------------------------------------------------------
+# Lo que se excluye aqui NUNCA llega al contenedor. El orden importa: primero se
+# excluye y despues se vuelve a incluir lo unico que si debe viajar.
+# =============================================================================
+
+# Dependencias instaladas dentro de la imagen (nunca las del host)
+node_modules
+**/node_modules
+.pnpm-store
+
+# dist/ se compila dentro de la imagen con `pnpm build` (ver Dockerfile):
+# copiar el del host serviria un build viejo en la imagen.
+dist
+**/dist
+
+# Credenciales: se inyectan en tiempo de ejecucion con env_file (.env)
+.env
+.env.*
+!.env.example
+
+# Git y metadatos
+.git
+.gitignore
+.gitattributes
+.github
+
+# Logs, temporales y herramientas del editor
+*.log
+npm-debug.log*
+pnpm-debug.log*
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+.vscode
+.idea
+Thumbs.db
+desktop.ini
+*.tmp

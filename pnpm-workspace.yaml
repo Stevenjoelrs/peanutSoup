@@ -1,0 +1,19 @@
+# =============================================================================
+# Monorepo SSU - UMSS | Espacios de trabajo pnpm
+# -----------------------------------------------------------------------------
+# Cada carpeta de primer nivel es un paquete independiente con su propio
+# package.json. `pnpm install` en la raiz instala todo de una vez y produce un
+# unico pnpm-lock.yaml, que es el lockfile oficial del equipo.
+#
+#   db/       -> esquema, migraciones y semillas de Supabase (PostgreSQL 16)
+#   backend/  -> API REST Express 5 (sin framework de frontend)
+#   frontend/ -> interfaz web Vite 8 en modo MPA
+#
+# Los paquetes NO se declaran dependencias entre si: el backend no importa nada
+# de frontend y el runner de migraciones no importa nada del backend. La
+# comunicacion es siempre por HTTP o por el esquema de la base de datos.
+# =============================================================================
+packages:
+  - db
+  - backend
+  - frontend

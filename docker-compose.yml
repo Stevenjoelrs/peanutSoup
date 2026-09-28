@@ -1,0 +1,57 @@
+# =============================================================================
+# SSU - UMSS | Solo la aplicación (API + interfaz)
+# -----------------------------------------------------------------------------
+# NO hay servicio de base de datos aqui, y es deliberado: el equipo trabaja
+# contra UNA instancia en la nube (Supabase Cloud, PostgreSQL 16) compartida por
+# los 6 integrantes. Levantar un postgres local produciria dos bases de datos
+# divergentes y los bugs aparecerian solo en la nube.
+#
+# Todo el codigo fuente se monta desde la carpeta del proyecto, por lo que
+# cualquier cambio local se refleja de inmediato en el contenedor.
+# =============================================================================
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ssu-umss-web:latest
+    container_name: ssu_umss_web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    # Credenciales y configuracion tomadas del .env personal de cada integrante
+    env_file:
+      - .env
+    environment:
+      TZ: America/La_Paz
+      NODE_ENV: development
+      PORT: "3000"
+    volumes:
+      # Codigo del host: los cambios se reflejan sin reconstruir la imagen
+      - .:/app
+      # node_modules de la imagen (volumen anonimo) para no usar el del host,
+      # que en Windows traeria rutas y permisos incompatibles
+      - /app/node_modules
+    # El arranque usa el CMD de la imagen (ssu-dev-watch): servidor Express con
+    # reinicio automatico y recompilacion del frontend al detectar cambios
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -fsS http://localhost:3000/api/system/health || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    stdin_open: true
+    tty: false
+
+# -----------------------------------------------------------------------------
+# Red: IPv6 habilitado porque Supabase publica el host de base de datos
+# unicamente con registro AAAA (sin IPv4). Sin IPv6 el contenedor no alcanza la
+# base de datos y falla con ENETUNREACH.
+# -----------------------------------------------------------------------------
+networks:
+  default:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+        - subnet: fd00:dead:beef::/48

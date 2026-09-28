@@ -1,0 +1,34 @@
+# =============================================================================
+# SSU - UMSS | Normalizacion de fin de linea
+# -----------------------------------------------------------------------------
+# El repositorio guarda LF y el checkout entrega lo que use el sistema. Sin esto
+# cada commit en Windows mezcla CRLF y un `git diff` muestra cambios que no
+# existen. GitHub muestra ademas los archivos como "modificados" si el fin de
+# linea no coincide con lo que hay en el blob.
+#
+# El equipo trabaja en Windows, macOS y Arch Linux, asi que esta regla es
+# obligatoria (contrato del equipo, seccion 6).
+# =============================================================================
+* text=auto eol=lf
+
+# Codigo, configuracion, SQL y documentacion: LF explicito.
+*.sql text eol=lf
+*.md text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+Dockerfile text eol=lf
+
+# Los scripts de Windows necesitan CRLF para ejecutarse.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Los archivos generados por Vite no se tocan (usan solo el hash como nombre).
+frontend/dist/** binary
