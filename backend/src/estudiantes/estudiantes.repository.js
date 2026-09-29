@@ -1,16 +1,5 @@
 import { query } from '../shared/config/db.js';
 
-/**
- * CAPA DE DATOS — módulo de estudiantes
- * -----------------------------------------------------------------------------
- * Todo el SQL del padrón de estudiantes vive aquí.
- * Consultas parametrizadas que devuelven filas o null.
- */
-
-/**
- * Listar todos los estudiantes ordenados por nombre completo con su última afiliación.
- * @returns {Promise<Array<object>>}
- */
 export const obtenerTodos = async () => {
   const result = await query(`
     SELECT e.id_estudiante, e.sis, e.cedula_identidad, e.nombre_completo, e.facultad, e.carrera, e.created_at,
@@ -34,11 +23,6 @@ export const obtenerTodos = async () => {
   return result.rows;
 };
 
-/**
- * Buscar un estudiante por SIS, cédula de identidad o UUID.
- * @param {string} termino
- * @returns {Promise<object|null>}
- */
 export const buscarPorTermino = async (termino) => {
   const result = await query(
     `SELECT e.id_estudiante, e.sis, e.cedula_identidad, e.nombre_completo, e.facultad, e.carrera, e.created_at,
@@ -64,11 +48,6 @@ export const buscarPorTermino = async (termino) => {
   return result.rows[0] ?? null;
 };
 
-/**
- * Insertar un nuevo estudiante en el padrón.
- * @param {object} datos
- * @returns {Promise<object>}
- */
 export const insertarEstudiante = async ({ sis, cedula_identidad, nombre_completo, facultad, carrera }) => {
   const result = await query(
     `INSERT INTO estudiantes (sis, cedula_identidad, nombre_completo, facultad, carrera)
