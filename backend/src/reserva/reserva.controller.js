@@ -2,23 +2,11 @@ import { successResponse } from '../shared/http/response.js';
 import { manejar } from '../shared/http/manejar.js';
 import * as servicio from './reserva.service.js';
 
-/**
- * CAPA HTTP — módulo de reserva de fichas médicas
- * -----------------------------------------------------------------------------
- * Los controladores solo traducen HTTP <-> servicio. Toda regla de negocio
- * y transacciones atómicas viven en las capas inferiores (service y repository).
- */
-
 const esc = (v) =>
   String(v ?? '-').replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
   );
 
-/**
- * US-03 / US-08 — Comprobante oficial de la ficha reservada
- * GET /api/fichas/:id/comprobante
- * Devuelve el comprobante en HTML imprimible. Solo el titular autenticado puede obtenerlo.
- */
 export const obtenerComprobanteFicha = manejar(async (req, res) => {
   const { id } = req.params;
   const id_estudiante = req.user.id_estudiante;
@@ -92,19 +80,11 @@ export const obtenerComprobanteFicha = manejar(async (req, res) => {
   return res.status(200).send(html);
 });
 
-/**
- * Consultar horarios de atención disponibles
- * Ruta pública — no requiere autenticación
- */
 export const listarHorariosDisponibles = manejar(async (req, res) => {
   const horarios = await servicio.consultarHorariosDisponibles(req.query);
   return successResponse(res, 'Horarios de atención disponibles obtenidos.', horarios);
 });
 
-/**
- * US-03 — Reserva de Ficha Médica (Medicina General)
- * id_estudiante extraído del JWT autenticado (req.user).
- */
 export const reservarFichaGeneral = manejar(async (req, res) => {
   const id_estudiante = req.user.id_estudiante;
   const { id_horario } = req.body;
@@ -112,10 +92,6 @@ export const reservarFichaGeneral = manejar(async (req, res) => {
   return successResponse(res, mensaje, data, 201);
 });
 
-/**
- * US-08 — Reserva con Especialista (Transacción Atómica SQL)
- * id_estudiante extraído del JWT autenticado (req.user).
- */
 export const reservarFichaEspecialista = manejar(async (req, res) => {
   const id_estudiante = req.user.id_estudiante;
   const { id_horario, id_derivacion } = req.body;
@@ -123,9 +99,6 @@ export const reservarFichaEspecialista = manejar(async (req, res) => {
   return successResponse(res, mensaje, data, 201);
 });
 
-/**
- * Listar fichas reservadas del estudiante autenticado
- */
 export const listarFichasPorEstudiante = manejar(async (req, res) => {
   const id_estudiante = req.user.id_estudiante;
   const fichas = await servicio.listarFichasPorEstudiante(id_estudiante);

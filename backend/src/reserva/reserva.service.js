@@ -6,20 +6,6 @@ import {
 } from '../shared/http/errors.js';
 import * as repo from './reserva.repository.js';
 
-/**
- * CAPA DE NEGOCIO — módulo de reserva de fichas médicas
- * -----------------------------------------------------------------------------
- * Aplica reglas de negocio y transacciones atómicas para reservas generales y
- * de especialista. No conoce Express ni HTTP: lanza DomainError y devuelve
- * estructuras de dominio.
- */
-
-/**
- * Obtener comprobante oficial de una ficha reservada validando titularidad.
- * @param {string} id_ficha
- * @param {string} id_estudiante
- * @returns {Promise<object>}
- */
 export const obtenerDatosComprobante = async (id_ficha, id_estudiante) => {
   if (!id_ficha) {
     throw badRequest('El identificador de la ficha es requerido.');
@@ -40,29 +26,16 @@ export const obtenerDatosComprobante = async (id_ficha, id_estudiante) => {
   return ficha;
 };
 
-/**
- * Listar horarios disponibles con filtros opcionales.
- * @param {object} filtros
- * @returns {Promise<Array<object>>}
- */
 export const consultarHorariosDisponibles = async (filtros) => {
   return repo.obtenerHorariosDisponibles(filtros);
 };
 
-/**
- * US-03 — Reserva de Ficha Médica General
- * Ejecuta la transacción atómica con bloqueo pesimista en PostgreSQL.
- * @param {string} id_estudiante
- * @param {string} id_horario
- * @returns {Promise<{ mensaje: string, data: object }>}
- */
 export const reservarFichaGeneral = async (id_estudiante, id_horario) => {
   if (!id_horario) {
     throw badRequest('El campo id_horario es requerido.');
   }
 
   return repo.conTransaccion(async (client) => {
-    // 1. Bloquear y validar horario
     const horario = await repo.bloquearHorario(client, id_horario);
 
     if (!horario) {
@@ -73,14 +46,12 @@ export const reservarFichaGeneral = async (id_estudiante, id_horario) => {
       throw conflict('El horario seleccionado ya no está disponible (fue reservado recientemente).');
     }
 
-    // 2. Confirmar estudiante
     const estudiante = await repo.obtenerEstudianteTransaccional(client, id_estudiante);
 
     if (!estudiante) {
       throw notFound('El estudiante autenticado no existe en el sistema.');
     }
 
-    // 3. Prevenir doble cita el mismo día
     const fichaDuplicada = await repo.buscarFichaMismaFecha(client, id_estudiante, horario.fecha);
 
     if (fichaDuplicada) {
@@ -90,10 +61,8 @@ export const reservarFichaGeneral = async (id_estudiante, id_horario) => {
       );
     }
 
-    // 4. Marcar horario ocupado
     await repo.marcarHorarioNoDisponible(client, id_horario);
 
-    // 5. Insertar ficha
     const nuevaFicha = await repo.insertarFicha(client, {
       id_estudiante,
       id_horario,
@@ -118,21 +87,12 @@ export const reservarFichaGeneral = async (id_estudiante, id_horario) => {
   });
 };
 
-/**
- * US-08 — Reserva con Especialista
- * Transacción atómica: valida y consume orden de derivación y horario.
- * @param {string} id_estudiante
- * @param {string} id_horario
- * @param {string} id_derivacion
- * @returns {Promise<{ mensaje: string, data: object }>}
- */
 export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_derivacion) => {
   if (!id_horario || !id_derivacion) {
     throw badRequest('Los campos id_horario e id_derivacion son obligatorios para reservar con especialista.');
   }
 
   return repo.conTransaccion(async (client) => {
-    // 1. Validar y bloquear orden de derivación perteneciente al estudiante
     const derivacion = await repo.bloquearDerivacionEstudiante(client, id_derivacion, id_estudiante);
 
     if (!derivacion) {
@@ -143,7 +103,6 @@ export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_de
       throw badRequest(`La orden de derivación no está disponible. Su estado actual es '${derivacion.estado}'.`);
     }
 
-    // 2. Validar y bloquear horario del especialista
     const horario = await repo.bloquearHorario(client, id_horario);
 
     if (!horario) {
@@ -164,18 +123,15 @@ export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_de
       );
     }
 
-    // 3. Prevenir doble cita el mismo día
     const fichaMismaFecha = await repo.buscarFichaMismaFecha(client, id_estudiante, horario.fecha);
 
     if (fichaMismaFecha) {
       throw conflict(`Ya existe una ficha médica asignada para el ${horario.fecha}. No se permiten dos fichas el mismo día.`);
     }
 
-    // 4. Consumir derivación y marcar horario no disponible
     await repo.marcarDerivacionUtilizada(client, id_derivacion);
     await repo.marcarHorarioNoDisponible(client, id_horario);
 
-    // 5. Crear ficha tipo ESPECIALISTA
     const nuevaFicha = await repo.insertarFicha(client, {
       id_estudiante,
       id_horario,
@@ -205,11 +161,6 @@ export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_de
   });
 };
 
-/**
- * Listar fichas reservadas del estudiante autenticado.
- * @param {string} id_estudiante
- * @returns {Promise<Array<object>>}
- */
 export const listarFichasPorEstudiante = async (id_estudiante) => {
   return repo.obtenerFichasPorEstudiante(id_estudiante);
 };

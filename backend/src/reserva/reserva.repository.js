@@ -2,18 +2,6 @@ import { query, conTransaccion } from '../shared/config/db.js';
 
 export { conTransaccion };
 
-/**
- * CAPA DE DATOS — módulo de reserva de fichas médicas
- * -----------------------------------------------------------------------------
- * Todo el SQL de reservas, horarios y transacciones atómicas vive aquí.
- * Las transacciones se ejecutan mediante conTransaccion(async (client) => ...).
- */
-
-/**
- * Obtener los datos completos de una ficha para emisión de comprobante.
- * @param {string} id_ficha
- * @returns {Promise<object|null>}
- */
 export const obtenerComprobantePorId = async (id_ficha) => {
   const result = await query(
     `SELECT f.id_ficha, f.id_estudiante, f.id_horario, f.tipo_ficha, f.estado, f.fecha_reserva,
@@ -33,11 +21,6 @@ export const obtenerComprobantePorId = async (id_ficha) => {
   return result.rows[0] ?? null;
 };
 
-/**
- * Consultar horarios de atención disponibles con filtros opcionales.
- * @param {object} filtros
- * @returns {Promise<Array<object>>}
- */
 export const obtenerHorariosDisponibles = async ({ solo_especialistas, id_especialidad, fecha }) => {
   let sql = `
     SELECT h.id_horario, h.id_medico, h.fecha, h.hora_inicio, h.hora_fin, h.consultorio, h.disponible,
@@ -75,12 +58,6 @@ export const obtenerHorariosDisponibles = async ({ solo_especialistas, id_especi
   return result.rows;
 };
 
-/**
- * Bloquear y obtener un horario con FOR UPDATE OF h dentro de una transacción.
- * @param {import('pg').PoolClient} client
- * @param {string} id_horario
- * @returns {Promise<object|null>}
- */
 export const bloquearHorario = async (client, id_horario) => {
   const result = await client.query(
     `SELECT h.id_horario, h.fecha, h.hora_inicio, h.hora_fin, h.consultorio, h.disponible,
@@ -97,12 +74,6 @@ export const bloquearHorario = async (client, id_horario) => {
   return result.rows[0] ?? null;
 };
 
-/**
- * Confirmar existencia del estudiante dentro de una transacción.
- * @param {import('pg').PoolClient} client
- * @param {string} id_estudiante
- * @returns {Promise<object|null>}
- */
 export const obtenerEstudianteTransaccional = async (client, id_estudiante) => {
   const result = await client.query(
     `SELECT id_estudiante, sis, nombre_completo FROM estudiantes WHERE id_estudiante = $1`,
@@ -111,13 +82,6 @@ export const obtenerEstudianteTransaccional = async (client, id_estudiante) => {
   return result.rows[0] ?? null;
 };
 
-/**
- * Verificar si el estudiante ya tiene una ficha activa para la misma fecha (FOR UPDATE).
- * @param {import('pg').PoolClient} client
- * @param {string} id_estudiante
- * @param {string} fecha
- * @returns {Promise<object|null>}
- */
 export const buscarFichaMismaFecha = async (client, id_estudiante, fecha) => {
   const result = await client.query(
     `SELECT f.id_ficha, f.tipo_ficha, f.estado, h.fecha, h.hora_inicio
@@ -132,11 +96,6 @@ export const buscarFichaMismaFecha = async (client, id_estudiante, fecha) => {
   return result.rows[0] ?? null;
 };
 
-/**
- * Marcar horario como no disponible.
- * @param {import('pg').PoolClient} client
- * @param {string} id_horario
- */
 export const marcarHorarioNoDisponible = async (client, id_horario) => {
   await client.query(
     `UPDATE horarios_atencion SET disponible = FALSE, updated_at = CURRENT_TIMESTAMP WHERE id_horario = $1`,
@@ -144,12 +103,6 @@ export const marcarHorarioNoDisponible = async (client, id_horario) => {
   );
 };
 
-/**
- * Insertar nueva ficha reservada.
- * @param {import('pg').PoolClient} client
- * @param {object} param1
- * @returns {Promise<object>}
- */
 export const insertarFicha = async (client, { id_estudiante, id_horario, tipo_ficha, estado = 'RESERVADA' }) => {
   const result = await client.query(
     `INSERT INTO fichas_reservadas (id_estudiante, id_horario, tipo_ficha, estado)
@@ -160,13 +113,6 @@ export const insertarFicha = async (client, { id_estudiante, id_horario, tipo_fi
   return result.rows[0];
 };
 
-/**
- * Bloquear orden de derivación perteneciente al estudiante con FOR UPDATE OF d.
- * @param {import('pg').PoolClient} client
- * @param {string} id_derivacion
- * @param {string} id_estudiante
- * @returns {Promise<object|null>}
- */
 export const bloquearDerivacionEstudiante = async (client, id_derivacion, id_estudiante) => {
   const result = await client.query(
     `SELECT d.id_derivacion, d.id_estudiante, d.estado, d.fecha_emision, d.id_especialidad_requerida,
@@ -183,11 +129,6 @@ export const bloquearDerivacionEstudiante = async (client, id_derivacion, id_est
   return result.rows[0] ?? null;
 };
 
-/**
- * Marcar orden de derivación como UTILIZADA.
- * @param {import('pg').PoolClient} client
- * @param {string} id_derivacion
- */
 export const marcarDerivacionUtilizada = async (client, id_derivacion) => {
   await client.query(
     `UPDATE ordenes_derivacion SET estado = 'UTILIZADA' WHERE id_derivacion = $1`,
@@ -195,11 +136,6 @@ export const marcarDerivacionUtilizada = async (client, id_derivacion) => {
   );
 };
 
-/**
- * Listar fichas reservadas de un estudiante con detalle de horario, médico y especialidad.
- * @param {string} id_estudiante
- * @returns {Promise<Array<object>>}
- */
 export const obtenerFichasPorEstudiante = async (id_estudiante) => {
   const result = await query(
     `SELECT f.id_ficha, f.tipo_ficha, f.estado, f.fecha_reserva,
