@@ -1,4 +1,4 @@
-import { notFound, unauthorized } from '../shared/http/errors.js';
+import { notFound, unauthorized, badRequest } from '../shared/http/errors.js';
 import { generateToken } from '../shared/middleware/auth.js';
 import * as repo from './auth.repository.js';
 
@@ -40,7 +40,7 @@ const armarAfiliacion = (est) => {
  */
 export const autenticar = async (sis, cedula_identidad) => {
   if (!sis || !cedula_identidad) {
-    throw unauthorized('El código SIS y la Cédula de Identidad son obligatorios para iniciar sesión.');
+    throw badRequest('El código SIS y la Cédula de Identidad son obligatorios para iniciar sesión.');
   }
 
   const estudiante = await repo.buscarEstudiantePorCredenciales(sis.trim(), cedula_identidad.trim());
