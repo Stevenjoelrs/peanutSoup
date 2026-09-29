@@ -10,31 +10,6 @@ import { ErrorApi } from '../shared/http.js';
 import * as auth from './api.js';
 
 /**
- * Credenciales que el estudiante pidió recordar en este equipo. Solo se guardan
- * si "Recordar mis credenciales" estaba marcado: sin ese permiso el formulario
- * arranca vacío, y por eso el login no presume nada sobre quién eres.
- */
-const CREDENCIALES_REMEMBRADAS = 'ssu_credenciales_recordadas';
-
-const credencialesRecordadas = () => {
-  try {
-    const guardadas = JSON.parse(localStorage.getItem(CREDENCIALES_REMEMBRADAS) ?? 'null');
-    return guardadas?.sis && guardadas?.cedula_identidad ? guardadas : null;
-  } catch {
-    return null;
-  }
-};
-
-const recordarCredenciales = (credenciales) => {
-  try {
-    if (credenciales) localStorage.setItem(CREDENCIALES_REMEMBRADAS, JSON.stringify(credenciales));
-    else localStorage.removeItem(CREDENCIALES_REMEMBRADAS);
-  } catch {
-    /* sin almacenamiento: el formulario simplemente no se prellena */
-  }
-};
-
-/**
  * Muestra el error del servidor dentro del formulario. Solo un rechazo de
  * identidad (401/403/404) abre además la salida para el estudiante que no puede
  * entrar: sin afiliación se entra igual, así que un rechazo significa que el SIS
@@ -100,7 +75,6 @@ const enviar = async (evento) => {
 
   try {
     const respuesta = await auth.iniciarSesion({ sis, cedula_identidad: cedula });
-    recordarCredenciales(recordar ? { sis, cedula_identidad: cedula } : null);
     if (respuesta.data?.token) {
       guardarSesion(respuesta.data, { recordar });
     }
@@ -120,6 +94,13 @@ const enviar = async (evento) => {
 export const iniciarPagina = () => {
   if (!evitarLoginRedundante()) return;
 
+  // Limpiar credenciales legadas en texto plano si existían de versiones anteriores
+  try {
+    localStorage.removeItem('ssu_credenciales_recordadas');
+  } catch {
+    /* ignore */
+  }
+
   alCargar({
     '#studentLoginForm': [['submit', enviar]],
     '[data-accion="demo"]': [['click', rellenarDemo]],
@@ -127,18 +108,6 @@ export const iniciarPagina = () => {
     '#simHelpLink': [['click', (evento) => { evento.preventDefault(); alternarAyuda(true); }]],
     '#helpModal': [['click', (evento) => { if (evento.target === evento.currentTarget) alternarAyuda(false); }]]
   });
-
-  // Prefill: solo si el estudiante lo pidió en una visita anterior. Sin ese
-  // permiso, el formulario llega vacío y "Recordar mis credenciales" sin marcar.
-  const sis = $('#codigoSisInput');
-  const ci = $('#ciInput');
-  const recordadas = credencialesRecordadas();
-  if (recordadas) {
-    if (sis) sis.value = recordadas.sis;
-    if (ci) ci.value = recordadas.cedula_identidad;
-    const casilla = $('#rememberCheckbox');
-    if (casilla) casilla.checked = true;
-  }
 
   $$('#studentLoginForm input').forEach((campo) => campo.addEventListener('input', limpiarError));
 
