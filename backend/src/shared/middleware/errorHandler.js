@@ -61,6 +61,7 @@ export const errorHandler = (err, req, res, next) => {
 
   const statusCode = err.statusCode || 500;
   const message = err.statusCode ? err.message : 'Error interno del servidor.';
+  const details = err.statusCode ? err.details : undefined;
 
-  return errorResponse(res, message, statusCode, enDesarrollo() ? err.stack : undefined);
+  return errorResponse(res, message, statusCode, details ?? (enDesarrollo() ? err.stack : undefined));
 };
