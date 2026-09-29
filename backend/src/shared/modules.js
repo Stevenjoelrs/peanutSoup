@@ -153,5 +153,52 @@ export const pageModules = [
     carpeta: 'especialista',
     requiereAuth: true,
     titulo: 'Ficha con Especialista'
+  },
+  // -------------------------------------------------------------------------
+  // Módulos planificados que todavía no están implementados.
+  //
+  // Las cinco rutas sirven la MISMA página de aviso, en vez de dejar un 404 o un
+  // rebote al login. Así el menú lateral puede mostrar el alcance completo del
+  // proyecto y ningún estudiante queda frente a un error o, peor, atrapado en
+  // un bucle de redirección.
+  //
+  // Cuando un módulo se implemente, se borra su entrada de aquí, se crea su
+  // carpeta en frontend/src/<dominio>/ con sus cuatro archivos, y se añade su
+  // línea en el objeto `entradas` de frontend/vite.config.js. Nada más.
+  // -------------------------------------------------------------------------
+  {
+    dominio: 'perfil',
+    ruta: '/perfil',
+    carpeta: 'en-desarrollo',
+    requiereAuth: true,
+    titulo: 'Mi Cuenta y Perfil'
+  },
+  {
+    dominio: 'registro',
+    ruta: '/registro',
+    carpeta: 'en-desarrollo',
+    requiereAuth: true,
+    titulo: 'Nueva Afiliación / Registro'
+  },
+  {
+    dominio: 'afiliacion',
+    ruta: '/afiliacion',
+    carpeta: 'en-desarrollo',
+    requiereAuth: true,
+    titulo: 'Afiliación Semestral'
+  },
+  {
+    dominio: 'afiliacion',
+    ruta: '/renovacion',
+    carpeta: 'en-desarrollo',
+    requiereAuth: true,
+    titulo: 'Renovación de Afiliación'
+  },
+  {
+    dominio: 'laboratorio',
+    ruta: '/laboratorio',
+    carpeta: 'en-desarrollo',
+    requiereAuth: true,
+    titulo: 'Laboratorio y Resultados'
   }
 ];

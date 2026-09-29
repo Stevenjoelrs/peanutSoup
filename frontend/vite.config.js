@@ -23,7 +23,10 @@ const entradas = {
   inicio: 'inicio/index.html',
   auth: 'auth/login/index.html',
   reserva: 'reserva/index.html',
-  especialista: 'especialista/index.html'
+  especialista: 'especialista/index.html',
+  // Una sola pagina para los cinco modulos planificados que aun no existen.
+  // backend/src/shared/modules.js la registra bajo varias rutas limpias.
+  'en-desarrollo': 'en-desarrollo/index.html'
 };
 
 export default defineConfig({
