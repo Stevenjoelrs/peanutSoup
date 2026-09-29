@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import {
-  listarHorariosDisponibles,
   reservarFichaGeneral,
   reservarFichaEspecialista,
   listarFichasPorEstudiante,
@@ -10,8 +9,12 @@ import { authenticateStudent, requireAuth } from '../shared/middleware/auth.js';
 
 const router = Router();
 
-// Pública: consultar horarios disponibles (no requiere login para listar)
-router.get('/horarios-disponibles', listarHorariosDisponibles);
+// El catálogo de turnos NO vive en este router. Hay uno por audiencia, porque el
+// mismo listado se filtra distinto y filtrar por un parámetro de query que nadie
+// manda termina siendo una bandera que se olvida:
+//   GET /api/medicos/turnos-disponibles       medicina general
+//   GET /api/especialistas/horarios            especialistas
+// Ver especialista.routes.js.
 
 // Protegidas: requieren JWT válido
 // US-03 — Reserva de Ficha Médica General (id_estudiante desde JWT)

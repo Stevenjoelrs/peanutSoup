@@ -30,7 +30,6 @@ import afiliacionRoutes from '../afiliacion/afiliacion.routes.js';
 import authRoutes from '../auth/auth.routes.js';
 import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
 import reservaRoutes from '../reserva/reserva.routes.js';
-import disponibilidadRoutes from '../reserva/disponibilidad.routes.js';
 import derivacionRoutes from '../especialista/derivacion.routes.js';
 
 // `especialista.routes.js` NO tiene export default: expone un router con nombre
@@ -112,13 +111,6 @@ export const apiModules = [
     prefijo: '/api/derivaciones',
     router: derivacionRoutes,
     publica: false
-  },
-  {
-    dominio: 'reserva',
-    descripcion: 'Consulta de horarios de atención disponibles',
-    prefijo: '/api/horarios',
-    router: disponibilidadRoutes,
-    publica: true
   },
   {
     dominio: 'sistema',
