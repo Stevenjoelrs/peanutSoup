@@ -2,18 +2,6 @@ import { notFound, unauthorized, badRequest } from '../shared/http/errors.js';
 import { generateToken } from '../shared/middleware/auth.js';
 import * as repo from './auth.repository.js';
 
-/**
- * CAPA DE NEGOCIO — módulo de autenticación
- * -----------------------------------------------------------------------------
- * Reglas de autenticación y transformación de datos. No importa Express: lanza
- * DomainError y el controlador (a través de manejar()) lo traduce al contrato
- * HTTP vigente.
- */
-
-/**
- * Construye el sobre de afiliación que acompaña al perfil del estudiante.
- * Reutilizado por login y getMe para mantener un contrato de salida idéntico.
- */
 const armarAfiliacion = (est) => {
   if (!est.id_afiliacion) return null;
   const dias = est.dias_para_vencer !== null ? parseInt(est.dias_para_vencer, 10) : null;
@@ -34,10 +22,6 @@ const armarAfiliacion = (est) => {
   };
 };
 
-/**
- * Autenticar estudiante por SIS + Cédula de Identidad.
- * @returns {{ mensaje: string, data: { token: string, estudiante: object } }}
- */
 export const autenticar = async (sis, cedula_identidad) => {
   if (!sis || !cedula_identidad) {
     throw badRequest('El código SIS y la Cédula de Identidad son obligatorios para iniciar sesión.');
@@ -75,11 +59,6 @@ export const autenticar = async (sis, cedula_identidad) => {
   };
 };
 
-/**
- * Obtener perfil del estudiante autenticado.
- * @param {string} id_estudiante UUID del JWT
- * @returns {{ mensaje: string, data: object }}
- */
 export const obtenerPerfil = async (id_estudiante) => {
   const est = await repo.buscarEstudiantePorId(id_estudiante);
 

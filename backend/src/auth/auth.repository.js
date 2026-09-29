@@ -1,19 +1,5 @@
 import { query } from '../shared/config/db.js';
 
-/**
- * CAPA DE DATOS — módulo de autenticación
- * -----------------------------------------------------------------------------
- * Todo el SQL del módulo vive aquí. No conoce HTTP ni Express: recibe
- * parámetros y devuelve filas.
- */
-
-/**
- * Buscar estudiante por SIS y Cédula de Identidad.
- * Incluye la última afiliación vigente (LATERAL JOIN).
- * @param {string} sis
- * @param {string} cedula_identidad
- * @returns {Promise<object|null>}
- */
 export const buscarEstudiantePorCredenciales = async (sis, cedula_identidad) => {
   const result = await query(
     `SELECT e.id_estudiante, e.sis, e.cedula_identidad, e.nombre_completo, e.facultad, e.carrera, e.created_at,
@@ -38,12 +24,6 @@ export const buscarEstudiantePorCredenciales = async (sis, cedula_identidad) => 
   return result.rows[0] ?? null;
 };
 
-/**
- * Buscar estudiante por id_estudiante (para /me).
- * Incluye la última afiliación vigente y elegibilidad de renovación.
- * @param {string} id_estudiante UUID del estudiante
- * @returns {Promise<object|null>}
- */
 export const buscarEstudiantePorId = async (id_estudiante) => {
   const result = await query(
     `SELECT e.id_estudiante, e.sis, e.cedula_identidad, e.nombre_completo, e.facultad, e.carrera, e.created_at,
