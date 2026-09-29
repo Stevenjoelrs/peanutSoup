@@ -2,7 +2,6 @@ import pg from 'pg';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import path from 'path';
 import { ROOT_DIR } from './paths.js';
 
 const __filename = fileURLToPath(import.meta.url);
