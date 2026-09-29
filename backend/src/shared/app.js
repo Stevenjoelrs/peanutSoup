@@ -51,7 +51,8 @@ export const createApp = () => {
           ],
           fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://fonts.googleapis.com'],
           imgSrc: ["'self'", 'data:', 'https:'],
-          connectSrc: ["'self'"]
+          connectSrc: ["'self'"],
+          upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null
         }
       }
     })
