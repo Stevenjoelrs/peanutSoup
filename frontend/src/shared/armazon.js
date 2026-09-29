@@ -21,10 +21,23 @@ import { sesion, cerrarSesion } from './sesion.js';
 import { fechaCorta } from './formato.js';
 import { api } from './http.js';
 
-/** Rutas del menú lateral declaradas en los diseños con data-path. */
+/**
+ * Rutas del menú lateral declaradas en los diseños con data-path.
+ *
+ * Las siete entradas están mapeadas, incluidas las cinco que todavía no tienen
+ * pantalla. Antes solo lo estaban las dos implementadas, y `enlazarMenu()`
+ * saltaba el resto: esos cinco `<a>` se quedaban con href="#" y no hacían nada
+ * al pulsarlos. Ahora apuntan a su ruta, el backend sirve la página de aviso y
+ * el estudiante siempre tiene una salida.
+ */
 export const RUTAS_MODULOS = {
+  'cuenta-perfil': '/perfil',
+  'nueva-afiliacion': '/registro',
+  'afiliacion-semestral': '/afiliacion',
   'ficha-medica-general': '/reserva',
-  'ficha-especialista': '/especialista'
+  'ficha-especialista': '/especialista',
+  'renovacion-afiliacion': '/renovacion',
+  'laboratorio-y-resultados': '/laboratorio'
 };
 
 /**
