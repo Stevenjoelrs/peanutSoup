@@ -30,7 +30,18 @@ import afiliacionRoutes from '../afiliacion/afiliacion.routes.js';
 import authRoutes from '../auth/auth.routes.js';
 import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
 import reservaRoutes from '../reserva/reserva.routes.js';
-import especialistaRoutes from '../especialista/especialista.routes.js';
+import disponibilidadRoutes from '../reserva/disponibilidad.routes.js';
+import derivacionRoutes from '../especialista/derivacion.routes.js';
+
+// `especialista.routes.js` NO tiene export default: expone un router con nombre
+// por cada prefijo de dominio, porque un mismo controlador atiende tanto la
+// ficha general como la de especialista. Hay que importarlos por nombre e
+// importarlos todos: un default aquí es un error de enlace entre módulos.
+import {
+  medicosRoutes,
+  especialistasRoutes,
+  fichaEspecialistaRoutes
+} from '../especialista/especialista.routes.js';
 
 // --- Infraestructura compartida -----------------------------------------
 import systemRoutes from './routes/system.routes.js';
@@ -38,6 +49,12 @@ import systemRoutes from './routes/system.routes.js';
 /**
  * Módulos de API. El orden solo importa para resolver prefijos ambiguos;
  * Express 5 enruta por coincidencia exacta de segmento.
+ *
+ * REGLA DE LOS PREFIJOS: cada entrada declara la URL base de SU dominio, nunca
+ * `/api` a secas. Un prefijo shared haría que el frontend pidiera
+ * `/api/fichas/reservar` y el servidor escuchara en `/api/reservar`: compila
+ * igual, no da error de sintaxis, y solo falla con un 404 en la pantalla. Por eso
+ * el catálogo de más abajo tiene que contrastar con lo que pide el frontend.
  */
 export const apiModules = [
   {
@@ -63,17 +80,45 @@ export const apiModules = [
   },
   {
     dominio: 'reserva',
-    descripcion: 'Fichas médicas generales y catálogo de turnos (US-03)',
-    prefijo: '/api',
+    descripcion: 'Reserva de ficha médica general e historial del estudiante (US-03)',
+    prefijo: '/api/fichas',
     router: reservaRoutes,
     publica: false
   },
   {
+    dominio: 'reserva',
+    descripcion: 'Catálogo de turnos de medicina general (US-03)',
+    prefijo: '/api/medicos',
+    router: medicosRoutes,
+    publica: true
+  },
+  {
     dominio: 'especialista',
-    descripcion: 'Fichas con especialista y derivaciones (US-08)',
-    prefijo: '/api',
-    router: especialistaRoutes,
+    descripcion: 'Catálogo de horarios de especialistas (US-08)',
+    prefijo: '/api/especialistas',
+    router: especialistasRoutes,
+    publica: true
+  },
+  {
+    dominio: 'especialista',
+    descripcion: 'Reserva de ficha con especialista (US-08)',
+    prefijo: '/api/fichas-especialista',
+    router: fichaEspecialistaRoutes,
     publica: false
+  },
+  {
+    dominio: 'especialista',
+    descripcion: 'Órdenes de derivación del estudiante (US-08)',
+    prefijo: '/api/derivaciones',
+    router: derivacionRoutes,
+    publica: false
+  },
+  {
+    dominio: 'reserva',
+    descripcion: 'Consulta de horarios de atención disponibles',
+    prefijo: '/api/horarios',
+    router: disponibilidadRoutes,
+    publica: true
   },
   {
     dominio: 'sistema',
