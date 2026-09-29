@@ -2,23 +2,22 @@ import jwt from 'jsonwebtoken';
 import { errorResponse } from '../http/response.js';
 
 /**
- * Secreto de firma. En desarrollo se permite un valor por defecto para que el
- * proyecto arranque sin `.env`; en producción es un error explícito, porque un
- * secreto de fallback conocido por todos firmaría tokens falsos.
+ * Secreto de firma. Obligatorio en TODOS los entornos: un secreto de fallback
+ * público en el repositorio permitiría a cualquiera forjar tokens válidos.
+ *
+ * Generar uno:
+ *   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
  */
-const JWT_SECRET = process.env.JWT_SECRET || 'ssu-umss-jwt-secret-desarrollo-2026';
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h';
-
 if (!process.env.JWT_SECRET) {
-  const mensaje =
-    '[auth] JWT_SECRET no está definido: se usará un secreto de desarrollo. ' +
-    'Copia .env.example a .env y genera uno con ' +
-    'node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"';
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error(mensaje);
-  }
-  console.warn(mensaje);
+  throw new Error(
+    '[auth] JWT_SECRET no está definido. ' +
+    'Copia .env.example a .env y genera uno con: ' +
+    'node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"'
+  );
 }
+
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h';
 
 /**
  * Genera un JWT firmado con los datos del estudiante autenticado.

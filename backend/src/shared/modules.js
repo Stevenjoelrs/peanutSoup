@@ -75,7 +75,7 @@ export const apiModules = [
     descripcion: 'Consulta del padrón de estudiantes',
     prefijo: '/api/estudiantes',
     router: estudiantesRoutes,
-    publica: true
+    publica: false
   },
   {
     dominio: 'reserva',
