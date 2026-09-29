@@ -29,6 +29,8 @@
 import afiliacionRoutes from '../afiliacion/afiliacion.routes.js';
 import authRoutes from '../auth/auth.routes.js';
 import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
+import reservaRoutes from '../reserva/reserva.routes.js';
+import especialistaRoutes from '../especialista/especialista.routes.js';
 
 // --- Infraestructura compartida -----------------------------------------
 import systemRoutes from './routes/system.routes.js';
@@ -60,6 +62,20 @@ export const apiModules = [
     publica: true
   },
   {
+    dominio: 'reserva',
+    descripcion: 'Fichas médicas generales y catálogo de turnos (US-03)',
+    prefijo: '/api',
+    router: reservaRoutes,
+    publica: false
+  },
+  {
+    dominio: 'especialista',
+    descripcion: 'Fichas con especialista y derivaciones (US-08)',
+    prefijo: '/api',
+    router: especialistaRoutes,
+    publica: false
+  },
+  {
     dominio: 'sistema',
     descripcion: 'Health check de la API y de la conexión a Supabase',
     prefijo: '/api/system',
@@ -79,8 +95,26 @@ export const pageModules = [
     carpeta: 'inicio',
     requiereAuth: false,
     titulo: 'SSU - UMSS'
+  },
+  {
+    dominio: 'auth',
+    ruta: '/login',
+    carpeta: 'auth/login',
+    requiereAuth: false,
+    titulo: 'Iniciar sesión'
+  },
+  {
+    dominio: 'reserva',
+    ruta: '/reserva',
+    carpeta: 'reserva',
+    requiereAuth: true,
+    titulo: 'Reserva de Ficha Médica'
+  },
+  {
+    dominio: 'especialista',
+    ruta: '/especialista',
+    carpeta: 'especialista',
+    requiereAuth: true,
+    titulo: 'Ficha con Especialista'
   }
-  // Ejemplo:
-  // { dominio: 'auth', ruta: '/login', carpeta: 'auth/login',
-  //   requiereAuth: false, titulo: 'Iniciar sesión' }
 ];
