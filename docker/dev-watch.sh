@@ -42,10 +42,22 @@ preflight() {
     fi
   done
 
-  if ! node -e "import('vite').then(() => process.exit(0), () => process.exit(1))" >/dev/null 2>&1; then
-    echo "[dev-watch] ERROR: la dependencia de desarrollo 'vite' no esta disponible."
-    echo "  El volumen de /app/node_modules quedo obsoleto: se creo desde una"
-    echo "  imagen anterior. Sin vite el frontend no se puede compilar."
+  # Vite es dependencia del paquete `frontend`, no de la raíz. En un monorepo de
+  # pnpm cada workspace tiene su propio node_modules con enlaces simbolicos, así
+  # que hay que resolverlo DESDE frontend/. Buscarlo en /app da siempre falso y
+  # mataba el contenedor con un mensaje que señalaba la causa equivocada.
+  if [ ! -d frontend/node_modules ]; then
+    echo "[dev-watch] ERROR: no existe frontend/node_modules."
+    echo "  El bind mount oculta las dependencias de la imagen y el volumen que"
+    echo "  deberia suplirlas no esta montado."
+    echo "  Solucion: docker compose down -v && docker compose up -d --build"
+    exit 1
+  fi
+
+  if ! (cd frontend && node -e "import('vite').then(() => process.exit(0), () => process.exit(1))" >/dev/null 2>&1); then
+    echo "[dev-watch] ERROR: 'vite' no se resuelve desde frontend/."
+    echo "  El volumen de dependencias quedo obsoleto: se creo desde una imagen"
+    echo "  anterior. Sin vite el frontend no se puede compilar."
     echo "  Solucion: docker compose down -v && docker compose up -d --build"
     exit 1
   fi

@@ -29,9 +29,16 @@ services:
     volumes:
       # Codigo del host: los cambios se reflejan sin reconstruir la imagen
       - .:/app
-      # node_modules de la imagen (volumen anonimo) para no usar el del host,
-      # que en Windows traeria rutas y permisos incompatibles
+      # node_modules de la IMAGEN (volumenes anonimos) para no usar los del host.
+      # Hace falta uno por paquete, no solo el de la raiz: en un monorepo de pnpm
+      # cada workspace tiene su propio node_modules con enlaces simbolicos, y en
+      # Windows esos enlaces apuntan a rutas del host que dentro del contenedor no
+      # existen. Con un unico volumen en /app/node_modules, el bind mount tapaba
+      # tambien frontend/node_modules y vite dejaba de resolverse.
       - /app/node_modules
+      - /app/backend/node_modules
+      - /app/frontend/node_modules
+      - /app/db/node_modules
     # El arranque usa el CMD de la imagen (ssu-dev-watch): servidor Express con
     # reinicio automatico y recompilacion del frontend al detectar cambios
     healthcheck:
@@ -47,11 +54,18 @@ services:
 # Red: IPv6 habilitado porque Supabase publica el host de base de datos
 # unicamente con registro AAAA (sin IPv4). Sin IPv6 el contenedor no alcanza la
 # base de datos y falla con ENETUNREACH.
+#
+# Las subredes se fijan a proposito: si Docker elige, puede tomar un rango que
+# coincida con la red de la sala de la facultad o con la del campus, y el
+# síntoma es un "network unreachable" que no dice nada del proyecto. Si aun asi
+# se solapan con otra red de Docker de tu máquina, cambia estas dos líneas por un
+# rango libre. NO copies las de otro proyecto del equipo: dos redes con la misma
+# subred no pueden convivir y `docker compose up` falla al crearla.
 # -----------------------------------------------------------------------------
 networks:
   default:
     enable_ipv6: true
     ipam:
       config:
-        - subnet: 172.31.0.0/16
-        - subnet: fd00:dead:beef::/48
+        - subnet: 172.29.0.0/16
+        - subnet: fd00:0d0c:1c0d::/48
