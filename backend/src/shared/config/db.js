@@ -1,18 +1,14 @@
 import pg from 'pg';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import path from 'path';
 import { ROOT_DIR } from './paths.js';
 
-/**
- * Carga el `.env` de la RAÍZ del monorepo, no del directorio de trabajo.
- *
- * `dotenv.config()` sin argumentos busca en `process.cwd()`, y pnpm ejecuta los
- * scripts del workspace con el cwd en `backend/`. Con la llamada sin ruta, el
- * comando oficial del contrato (`pnpm dev`) arrancaba sin credenciales y caía en
- * localhost:5432 sin decir por qué. La ruta se resuelve desde este archivo, no
- * desde el cwd, así que da igual desde dónde se levante el servidor.
- */
-dotenv.config({ path: path.join(ROOT_DIR, '.env') });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '..', '..', '..', '..', '.env') });
+
 
 const { Pool } = pg;
 
@@ -66,7 +62,7 @@ export const pool = new Pool(poolConfig);
 if (!process.env.DATABASE_URL && !process.env.PGHOST) {
   console.warn(
     '[db] Sin DATABASE_URL ni PGHOST: se intentará conectar a localhost:5432. ' +
-      'Copia .env.example a .env y pega tus credenciales de Supabase.'
+    'Copia .env.example a .env y pega tus credenciales de Supabase.'
   );
 }
 
@@ -124,7 +120,7 @@ export const conTransaccion = async (operacion) => {
     await client.query('COMMIT');
     return valor;
   } catch (error) {
-    await client.query('ROLLBACK').catch(() => {});
+    await client.query('ROLLBACK').catch(() => { });
     throw error;
   } finally {
     client.release();
