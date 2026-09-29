@@ -1,7 +1,12 @@
 import pg from 'pg';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '..', '..', '..', '..', '.env') });
+
 
 const { Pool } = pg;
 
@@ -55,7 +60,7 @@ export const pool = new Pool(poolConfig);
 if (!process.env.DATABASE_URL && !process.env.PGHOST) {
   console.warn(
     '[db] Sin DATABASE_URL ni PGHOST: se intentará conectar a localhost:5432. ' +
-      'Copia .env.example a .env y pega tus credenciales de Supabase.'
+    'Copia .env.example a .env y pega tus credenciales de Supabase.'
   );
 }
 
@@ -90,7 +95,7 @@ export const conTransaccion = async (operacion) => {
     await client.query('COMMIT');
     return valor;
   } catch (error) {
-    await client.query('ROLLBACK').catch(() => {});
+    await client.query('ROLLBACK').catch(() => { });
     throw error;
   } finally {
     client.release();
