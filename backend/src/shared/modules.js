@@ -25,14 +25,93 @@
  * ===========================================================================
  */
 
+// --- Módulos de negocio ---------------------------------------------------
+import afiliacionRoutes from '../afiliacion/afiliacion.routes.js';
+import authRoutes from '../auth/auth.routes.js';
+import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
+import reservaRoutes from '../reserva/reserva.routes.js';
+import derivacionRoutes from '../especialista/derivacion.routes.js';
+
+// `especialista.routes.js` NO tiene export default: expone un router con nombre
+// por cada prefijo de dominio, porque un mismo controlador atiende tanto la
+// ficha general como la de especialista. Hay que importarlos por nombre e
+// importarlos todos: un default aquí es un error de enlace entre módulos.
+import {
+  medicosRoutes,
+  especialistasRoutes,
+  fichaEspecialistaRoutes
+} from '../especialista/especialista.routes.js';
+
 // --- Infraestructura compartida -----------------------------------------
 import systemRoutes from './routes/system.routes.js';
 
 /**
  * Módulos de API. El orden solo importa para resolver prefijos ambiguos;
  * Express 5 enruta por coincidencia exacta de segmento.
+ *
+ * REGLA DE LOS PREFIJOS: cada entrada declara la URL base de SU dominio, nunca
+ * `/api` a secas. Un prefijo shared haría que el frontend pidiera
+ * `/api/fichas/reservar` y el servidor escuchara en `/api/reservar`: compila
+ * igual, no da error de sintaxis, y solo falla con un 404 en la pantalla. Por eso
+ * el catálogo de más abajo tiene que contrastar con lo que pide el frontend.
  */
 export const apiModules = [
+  {
+    dominio: 'auth',
+    descripcion: 'Autenticación JWT del estudiante con SIS + Cédula de Identidad',
+    prefijo: '/api/auth',
+    router: authRoutes,
+    publica: false
+  },
+  {
+    dominio: 'afiliacion',
+    descripcion: 'Afiliación semestral del estudiante (US-01)',
+    prefijo: '/api/afiliaciones',
+    router: afiliacionRoutes,
+    publica: false
+  },
+  {
+    dominio: 'estudiantes',
+    descripcion: 'Consulta del padrón de estudiantes',
+    prefijo: '/api/estudiantes',
+    router: estudiantesRoutes,
+    publica: true
+  },
+  {
+    dominio: 'reserva',
+    descripcion: 'Reserva de ficha médica general e historial del estudiante (US-03)',
+    prefijo: '/api/fichas',
+    router: reservaRoutes,
+    publica: false
+  },
+  {
+    dominio: 'reserva',
+    descripcion: 'Catálogo de turnos de medicina general (US-03)',
+    prefijo: '/api/medicos',
+    router: medicosRoutes,
+    publica: true
+  },
+  {
+    dominio: 'especialista',
+    descripcion: 'Catálogo de horarios de especialistas (US-08)',
+    prefijo: '/api/especialistas',
+    router: especialistasRoutes,
+    publica: true
+  },
+  {
+    dominio: 'especialista',
+    descripcion: 'Reserva de ficha con especialista (US-08)',
+    prefijo: '/api/fichas-especialista',
+    router: fichaEspecialistaRoutes,
+    publica: false
+  },
+  {
+    dominio: 'especialista',
+    descripcion: 'Órdenes de derivación del estudiante (US-08)',
+    prefijo: '/api/derivaciones',
+    router: derivacionRoutes,
+    publica: false
+  },
   {
     dominio: 'sistema',
     descripcion: 'Health check de la API y de la conexión a Supabase',
@@ -40,14 +119,6 @@ export const apiModules = [
     router: systemRoutes,
     publica: true
   }
-  // Ejemplo de lo que se agrega al desarrollar una funcionalidad:
-  // {
-  //   dominio: 'afiliacion',
-  //   descripcion: 'Afiliación semestral, renovación y vigencia (US-01, US-12)',
-  //   prefijo: '/api/afiliaciones',
-  //   router: afiliacionRoutes,
-  //   publica: false
-  // }
 ];
 
 /**
@@ -61,8 +132,26 @@ export const pageModules = [
     carpeta: 'inicio',
     requiereAuth: false,
     titulo: 'SSU - UMSS'
+  },
+  {
+    dominio: 'auth',
+    ruta: '/login',
+    carpeta: 'auth/login',
+    requiereAuth: false,
+    titulo: 'Iniciar sesión'
+  },
+  {
+    dominio: 'reserva',
+    ruta: '/reserva',
+    carpeta: 'reserva',
+    requiereAuth: true,
+    titulo: 'Reserva de Ficha Médica'
+  },
+  {
+    dominio: 'especialista',
+    ruta: '/especialista',
+    carpeta: 'especialista',
+    requiereAuth: true,
+    titulo: 'Ficha con Especialista'
   }
-  // Ejemplo:
-  // { dominio: 'auth', ruta: '/login', carpeta: 'auth/login',
-  //   requiereAuth: false, titulo: 'Iniciar sesión' }
 ];

@@ -2,6 +2,8 @@ import pg from 'pg';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import path from 'path';
+import { ROOT_DIR } from './paths.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -77,6 +79,29 @@ pool.on('error', (err) => {
 export const query = (text, params) => pool.query(text, params);
 
 /**
+ * Obtener un cliente del pool para una transacción que necesita control explícito
+ * de sus sentencias.
+ *
+ * ESCAPE HATCH DELIBERADO. La vía sancionada es `conTransaccion`, que hace
+ * BEGIN / COMMIT / ROLLBACK y el `release()` en un solo sitio. Se expone
+ * `getClient` solo para los módulos que necesitan intercalar comprobaciones
+ * entre sentencias y bloquear filas concretas con `FOR UPDATE`, donde la
+ * transacción es el objeto que se manipula, no un detalle de implementación.
+ *
+ * Quien lo use tiene que cumplir tres cosas, o se filtra el cliente del pool y
+ * el sistema se cuelga al agotar las conexiones:
+ *   1. `await client.query('BEGIN')`
+ *   2. `await client.query('ROLLBACK')` en cada salida por error
+ *   3. `client.release()` en un `finally`, SIEMPRE
+ *
+ * Migrar el módulo de reservas a `conTransaccion` es el follow-up pendiente:
+ * su lógica transaccional es correcta y no se toca sin pruebas que la cubran.
+ *
+ * @returns {Promise<import('pg').PoolClient>}
+ */
+export const getClient = () => pool.connect();
+
+/**
  * Ejecuta `operacion` dentro de una transacción atómica (BEGIN / COMMIT / ROLLBACK).
  *
  * Es la única forma sancionada de obtener un cliente: un repositorio que necesite
@@ -124,4 +149,4 @@ export const checkHealth = async () => {
   }
 };
 
-export default { pool, query, conTransaccion, checkHealth };
+export default { pool, query, getClient, conTransaccion, checkHealth };

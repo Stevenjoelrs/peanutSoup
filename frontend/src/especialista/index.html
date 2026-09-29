@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "error-container": "#ffdad6", "on-secondary-fixed": "#001551", "on-secondary-fixed-variant": "#0039b5", "tertiary": "#003858", "error": "#ba1a1a", "on-tertiary-container": "#7bc3ff", "surface-container": "#eaedff", "surface-dim": "#d2d9f4", "on-tertiary": "#ffffff", "outline-variant": "#c3c6d4", "secondary-fixed": "#dce1ff", "tertiary-fixed-dim": "#93ccff", "secondary": "#1d4ed8", "inverse-primary": "#b0c6ff", "on-tertiary-fixed-variant": "#004b73", "on-secondary": "#ffffff", "on-surface": "#131b2e", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#b0c6ff", "surface-container-high": "#e2e7ff", "on-primary": "#ffffff", "on-primary-fixed": "#001945", "tertiary-fixed": "#cce5ff", "secondary-fixed-dim": "#b7c4ff", "surface-container-low": "#f2f3ff", "inverse-on-surface": "#eef0ff", "on-error": "#ffffff", "on-surface-variant": "#434652", "on-background": "#131b2e", "primary": "#003178", "on-primary-fixed-variant": "#00429c", "background": "#faf8ff", "on-error-container": "#93000a", "secondary-container": "#4069f2", "on-secondary-container": "#fffbff", "primary-fixed": "#d9e2ff", "surface-variant": "#dae2fd", "primary-container": "#0d47a1", "on-primary-container": "#a1bbff", "on-tertiary-fixed": "#001d31", "surface-bright": "#faf8ff", "surface-tint": "#2b5bb5", "outline": "#737783", "tertiary-container": "#00507b", "inverse-surface": "#283044", "surface": "#faf8ff", "surface-container-highest": "#dae2fd" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-sm": "0.5rem", "space-md": "1rem", "margin-mobile": "1rem", "gutter-mobile": "0.75rem", "margin": "2rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-xl": "2rem", "space-xs": "0.25rem" }, fontFamily: { "title-md": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "code-sm": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"] }, fontSize: { "title-md": ["1rem", { lineHeight: "1.5rem", fontWeight: "600" }], "display-lg": ["3rem", { lineHeight: "3.5rem", fontWeight: "700" }], "body-lg": ["1.125rem", { lineHeight: "1.75rem", fontWeight: "400" }], "headline-md": ["1.5rem", { lineHeight: "2rem", fontWeight: "600" }], "code-sm": ["0.8125rem", { lineHeight: "1.25rem", fontWeight: "400" }], "headline-lg": ["2rem", { lineHeight: "2.5rem", fontWeight: "700" }], "headline-sm": ["1.25rem", { lineHeight: "1.75rem", fontWeight: "600" }], "label-sm": ["0.75rem", { lineHeight: "1rem", fontWeight: "600" }], "headline-lg-mobile": ["1.5rem", { lineHeight: "2rem", fontWeight: "700" }], "body-md": ["0.9375rem", { lineHeight: "1.5rem", fontWeight: "400" }], "body-sm": ["0.8125rem", { lineHeight: "1.25rem", fontWeight: "400" }], "label-md": ["0.875rem", { lineHeight: "1.25rem", fontWeight: "500" }] } } } };</script><style>
+#ssu-sidebar{transition:transform .22s ease,visibility .22s}
+#ssu-sidebar.su-menu-oculto{transform:translateX(-100%);visibility:hidden}
+#ssu-contenido{transition:padding-left .22s ease}
+#ssu-contenido.su-contenido-abierto{padding-left:0}
+</style></head><body data-ssu-page="especialista" class="bg-background font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-16 px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md min-w-[280px]"><button aria-controls="ssu-sidebar" aria-expanded="true" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors shrink-0" id="ssu-sidebar-toggle" title="Mostrar u ocultar el menú lateral" type="button"><span class="material-symbols-outlined text-[1.35rem]" id="ssu-sidebar-icono">close</span></button><img alt="Logo SSU UMSS Seguro Social Universitario" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VES4A1NRDG6l5mztIK53KANWic9iahxGTZ8yN6qV83PkLeZWd9LtsH1Dn3PdX0T_DH2AtjbRyE9QicEvzJ5wH_0mVS69_nXTUwJwYOBHhFmOQ_jCvwI9RP1zLS8ZrhegfFZIITVwoqm0BTr4CEzdB4y8dAWoBsSZWkrVD9SScXFeG7mDRMNo0BCmr7fZ9Nb3eVdZW3QRBuepQV5V_RbQAXrv3O8w5RPCDaQh64N9u8cp4BTWCa0LNFpA"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-tight tracking-tight">Portal de Salud Estudiantil</span><span class="font-label-sm text-label-sm text-on-surface-variant">SSU - UMSS Cochabamba</span></div></div><div class="hidden xl:flex items-center gap-space-lg text-on-surface-variant font-label-md text-label-md"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-outline text-[1.125rem]">calendar_today</span><span>Sistema SSU: 24/10/2024 - 09:42:15</span></div><div class="flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm text-on-surface font-medium">Servidor Operativo</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex flex-col text-right"><span id="ssu-user" class="font-label-md text-label-md text-on-surface font-semibold truncate max-w-[280px]">Univ. Alejandro Flores Montaño</span><span id="ssu-user-meta" class="font-code-sm text-code-sm text-on-surface-variant truncate max-w-[280px]">SIS: 202104829 • Fac. de Ciencias y Tecnología</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary-fixed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcZoIManhYOWXzlX6f7BqnRKyk4Qg45_saHzyDphoNbE4JoheILQ7AdZaAbgemlPGuJGqbzOnbk6DTIc27ZSIYegFNrt_CYPCTbR1aLEm5PwN10_OtIjjjZEBd66gpzkbgjPsWbBvkIKKTjNvtkkWEYgwC8YYX0mu0RlEZvVKjNCtZibbh9Dj4k6KaHCOUHm5GPXF7jdPEUBqxB8RmgrgzDO3cTK7NIUIp3ZMS7sotxqMUX5pY3gnA"/><button class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors flex items-center gap-1" id="ssu-logout" title="Cerrar sesion" type="button"><span class="material-symbols-outlined text-[1.125rem]">logout</span><span class="font-label-sm text-label-sm hidden md:inline">Salir</span></button></div></div></header><aside id="ssu-sidebar" class="fixed left-0 top-16 bottom-0 w-72 bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex flex-col justify-between overflow-y-auto"><div class="p-space-md flex flex-col gap-space-sm"><button aria-controls="ssu-modulos" aria-expanded="true" class="px-space-sm py-space-xs w-full flex items-center justify-between gap-2 rounded-lg hover:bg-surface-container-high transition-colors" id="ssu-menu-toggle" type="button"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Módulos de Atención</span><span class="material-symbols-outlined text-outline text-[1.125rem]" id="ssu-menu-icono">expand_less</span></button><nav class="flex flex-col gap-1" data-active-classes="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" id="ssu-modulos"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md" data-path="cuenta-perfil" href="#"><span class="material-symbols-outlined text-[1.25rem]">account_circle</span><span>Mi Cuenta y Perfil</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md" data-path="nueva-afiliacion" href="#"><span class="material-symbols-outlined text-[1.25rem]">person_add</span><span>Nueva Afiliación / Registro</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md" data-path="afiliacion-semestral" href="#"><span class="material-symbols-outlined text-[1.25rem]">badge</span><span>Afiliación Semestral (US-01)</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md" data-path="ficha-medica-general" href="#"><span class="material-symbols-outlined text-[1.25rem]">medical_services</span><span>Ficha Médica General (US-03)</span></a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="ficha-especialista" href="#"><span class="material-symbols-outlined text-[1.25rem]">stethoscope</span><span>Ficha Especialista (US-08)</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md" data-path="renovacion-afiliacion" href="#"><span class="material-symbols-outlined text-[1.25rem]">autorenew</span><span>Renovación Afiliación (US-12)</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md" data-path="laboratorio-y-resultados" href="#"><span class="material-symbols-outlined text-[1.25rem]">biotech</span><span>Laboratorio y Resultados (US-13)</span></a></nav>
+<div class="flex flex-col gap-space-sm" id="ssu-bienvenida"></div></div><div id="ssu-sidebar-status" class="p-space-md bg-surface-container/60 m-space-sm rounded-xl"><div class="flex items-start gap-space-sm"><span class="material-symbols-outlined text-secondary text-[1.25rem]">verified_user</span><div><p class="font-label-sm text-label-sm font-semibold text-on-surface">Consultando cobertura…</p><p class="font-code-sm text-code-sm text-on-surface-variant">—</p></div></div></div></aside><div class="pl-72" id="ssu-contenido"><main class="relative w-full pt-16 min-h-screen bg-background px-gutter py-space-lg"><div class="flex flex-col w-full gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[1.75rem]" style="font-variation-settings: 'FILL' 1;">stethoscope</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm mb-1 flex-wrap">
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-code-sm text-code-sm font-semibold">Módulo US-08</span>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Segundo Nivel de Atención</span>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Canje Digital Vigente
+          </span>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">Reserva de Consulta con Médico Especialista</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Gestión de turnos médicos de segundo nivel mediante derivación médica previa obligatoria.</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm shrink-0">
+<div class="px-space-md py-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[1.25rem]">security</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Titular SSU</span>
+<span class="font-title-md text-title-md text-on-surface" id="esp-titular-sis">—</span>
+</div>
+</div>
+<a class="px-space-md py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs hover:bg-secondary transition-colors shadow-sm" href="#ordenes-activas">
+<span class="material-symbols-outlined text-[1.125rem]">assignment_turned_in</span>
+<span>Ver Mis Órdenes</span>
+</a>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[1.25rem]">info</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Protocolo de Derivación Inter-Servicios (Reglamento SSU Art. 47)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Las citas de especialidad requieren una orden médica activa emitida en Consulta Externa de Medicina General con antigüedad no mayor a 30 días.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md shrink-0">
+<span class="material-symbols-outlined text-[1.125rem]">policy</span>
+<span>Reglamento Vigente 2025</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-md" id="ordenes-activas">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-6 bg-secondary rounded-full"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">1. Órdenes de Derivación del Estudiante Titular</h2>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant" id="derivaciones-conteo">Consultando ordenes</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md" id="derivaciones-lista"></div>
+</div>
+<div class="flex flex-col gap-space-md" id="seccion-reserva">
+<div class="flex items-center justify-between flex-wrap gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-6 bg-primary rounded-full"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">2. Selector de Médicos Especialistas</h2>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[1rem]">filter_alt</span>
+<span id="especialidades-filtro">Filtrado automatico por la especialidad de la orden</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[1.125rem]">badge</span>
+            <span id="especialistas-titulo">Especialistas disponibles en </span>
+          </span>
+<div class="flex flex-col gap-space-sm" id="especialistas-lista">
+</div>
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Fecha Programada</label>
+<div class="flex items-center gap-space-sm bg-surface-container-low p-space-sm rounded-lg">
+<span class="material-symbols-outlined text-primary text-[1.25rem]">today</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-bold" id="esp-fecha">Selecciona un turno</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="esp-jornada">Jornada Regular de Atencion Ambulatoria</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Turnos Disponibles</label>
+<div class="grid grid-cols-3 gap-space-xs" id="esp-turnos"></div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex justify-between">
+<span>Orden que se canjeare:</span>
+<span class="font-code-sm text-code-sm font-semibold text-primary" id="esp-orden">—</span>
+</div>
+<div class="flex justify-between">
+<span>Costo de atencion:</span>
+<span class="font-semibold text-on-surface">Bs. 0.00 (Cubierto al 100%)</span>
+</div>
+<div class="flex justify-between">
+<span>Tolerancia de llegada:</span>
+<span class="font-semibold text-on-surface">15 minutos antes</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-md">
+<button class="w-full py-space-md px-space-lg rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm hover:bg-secondary transition-all shadow-md flex items-center justify-center gap-space-sm active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed" id="btn-confirmar-especialista" type="button">
+<span class="material-symbols-outlined text-[1.5rem]">task_alt</span>
+<span>Confirmar Turno y Canjear Orden</span>
+</button>
+<p class="font-label-sm text-label-sm text-center text-on-surface-variant">Al confirmar, la orden pasara inmediatamente a estado UTILIZADA.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-md transition-all duration-300" id="seccion-ficha-emitida">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-6 bg-secondary rounded-full"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">3. Vista de Ficha Especialista Emitida</h2>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[1rem] text-secondary">check_circle</span>
+        Orden Canjeada con Éxito
+      </span>
+</div>
+<div class="relative bg-surface-container-lowest rounded-xl shadow-md p-space-xl overflow-hidden">
+<div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-primary-fixed/30 pointer-events-none blur-2xl"></div>
+<div class="flex flex-col lg:flex-row items-stretch justify-between gap-space-xl">
+<div class="flex-1 flex flex-col justify-between gap-space-lg">
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[2rem]" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+<div>
+<span class="font-code-sm text-code-sm text-on-surface-variant uppercase tracking-wider">Comprobante Oficial SSU-UMSS</span>
+<h3 class="font-headline-lg text-headline-lg text-primary tracking-tight">FICHA ESPECIALISTA #ESP-TR-28</h3>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-md py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-title-md text-title-md font-bold">
+                  TURNO CONFIRMADO
+                </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant mt-1">Emisión: 24/10/2024 - 09:44:12</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md bg-surface-container-low p-space-lg rounded-xl">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Especialidad Asignada</span>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold" id="ticket-especialidad">—</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="ticket-servicio">—</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Especialista y Ubicación</span>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold" id="ticket-medico">Dr. Roberto Camacho Claros</p>
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[1.125rem]">location_on</span>
+<span id="ticket-consultorio">Consultorio 204 | Bloque B - 2do Piso</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Estudiante Titular</span>
+<p class="font-title-md text-title-md text-on-surface font-bold" id="ticket-estudiante">—</p>
+<span class="font-code-sm text-code-sm text-on-surface-variant" id="ticket-estudiante-datos">—</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Horario Programado</span>
+<p class="font-headline-sm text-headline-sm text-primary font-bold"><span id="ticket-fecha">-</span> - <span id="ticket-hora">-</span></p>
+<span class="font-label-sm text-label-sm text-error font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[1rem]">priority_high</span>
+                  <span id="ticket-ventanilla-hora">—</span>
+                </span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[1.5rem]">swap_horiz</span>
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Orden de Derivación Asociada</span>
+<p class="font-code-sm text-code-sm font-bold text-on-surface" id="ticket-orden">—</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Nuevo estado de la orden:</span>
+<span class="px-space-sm py-1 rounded-full bg-surface-container-highest text-on-surface font-code-sm text-code-sm font-bold">
+                  UTILIZADA
+                </span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-start gap-space-md">
+<span class="material-symbols-outlined text-secondary text-[1.5rem] shrink-0 mt-0.5">assignment_late</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Instrucciones Médicas Previas</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                  Es <strong>estrictamente obligatorio</strong> presentar la placa radiográfica (o informe digital de Imagenología SSU) tomada con anterioridad, junto con su Carnet de Estudiante y Cédula de Identidad original en la puerta del Consultorio 204.
+                </p>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-space-md pt-space-xs">
+<button id="btn-descargar-orden" type="button" class="w-full sm:w-auto px-space-lg py-space-md rounded-xl bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-sm flex items-center justify-center gap-space-sm">
+<span class="material-symbols-outlined text-[1.25rem]">download</span>
+<span>Descargar Orden y Ficha (PDF)</span>
+</button>
+<button id="btn-imprimir-ticket" type="button" class="w-full sm:w-auto px-space-lg py-space-md rounded-xl bg-surface-container-high text-on-surface font-title-md text-title-md hover:bg-surface-container transition-all flex items-center justify-center gap-space-sm">
+<span class="material-symbols-outlined text-[1.25rem]">print</span>
+<span>Imprimir Ticket</span>
+</button>
+</div>
+</div>
+<div class="lg:w-72 bg-surface-container-low p-space-lg rounded-xl flex flex-col items-center justify-between gap-space-md text-center shrink-0">
+<div class="flex flex-col items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Validación QR SSU</span>
+<div class="p-3 bg-surface-container-lowest rounded-xl shadow-sm">
+<svg class="w-36 h-36" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="100" width="100"></rect>
+<path clip-rule="evenodd" d="M10 10H40V40H10V10ZM15 15H35V35H15V15ZM20 20H30V30H20V20Z" fill="#003178" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M60 10H90V40H60V10ZM65 15H85V35H65V15ZM70 20H80V30H70V20Z" fill="#003178" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M10 60H40V90H10V60ZM15 65H35V85H15V65ZM20 70H30V80H20V70Z" fill="#003178" fill-rule="evenodd"></path>
+<rect fill="#1D4ED8" height="8" width="8" x="45" y="15"></rect>
+<rect fill="#003178" height="18" width="8" x="45" y="30"></rect>
+<rect fill="#1D4ED8" height="8" width="12" x="60" y="48"></rect>
+<rect fill="#003178" height="10" width="10" x="80" y="48"></rect>
+<rect fill="#003178" height="8" width="18" x="50" y="65"></rect>
+<rect fill="#1D4ED8" height="25" width="15" x="75" y="65"></rect>
+<rect fill="#003178" height="10" width="10" x="48" y="80"></rect>
+</svg>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant" id="ticket-hash">SSU-HASH: —</span>
+<p class="font-label-sm text-label-sm text-outline">Escanee este código en el tótem de triaje de Consulta Externa para ingresar al consultorio.</p>
+</div>
+<div class="w-full pt-space-sm bg-surface-container rounded-lg p-space-sm">
+<span class="font-label-sm text-label-sm text-outline block">Ventanilla de referencia</span>
+<span class="font-title-md text-title-md text-on-surface font-bold" id="ticket-ventanilla">—</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main><footer class="w-full bg-surface-container-low py-space-md px-gutter text-center shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full flex flex-col md:flex-row items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><p class="font-medium">Seguro Social Universitario - UMSS | Av. Aniceto Arce N° 590, Cochabamba, Bolivia</p><div class="flex items-center gap-space-sm text-error font-semibold"><span class="material-symbols-outlined text-[1rem]">emergency</span><span>Emergencias: (591) 4-4251234</span></div></div></footer></div><script type="module" src="./main.js"></script></body></html>
