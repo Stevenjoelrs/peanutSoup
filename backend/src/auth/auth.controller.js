@@ -84,7 +84,12 @@ export const loginEstudiante = async (req, res, next) => {
                 estado_efectivo: estudiante.estado_afiliacion_efectivo,
                 dias_para_vencer: estudiante.dias_para_vencer !== null
                   ? parseInt(estudiante.dias_para_vencer, 10)
-                  : null
+                  : null,
+                estado_cuenta: estudiante.estado_afiliacion_efectivo === 'ACTIVA'
+                  ? 'Afiliado con cobertura activa'
+                  : estudiante.estado_afiliacion_efectivo === 'VENCIDA'
+                    ? 'Afiliación vencida'
+                    : 'Sin cobertura activa'
               }
             : null
         }
@@ -148,7 +153,12 @@ export const getMe = async (req, res, next) => {
             dias_para_vencer: est.dias_para_vencer !== null
               ? parseInt(est.dias_para_vencer, 10)
               : null,
-            elegible_renovacion: est.elegible_renovacion
+            elegible_renovacion: est.elegible_renovacion,
+            estado_cuenta: est.estado_afiliacion_efectivo === 'ACTIVA'
+              ? 'Afiliado con cobertura activa'
+              : est.estado_afiliacion_efectivo === 'VENCIDA'
+                ? 'Afiliación vencida'
+                : 'Sin cobertura activa'
           }
         : null
     });
