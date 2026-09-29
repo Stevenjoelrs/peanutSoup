@@ -1,17 +1,5 @@
 import { query } from '../shared/config/db.js';
 
-/**
- * CAPA DE DATOS — módulo de especialista / órdenes de derivación
- * -----------------------------------------------------------------------------
- * Todo el SQL de derivaciones vive aquí.
- * Consultas parametrizadas que devuelven filas.
- */
-
-/**
- * Listar órdenes de derivación con estado 'ACTIVA' para un estudiante.
- * @param {string} id_estudiante
- * @returns {Promise<Array<object>>}
- */
 export const obtenerActivasPorEstudiante = async (id_estudiante) => {
   const result = await query(
     `SELECT d.id_derivacion, d.id_estudiante, d.id_medico_emisor, d.estado, d.fecha_emision,
@@ -30,11 +18,6 @@ export const obtenerActivasPorEstudiante = async (id_estudiante) => {
   return result.rows;
 };
 
-/**
- * Listar todas las órdenes de derivación de un estudiante (historial completo).
- * @param {string} id_estudiante
- * @returns {Promise<Array<object>>}
- */
 export const obtenerHistorialPorEstudiante = async (id_estudiante) => {
   const result = await query(
     `SELECT d.id_derivacion, d.id_estudiante, d.estado, d.fecha_emision,
@@ -50,11 +33,6 @@ export const obtenerHistorialPorEstudiante = async (id_estudiante) => {
   return result.rows;
 };
 
-/**
- * Insertar una nueva orden de derivación activa.
- * @param {object} param0
- * @returns {Promise<object>}
- */
 export const insertarDerivacion = async ({ id_estudiante, id_medico_emisor, id_especialidad_requerida }) => {
   const result = await query(
     `INSERT INTO ordenes_derivacion (id_estudiante, id_medico_emisor, id_especialidad_requerida, estado)
