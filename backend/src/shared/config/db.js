@@ -1,7 +1,18 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import path from 'path';
+import { ROOT_DIR } from './paths.js';
 
-dotenv.config();
+/**
+ * Carga el `.env` de la RAÍZ del monorepo, no del directorio de trabajo.
+ *
+ * `dotenv.config()` sin argumentos busca en `process.cwd()`, y pnpm ejecuta los
+ * scripts del workspace con el cwd en `backend/`. Con la llamada sin ruta, el
+ * comando oficial del contrato (`pnpm dev`) arrancaba sin credenciales y caía en
+ * localhost:5432 sin decir por qué. La ruta se resuelve desde este archivo, no
+ * desde el cwd, así que da igual desde dónde se levante el servidor.
+ */
+dotenv.config({ path: path.join(ROOT_DIR, '.env') });
 
 const { Pool } = pg;
 
