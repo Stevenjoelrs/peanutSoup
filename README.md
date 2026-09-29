@@ -100,8 +100,48 @@ hay React, Vue, ni router de SPA. Ver `frontend/README.md`.
 
 ## 4. Puesta en marcha
 
-Requisitos: **Docker Desktop** o Docker Engine con Compose v2. Node y pnpm solo
-hacen falta si se trabaja fuera del contenedor.
+### Requisitos del equipo
+
+| Requisito | Detalle |
+| --- | --- |
+| **Docker Desktop** o Docker Engine con Compose **v2.24 o superior** | La versión mínima la exige el `env_file` con `required: false` |
+| **Conectividad IPv6 en el equipo** | Ver abajo, no es opcional |
+| Node.js 24 y pnpm 12.4.2 | Solo hacen falta si trabajas fuera del contenedor |
+| `git config core.autocrlf input` | Fin de línea LF, lo exige el contrato |
+
+#### Por qué tu equipo necesita IPv6
+
+Supabase publica el host de la base de datos **únicamente con registro AAAA**: no
+existe registro A, es decir, no hay dirección IPv4. Sin IPv6 en la máquina desde
+la que corres el proyecto, la conexión no se puede establecer.
+
+No es un detalle de configuración del proyecto, es de la red del equipo, y es la
+causa más común de que "funcionaba ayer y hoy no". Cuando aparece, la salud lo
+dice con precisión:
+
+```
+GET /api/system/health   ->   503
+{ "status": "DOWN",
+  "database": { "connected": false,
+                "error": "getaddrinfo ENOTFOUND db.<project-ref>.supabase.co" } }
+```
+
+Dentro del contenedor, si el error es `ENETUNREACH` en lugar de `ENOTFOUND`, el
+problema es la red de Docker y lo resuelve el IPv6 que ya declara
+`docker-compose.yml`.
+
+Para comprobarlo antes de culpar al código:
+
+```bash
+# Windows, PowerShell
+Resolve-DnsName db.<project-ref>.supabase.co     # debe devolver un AAAA
+Get-NetRoute -AddressFamily IPv6 -DestinationPrefix "::/0"   # debe devolver una ruta
+```
+
+Lo segundo no devuelve nada si tu equipo no tiene salida IPv6, y entonces
+ninguna aplicación Node va a alcanzar Supabase.
+
+### Pasos
 
 ```bash
 # 1. Configura tus credenciales (el .env NUNCA se sube)
@@ -134,12 +174,15 @@ docker compose run --rm app pnpm seed
 
 ### Problemas frecuentes
 
-| Síntoma                                         | Causa y solución                                                                                     |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `ENETUNREACH` al conectar con la base           | Falta IPv6 en la red de Docker. `docker-compose.yml` ya la habilita; verifica con `docker compose down -v` |
-| `Cannot find module 'vite'`                     | El volumen de `/app/node_modules` quedó obsoleto: `docker compose down -v && docker compose up -d --build` |
-| `Falta compilar el frontend` (HTTP 503)         | Corre `pnpm build` o reconstruye la imagen                                                          |
-| La interfaz no refleja cambios                  | `docker compose logs -f app` y revisa que el volumen esté montado                                     |
+| Síntoma | Causa y solución |
+| --- | --- |
+| `getaddrinfo ENOTFOUND db.*.supabase.co` | Tu equipo no tiene salida IPv6. Es lo más común cuando "funcionaba ayer". Sección 4. |
+| `ENETUNREACH` al conectar con la base | La red de Docker no tiene IPv6. `docker-compose.yml` ya la declara: `docker compose down -v && docker compose up -d` |
+| `Cannot find module 'vite'` | Algún volumen de `node_modules` quedó obsoleto: `docker compose down -v && docker compose up -d --build` |
+| `Pool overlaps with other one on this address space` | Otra red de Docker de tu máquina usa la subred. `SSU_SUBNET=172.28.0.0/16 docker compose up -d` |
+| `env file ... not found` | Ya no ocurre, el `.env` es opcional. Si lo ves, tienes Compose anterior a v2.24. |
+| `Falta compilar el frontend` (HTTP 503) | Corre `pnpm build` o reconstruye la imagen |
+| La interfaz no refleja cambios | `docker compose logs -f app` y revisa que el volumen esté montado |
 
 ## 5. Comandos
 

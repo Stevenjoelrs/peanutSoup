@@ -1,7 +1,13 @@
 import pg from 'pg';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import { ROOT_DIR } from './paths.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '..', '..', '..', '..', '.env') });
+
 
 const { Pool } = pg;
 
@@ -55,7 +61,7 @@ export const pool = new Pool(poolConfig);
 if (!process.env.DATABASE_URL && !process.env.PGHOST) {
   console.warn(
     '[db] Sin DATABASE_URL ni PGHOST: se intentará conectar a localhost:5432. ' +
-      'Copia .env.example a .env y pega tus credenciales de Supabase.'
+    'Copia .env.example a .env y pega tus credenciales de Supabase.'
   );
 }
 
@@ -70,6 +76,29 @@ pool.on('error', (err) => {
  * @returns {Promise<import('pg').QueryResult>}
  */
 export const query = (text, params) => pool.query(text, params);
+
+/**
+ * Obtener un cliente del pool para una transacción que necesita control explícito
+ * de sus sentencias.
+ *
+ * ESCAPE HATCH DELIBERADO. La vía sancionada es `conTransaccion`, que hace
+ * BEGIN / COMMIT / ROLLBACK y el `release()` en un solo sitio. Se expone
+ * `getClient` solo para los módulos que necesitan intercalar comprobaciones
+ * entre sentencias y bloquear filas concretas con `FOR UPDATE`, donde la
+ * transacción es el objeto que se manipula, no un detalle de implementación.
+ *
+ * Quien lo use tiene que cumplir tres cosas, o se filtra el cliente del pool y
+ * el sistema se cuelga al agotar las conexiones:
+ *   1. `await client.query('BEGIN')`
+ *   2. `await client.query('ROLLBACK')` en cada salida por error
+ *   3. `client.release()` en un `finally`, SIEMPRE
+ *
+ * Migrar el módulo de reservas a `conTransaccion` es el follow-up pendiente:
+ * su lógica transaccional es correcta y no se toca sin pruebas que la cubran.
+ *
+ * @returns {Promise<import('pg').PoolClient>}
+ */
+export const getClient = () => pool.connect();
 
 /**
  * Ejecuta `operacion` dentro de una transacción atómica (BEGIN / COMMIT / ROLLBACK).
@@ -90,7 +119,7 @@ export const conTransaccion = async (operacion) => {
     await client.query('COMMIT');
     return valor;
   } catch (error) {
-    await client.query('ROLLBACK').catch(() => {});
+    await client.query('ROLLBACK').catch(() => { });
     throw error;
   } finally {
     client.release();
@@ -119,4 +148,4 @@ export const checkHealth = async () => {
   }
 };
 
-export default { pool, query, conTransaccion, checkHealth };
+export default { pool, query, getClient, conTransaccion, checkHealth };
