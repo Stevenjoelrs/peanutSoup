@@ -11,9 +11,13 @@
  * Este archivo no contiene lógica de negocio: si alguna vez la tuviera, estaría
  * en el lugar equivocado.
  */
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
 import { createApp } from './src/shared/app.js';
 import { checkHealth } from './src/shared/config/db.js';
 import { FRONTEND_DIST_DIR } from './src/shared/config/paths.js';
