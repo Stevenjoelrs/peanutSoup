@@ -6,6 +6,36 @@ import {
 } from '../shared/http/errors.js';
 import * as repo from './reserva.repository.js';
 
+// `pg` entrega las columnas DATE como Date a medianoche local; se formatea en la
+// misma zona para no correr el día al mostrarlo.
+const formatearFecha = (fecha) =>
+  fecha instanceof Date ? fecha.toLocaleDateString('en-CA') : String(fecha);
+
+/**
+ * Regla SSU: una sola ficha por estudiante y día, sin importar el tipo (general
+ * o especialista). Bloquea la fila del estudiante antes de buscar, para que dos
+ * reservas simultáneas del mismo estudiante no pasen ambas la comprobación.
+ */
+const verificarUnaFichaPorDia = async (client, id_estudiante, fecha) => {
+  const estudiante = await repo.bloquearEstudiante(client, id_estudiante);
+
+  if (!estudiante) {
+    throw notFound('El estudiante autenticado no existe en el sistema.');
+  }
+
+  const fichaExistente = await repo.buscarFichaMismaFecha(client, id_estudiante, fecha);
+
+  if (fichaExistente) {
+    const dia = formatearFecha(fecha);
+    throw conflict(
+      `Ya tienes una ficha ${fichaExistente.tipo_ficha} reservada para el ${dia} a las ${String(fichaExistente.hora_inicio).slice(0, 5)}. Solo se permite una ficha por estudiante por día.`,
+      { ficha_existente_id: fichaExistente.id_ficha, fecha: dia }
+    );
+  }
+
+  return estudiante;
+};
+
 export const obtenerDatosComprobante = async (id_ficha, id_estudiante) => {
   if (!id_ficha) {
     throw badRequest('El identificador de la ficha es requerido.');
@@ -46,20 +76,7 @@ export const reservarFichaGeneral = async (id_estudiante, id_horario) => {
       throw conflict('El horario seleccionado ya no está disponible (fue reservado recientemente).');
     }
 
-    const estudiante = await repo.obtenerEstudianteTransaccional(client, id_estudiante);
-
-    if (!estudiante) {
-      throw notFound('El estudiante autenticado no existe en el sistema.');
-    }
-
-    const fichaDuplicada = await repo.buscarFichaMismaFecha(client, id_estudiante, horario.fecha);
-
-    if (fichaDuplicada) {
-      throw conflict(
-        `Regla SSU: ${estudiante.nombre_completo} ya tiene una ficha reservada (${fichaDuplicada.tipo_ficha}) para el ${horario.fecha} a las ${fichaDuplicada.hora_inicio}. Solo se permite una ficha por estudiante por día.`,
-        { ficha_existente_id: fichaDuplicada.id_ficha, fecha: horario.fecha }
-      );
-    }
+    const estudiante = await verificarUnaFichaPorDia(client, id_estudiante, horario.fecha);
 
     await repo.marcarHorarioNoDisponible(client, id_horario);
 
@@ -123,11 +140,7 @@ export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_de
       );
     }
 
-    const fichaMismaFecha = await repo.buscarFichaMismaFecha(client, id_estudiante, horario.fecha);
-
-    if (fichaMismaFecha) {
-      throw conflict(`Ya existe una ficha médica asignada para el ${horario.fecha}. No se permiten dos fichas el mismo día.`);
-    }
+    await verificarUnaFichaPorDia(client, id_estudiante, horario.fecha);
 
     await repo.marcarDerivacionUtilizada(client, id_derivacion);
     await repo.marcarHorarioNoDisponible(client, id_horario);

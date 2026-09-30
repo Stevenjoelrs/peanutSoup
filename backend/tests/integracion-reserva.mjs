@@ -209,6 +209,39 @@ describe('reserva de ficha médica general (US-03)', () => {
     assert.match(segunda.cuerpo.message, /No se permiten dos fichas el mismo día|solo se permite una ficha/i);
   });
 
+  test('el mismo estudiante pidiendo dos horarios del mismo dia a la vez: solo uno gana', omiteSiNoHayBase(), async () => {
+    const [e1] = estudiantes;
+    const fecha = '2099-12-05';
+    const uno = await crearHorario(idMedicoGeneral, fecha, '08:00');
+    const dos = await crearHorario(idMedicoGeneral, fecha, '10:00');
+    const token = tokenDe(e1);
+
+    const [r1, r2] = await Promise.all([
+      pedir('POST', '/api/fichas/reservar', { token, cuerpo: { id_horario: uno } }),
+      pedir('POST', '/api/fichas/reservar', { token, cuerpo: { id_horario: dos } })
+    ]);
+
+    assert.deepEqual(
+      [r1.status, r2.status].sort((a, b) => a - b),
+      [201, 409],
+      'dos peticiones simultaneas no pueden saltarse la regla de una ficha por dia'
+    );
+
+    const fichas = await q(
+      `SELECT f.id_ficha FROM fichas_reservadas f
+       JOIN horarios_atencion h ON f.id_horario = h.id_horario
+       WHERE f.id_estudiante = $1 AND h.fecha = $2`,
+      [e1.id_estudiante, fecha]
+    );
+    assert.equal(fichas.length, 1, 'el estudiante debe quedar con una sola ficha ese dia');
+
+    const libres = await q(
+      'SELECT id_horario FROM horarios_atencion WHERE id_horario = ANY($1) AND disponible = TRUE',
+      [[uno, dos]]
+    );
+    assert.equal(libres.length, 1, 'el horario rechazado debe seguir disponible');
+  });
+
   test('sin sesion devuelve 401', omiteSiNoHayBase(), async () => {
     const horario = await crearHorario(idMedicoGeneral, '2099-12-04');
     const r = await pedir('POST', '/api/fichas/reservar', { cuerpo: { id_horario: horario } });
@@ -325,6 +358,29 @@ describe('reserva de ficha con especialista (US-08)', () => {
     assert.match(r.cuerpo.message, /Incongruencia de especialidad/);
     // No se borra nada aqui: limpiarFixtures() quita medicos antes que
     // especialidades, que es el unico orden que no viola la clave foranea.
+  });
+
+  test('una ficha general el mismo dia bloquea la ficha con especialista', omiteSiNoHayBase(), async () => {
+    const [e1] = estudiantes;
+    const fecha = '2099-11-07';
+    const general = await crearHorario(idMedicoGeneral, fecha, '08:00');
+    const especialista = await crearHorario(idMedicoEspecialista, fecha, '10:00');
+    const idDerivacion = await crearDerivacion(e1.id_estudiante);
+
+    const primera = await pedir('POST', '/api/fichas/reservar', {
+      token: tokenDe(e1),
+      cuerpo: { id_horario: general }
+    });
+    assert.equal(primera.status, 201);
+
+    const segunda = await pedir('POST', '/api/fichas-especialista/reservar', {
+      token: tokenDe(e1),
+      cuerpo: { id_horario: especialista, id_derivacion: idDerivacion }
+    });
+    assert.equal(segunda.status, 409, 'la regla de un dia aplica sin importar el tipo de ficha');
+
+    const derivacion = (await q('SELECT estado FROM ordenes_derivacion WHERE id_derivacion = $1', [idDerivacion]))[0];
+    assert.equal(derivacion.estado, 'ACTIVA', 'una reserva rechazada no debe consumir la derivacion');
   });
 
   test('sin sesion devuelve 401', omiteSiNoHayBase(), async () => {
