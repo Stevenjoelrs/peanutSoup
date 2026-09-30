@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Cuenta y Perfil - SSU UMSS</title>
+  <link rel="stylesheet" href="../globals.css">
+  <link rel="stylesheet" href="profile.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand-logo">
+        <img src="logo.svg" alt="SSU UMSS Logo">
+      </div>
+      <div class="user-profile-header">
+        <div class="user-info-text">
+          <span class="user-name">Univ. Alejandro Flores Montaño</span>
+          <span class="user-dept">Fac. de Ciencias y Tecnología</span>
+        </div>
+        <img src="avatar.jpg" alt="Perfil" class="user-avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL CON SIDEBAR Y DASHBOARD -->
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR / MENÚ LATERAL -->
+    <aside class="sidebar">
+      <span class="sidebar-title">MÓDULOS DE ATENCIÓN</span>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item">
+          <i data-lucide="user-plus"></i>
+          <span>Nueva Afiliación / Registro</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="file-text"></i>
+          <span>Afiliación Semestral</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="calendar"></i>
+          <span>Ficha Médica General</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="stethoscope"></i>
+          <span>Ficha Especialista</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="refresh-cw"></i>
+          <span>Renovación Afiliación</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="flask-conical"></i>
+          <span>Laboratorio y Resultados</span>
+        </a>
+        <a href="#" class="nav-item active">
+          <i data-lucide="user"></i>
+          <span>Mi Cuenta y Perfil</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout">
+          <i data-lucide="log-out"></i>
+          <span>Cerrar Sesión del Portal</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO PRINCIPAL -->
+    <main class="dashboard-content">
+
+      <!-- TARJETA SUPERIOR DE PERFIL Y ESTADO -->
+      <section class="section-card profile-header-card">
+        <div class="profile-main-info">
+          <div class="avatar-wrapper">
+            <img src="avatar.jpg" alt="Univ. Alejandro Flores Montaño" class="profile-avatar">
+          </div>
+          <div class="profile-details">
+            <div class="profile-tags">
+              <span class="badge blue-solid">• Asegurado Regular Titular</span>
+              <span class="text-subtle">CÓD: SSU-EST-2025-04829-CB</span>
+            </div>
+            <h1 class="profile-name">Univ. Alejandro Flores Montaño</h1>
+            <p class="profile-subtext">
+              <i data-lucide="graduation-cap"></i> Ingeniería de Sistemas
+              <span class="dot-separator">•</span>
+              <i data-lucide="id-card"></i> SIS: 202104829
+            </p>
+          </div>
+        </div>
+
+        <div class="profile-actions-status">
+          <span class="badge-status-pill green">
+            <span class="status-dot"></span> Activo hasta 31/Jul/2025
+          </span>
+          <div class="btn-group">
+            <button class="btn-sm btn-primary"><i data-lucide="download"></i> Descargar Carnet PDF</button>
+            <button class="btn-sm btn-outline"><i data-lucide="edit-3"></i> Actualizar Contacto</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- NAVEGACIÓN DE PESTAÑAS (TABS) -->
+      <nav class="profile-tabs">
+        <a href="#" class="tab-item active">Datos Generales y Académicos</a>
+        <a href="#" class="tab-item">Historial de Consultas Médicas</a>
+        <a href="#" class="tab-item">Recetas y Medicamentos</a>
+        <a href="#" class="tab-item">Seguridad y Notificaciones</a>
+      </nav>
+
+      <!-- GRID DE TARJETAS CLÍNICAS RÁPIDAS (KPIs) -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">GRUPO SANGUÍNEO</span>
+            <i data-lucide="droplet" class="kpi-icon red"></i>
+          </div>
+          <span class="kpi-value-large">O Rh+</span>
+          <span class="kpi-subtext">Factor Positivo</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">EXAMEN MÉDICO</span>
+            <i data-lucide="shield-check" class="kpi-icon blue"></i>
+          </div>
+          <span class="kpi-value-medium text-success">Aprobado</span>
+          <span class="kpi-subtext">Ingreso Físico 2024</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">ALERGIAS</span>
+            <i data-lucide="alert-circle" class="kpi-icon gray"></i>
+          </div>
+          <span class="kpi-value-medium">Ninguna</span>
+          <span class="kpi-subtext">Sin registro previo</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">FICHAS EN AÑO</span>
+            <i data-lucide="file-text" class="kpi-icon blue"></i>
+          </div>
+          <span class="kpi-value-large">3 / 8</span>
+          <span class="kpi-subtext">Disponibles US-03</span>
+        </div>
+      </div>
+
+      <!-- ESTRUCTURA EN DOS COLUMNAS -->
+      <div class="two-columns-layout">
+        
+        <!-- COLUMNA IZQUIERDA: FICHA TÉCNICA Y CENTRO -->
+        <div class="left-column">
+          
+          <!-- FICHA TÉCNICA DEL ESTUDIANTE -->
+          <section class="section-card">
+            <h3 class="card-section-title">
+              <i data-lucide="user-check"></i> Ficha Técnica del Estudiante
+            </h3>
+
+            <div class="info-grid-2">
+              <div class="info-group">
+                <label>NOMBRES Y APELLIDOS</label>
+                <p>Alejandro Flores Montaño</p>
+              </div>
+              <div class="info-group">
+                <label>CÉDULA DE IDENTIDAD (C.I.)</label>
+                <p>8492011 Cochabamba</p>
+              </div>
+              <div class="info-group">
+                <label>FECHA DE NACIMIENTO & EDAD</label>
+                <p>14 de Mayo de 2002 (22 años)</p>
+              </div>
+              <div class="info-group">
+                <label>SEXO / GÉNERO REGISTRADO</label>
+                <p>Masculino</p>
+              </div>
+              <div class="info-group">
+                <label>FACULTAD Y CARRERA</label>
+                <p>Fac. de Ciencias y Tecnología • Ing. de Sistemas</p>
+              </div>
+              <div class="info-group">
+                <label>PLAN DE ESTUDIOS / NIVEL</label>
+                <p>Plan Nuevo 2018 (7mo Semestre regular)</p>
+              </div>
+              <div class="info-group">
+                <label>CONTACTO TELEFÓNICO</label>
+                <p>+591 79781290 (Personal)</p>
+              </div>
+              <div class="info-group">
+                <label>CORREO INSTITUCIONAL</label>
+                <p>a.flores.m@fcyt.umss.edu.bo</p>
+              </div>
+            </div>
+
+            <!-- CONTACTO DE EMERGENCIA -->
+            <div class="emergency-contact-box">
+              <span class="box-label">CONTACTO DE EMERGENCIA FAMILIAR</span>
+              <div class="emergency-contact-details">
+                <div class="contact-person">
+                  <i data-lucide="heart-handshake"></i>
+                  <div>
+                    <strong>María Elena Montaño Ramos (Madre)</strong>
+                    <p>Domicilio: Av. Circunvalación #1430, Zona Temporal</p>
+                  </div>
+                </div>
+                <a href="tel:71723456" class="btn-phone">
+                  <i data-lucide="phone"></i> 71723456
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- CENTRO DE ATENCIÓN PRIMARIA ASIGNADO -->
+          <section class="section-card">
+            <h3 class="card-section-title">
+              <i data-lucide="building"></i> Centro de Atención Primaria Asignado
+            </h3>
+
+            <div class="primary-center-box">
+              <div class="center-image-wrapper">
+                <img src="banner-hospital.jpg" alt="Policlínico Central SSU">
+                <span class="img-badge">SSU - Central Arce</span>
+              </div>
+              <div class="center-details">
+                <span class="label-uppercase">UBICACIÓN Y REFERENCIA</span>
+                <h4 class="center-name">Policlínico Central SSU - Cochabamba</h4>
+                <p class="center-address">Av. Aniceto Arce N° 590 frente a Facultad de Odontología</p>
+                
+                <div class="center-schedules">
+                  <div class="schedule-pill">
+                    <span>Horario de Consultorios</span>
+                    <strong>07:30 - 19:30 Lun a Vie</strong>
+                  </div>
+                  <div class="schedule-pill red">
+                    <span>Servicio de Urgencias</span>
+                    <strong>24 Horas / 365 Días</strong>
+                  </div>
+                </div>
+
+                <a href="#" class="map-link"><i data-lucide="map-pin"></i> Ver mapa satelital de accesos</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- ACTIVIDAD MÉDICA RECIENTE -->
+          <section class="section-card">
+            <div class="card-header-flex">
+              <h3 class="card-section-title">
+                <i data-lucide="history"></i> Actividad Médica Reciente
+              </h3>
+              <a href="#" class="link-more">Ver todas (12)</a>
+            </div>
+
+            <div class="activity-list">
+              <!-- Item 1 -->
+              <div class="activity-item">
+                <div class="activity-icon blue"><i data-lucide="stethoscope"></i></div>
+                <div class="activity-info">
+                  <div class="activity-title-row">
+                    <strong>Consulta Medicina General</strong>
+                    <span class="badge-tag green">Atendida</span>
+                  </div>
+                  <p>Dr. Carlos Mendoza • Consultorio 4 (Ficha #G-14)</p>
+                  <span class="activity-desc">Diagnóstico: Rinosinusitis aguda leve • Tratamiento ambulatorio</span>
+                </div>
+                <div class="activity-meta">
+                  <span class="date">18 Oct 2024</span>
+                  <a href="#" class="action-link">Detalle Ficha &rarr;</a>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="activity-item">
+                <div class="activity-icon purple"><i data-lucide="flask-conical"></i></div>
+                <div class="activity-info">
+                  <div class="activity-title-row">
+                    <strong>Laboratorio Clínico Central</strong>
+                    <span class="badge-tag blue">Disponible</span>
+                  </div>
+                  <p>Coprológico Seriado y Hemograma Completo</p>
+                  <span class="activity-desc">Orden US-13 #8921 • Bioq. Lic. Mariana Soliz</span>
+                </div>
+                <div class="activity-meta">
+                  <span class="date">12 Sep 2024</span>
+                  <a href="#" class="action-link pdf"><i data-lucide="file-text"></i> PDF Resultados</a>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="activity-item">
+                <div class="activity-icon green"><i data-lucide="smile"></i></div>
+                <div class="activity-info">
+                  <div class="activity-title-row">
+                    <strong>Odontología Preventiva</strong>
+                    <span class="badge-tag gray">Concluido</span>
+                  </div>
+                  <p>Dra. Claudia Vaca • Limpieza y Profilaxis semestral</p>
+                </div>
+                <div class="activity-meta">
+                  <span class="date">04 Jun 2024</span>
+                  <span class="subtext">Alta Médica</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- COLUMNA DERECHA: CONFIGURACIÓN Y ENLACES -->
+        <aside class="right-column">
+          
+          <!-- CONFIGURACIÓN DEL ASEGURADO -->
+          <section class="section-card">
+            <h3 class="card-section-title">
+              <i data-lucide="sliders"></i> Configuración del Asegurado
+            </h3>
+
+            <div class="config-group">
+              <span class="config-label">CANALES DE ALERTA ACTIVOS</span>
+
+              <label class="switch-row">
+                <div class="switch-text">
+                  <i data-lucide="message-square"></i>
+                  <div>
+                    <strong>Recordatorio SMS de Fichas</strong>
+                    <p>Notificar 24 horas antes del turno</p>
+                  </div>
+                </div>
+                <input type="checkbox" checked class="toggle-checkbox">
+              </label>
+
+              <label class="switch-row">
+                <div class="switch-text">
+                  <i data-lucide="smartphone"></i>
+                  <div>
+                    <strong>Alerta WhatsApp de Resultados</strong>
+                    <p>Aviso inmediato al firmar bioquímica</p>
+                  </div>
+                </div>
+                <input type="checkbox" checked class="toggle-checkbox">
+              </label>
+
+              <label class="switch-row">
+                <div class="switch-text">
+                  <i data-lucide="bell"></i>
+                  <div>
+                    <strong>Campañas de Vacunación</strong>
+                    <p>Comunicaciones de salud preventiva</p>
+                  </div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox">
+              </label>
+            </div>
+          </section>
+
+          <!-- ENLACES DE UTILIDAD -->
+          <section class="section-card">
+            <span class="config-label">ENLACES DE UTILIDAD</span>
+            <ul class="utility-links">
+              <li>
+                <a href="#">
+                  <i data-lucide="help-circle"></i>
+                  <span>Reglamento Estudiantil de Salud</span>
+                  <i data-lucide="external-link" class="icon-ext"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i data-lucide="shield"></i>
+                  <span>Póliza y Derechos del Paciente</span>
+                  <i data-lucide="external-link" class="icon-ext"></i>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+        </aside>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PIE DE PÁGINA DE LA APLICACIÓN -->
+  <footer class="app-footer">
+    <p>Seguro Social Universitario - UMSS | Av. Aniceto Arce N° 590, Cochabamba, Bolivia</p>
+    <p class="red-text"><strong>* Emergencias: (591) 4-4251234</strong></p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

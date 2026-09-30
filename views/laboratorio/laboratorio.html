@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguimiento de Laboratorio Clínico - SSU UMSS</title>
+  <link rel="stylesheet" href="../globals.css">
+  <link rel="stylesheet" href="laboratorio.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand-logo">
+        <img src="logo.svg" alt="SSU UMSS Logo">
+      </div>
+      <div class="user-profile-header">
+        <div class="user-info-text">
+          <span class="user-name">Univ. Alejandro Flores Montaño</span>
+          <span class="user-dept">Fac. de Ciencias y Tecnología</span>
+        </div>
+        <img src="avatar.jpg" alt="Perfil" class="user-avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL CON SIDEBAR Y DASHBOARD -->
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR / MENÚ LATERAL -->
+    <aside class="sidebar">
+      <span class="sidebar-title">MÓDULOS DE ATENCIÓN</span>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item">
+          <i data-lucide="user-plus"></i>
+          <span>Nueva Afiliación / Registro</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="file-text"></i>
+          <span>Afiliación Semestral (US-01)</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="calendar"></i>
+          <span>Ficha Médica General (US-03)</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="stethoscope"></i>
+          <span>Ficha Especialista (US-08)</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="refresh-cw"></i>
+          <span>Renovación Afiliación (US-12)</span>
+        </a>
+        <a href="#" class="nav-item active">
+          <i data-lucide="flask-conical"></i>
+          <span>Laboratorio y Resultados (US-13)</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="user"></i>
+          <span>Mi Cuenta y Perfil</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO PRINCIPAL -->
+    <main class="dashboard-content">
+
+      <!-- TÍTULO PRINCIPAL -->
+      <h1 class="page-title">Seguimiento de Laboratorio Clínico y Resultados Médicos</h1>
+
+      <!-- RESUMEN DE INDICADORES (KPIs) -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">ÓRDENES ACTIVAS</span>
+          <div class="kpi-value-group">
+            <span class="kpi-number">3</span>
+            <span class="kpi-status">en proceso</span>
+          </div>
+          <i data-lucide="folder" class="kpi-icon"></i>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">INFORMES LISTOS</span>
+          <div class="kpi-value-group">
+            <span class="kpi-number">2</span>
+            <span class="kpi-status">descargables</span>
+          </div>
+          <i data-lucide="check-circle-2" class="kpi-icon"></i>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">ESTUDIANTE TITULAR</span>
+          <span class="kpi-title">A. Flores Montaño</span>
+          <span class="kpi-subtext">SIS: 202104829</span>
+          <i data-lucide="user-check" class="kpi-icon"></i>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">CENTRO CLÍNICO</span>
+          <span class="kpi-title">Central Arce</span>
+          <span class="kpi-subtext">Av. Aniceto Arce #590</span>
+          <i data-lucide="building-2" class="kpi-icon"></i>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: TABLA DE ÓRDENES -->
+      <section class="section-card">
+        <!-- FILTROS Y BÚSQUEDA -->
+        <div class="filters-bar">
+          <div class="tab-pills">
+            <button class="pill-btn active">Todos (5)</button>
+            <button class="pill-btn">Solicitado (1)</button>
+            <button class="pill-btn">En curso (1)</button>
+            <button class="pill-btn">Aceptado (1)</button>
+            <button class="pill-btn">Terminado (2)</button>
+          </div>
+
+          <div class="search-group">
+            <div class="search-input-wrapper">
+              <i data-lucide="search"></i>
+              <input type="text" placeholder="Buscar por examen o código...">
+            </div>
+            <select class="select-year">
+              <option>Gestión 2025</option>
+              <option>Gestión 2024</option>
+            </select>
+          </div>
+        </div>
+
+        <h2 class="sub-header-title">
+          <i data-lucide="flask-conical"></i> Órdenes Bioquímicas Asignadas al Estudiante
+        </h2>
+
+        <!-- TABLA DE DATOS -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>N° ORDEN</th>
+                <th>TIPO DE ANÁLISIS / EXAMEN</th>
+                <th>MÉDICO SOLICITANTE</th>
+                <th>FECHA TOMA</th>
+                <th>ESTADO DE LA PRUEBA</th>
+                <th>ACCIÓN / INFORME</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>LAB-2025-781</strong></td>
+                <td>
+                  <strong>Hemograma Completo + Perfil Lipídico</strong>
+                  <span class="cell-subtext">Hematología y Bioquímica Clínica • Ayuno Requerido</span>
+                </td>
+                <td><i data-lucide="user"></i> Dr. Carlos Mendoza</td>
+                <td>18/03/2025</td>
+                <td><span class="badge-status pending"><i data-lucide="clock"></i> Solicitado</span></td>
+                <td><span class="action-hint"><i data-lucide="hourglass"></i> En Espera de Toma de Muestra</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>LAB-2025-752</strong></td>
+                <td>
+                  <strong>Prueba de Glucosa en Sangre</strong>
+                  <span class="cell-subtext">Glicemia Basal en Suero • Laboratorio de Bioquímica</span>
+                </td>
+                <td><i data-lucide="user"></i> Dra. Patricia Vaca</td>
+                <td>15/03/2025</td>
+                <td><span class="badge-status warning"><i data-lucide="refresh-cw"></i> En curso</span></td>
+                <td><span class="action-hint"><i data-lucide="microscope"></i> En procesamiento bioquímico</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>LAB-2025-710</strong></td>
+                <td>
+                  <strong>Examen General de Orina (EGO)</strong>
+                  <span class="cell-subtext">Uroanálisis Físico-Químico y Sedimento</span>
+                </td>
+                <td><i data-lucide="user"></i> Dr. Fernando Torrico</td>
+                <td>12/03/2025</td>
+                <td><span class="badge-status accepted"><i data-lucide="check"></i> Aceptado</span></td>
+                <td><span class="action-hint"><i data-lucide="shield-check"></i> Validando por Bioquímico Jefe</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>LAB-2025-680</strong></td>
+                <td>
+                  <strong>Coprológico y Parasitológico Seriados</strong> <span class="badge-tag">COMPLETADO</span>
+                  <span class="cell-subtext">Microbiología & Parasitología • Muestra Seriada x3</span>
+                </td>
+                <td><i data-lucide="user"></i> Dr. Carlos Mendoza</td>
+                <td>05/03/2025</td>
+                <td><span class="badge-status success"><i data-lucide="check-circle"></i> Terminado</span></td>
+                <td class="action-buttons">
+                  <button class="btn-sm btn-light"><i data-lucide="eye"></i> Ver</button>
+                  <button class="btn-sm btn-primary"><i data-lucide="download"></i> Descargar Informe (PDF)</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>LAB-2024-912</strong></td>
+                <td>
+                  <strong>Cultivo Antibiograma Faringeo</strong>
+                  <span class="cell-subtext">Bacteriología • Sensibilidad a Antibióticos</span>
+                </td>
+                <td><i data-lucide="user"></i> Dra. Patricia Vaca</td>
+                <td>10/11/2024</td>
+                <td><span class="badge-status success"><i data-lucide="check-circle"></i> Terminado</span></td>
+                <td class="action-buttons">
+                  <button class="btn-sm btn-primary"><i data-lucide="download"></i> Descargar Informe (PDF)</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECCIÓN: VISTA PREVIA DEL INFORME -->
+      <section class="section-card preview-card">
+        <div class="preview-header">
+          <div class="preview-title-group">
+            <i data-lucide="file-text" class="preview-icon"></i>
+            <div>
+              <h3>Vista Previa Oficial del Análisis: LAB-2025-680</h3>
+              <p class="preview-subtitle">Laboratorio Central SSU - Cochabamba • Protocolo Microbiológico Digital</p>
+            </div>
+          </div>
+          <div class="preview-actions">
+            <span class="badge-status success font-sm">Informe Certificado</span>
+            <button class="btn-sm btn-outline"><i data-lucide="printer"></i> Imprimir</button>
+            <button class="btn-sm btn-primary"><i data-lucide="download"></i> Descargar PDF Firmado</button>
+          </div>
+        </div>
+
+        <!-- DATOS DEL PACIENTE -->
+        <div class="patient-info-box">
+          <div class="info-item">
+            <span class="info-label">PACIENTE ASEGURADO</span>
+            <strong>Univ. Alejandro Flores Montaño</strong>
+            <span class="info-subtext">Matrícula SIS: 202104829 • C.I.: 7934120 Cbba</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">FACULTAD / CARRERA</span>
+            <strong>Facultad de Ciencias y Tecnología</strong>
+            <span class="info-subtext">Ingeniería de Sistemas • Regular</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">ORDEN & MÉDICO TRATANTE</span>
+            <strong>Dr. Carlos Mendoza (Medicina General)</strong>
+            <span class="info-subtext">Toma: 05/03/2025 • Emisión: 07/03/2025</span>
+          </div>
+        </div>
+
+        <!-- TABLA DE RESULTADOS DE LABORATORIO -->
+        <div class="table-responsive mt-3">
+          <table class="data-table preview-table">
+            <thead>
+              <tr>
+                <th>PARÁMETRO BIOQUÍMICO / ANÁLISIS</th>
+                <th>RESULTADO OBTENIDO</th>
+                <th>VALORES DE REFERENCIA / NORMA</th>
+                <th>DIAGNÓSTICO LABORATORIAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Examen Coprológico Seriado - Consistencia</strong></td>
+                <td>Pastosa / Homogénea</td>
+                <td>Pastosa normal</td>
+                <td><span class="badge-tag green">Normal</span></td>
+              </tr>
+              <tr>
+                <td><strong>Examen Parasitológico Seriado I, II y III</strong></td>
+                <td>No se observan quistes ni helmintos</td>
+                <td>Negativo en 3 muestras</td>
+                <td><span class="badge-tag green">Negativo</span></td>
+              </tr>
+              <tr>
+                <td><strong>Restos alimenticios no digeridos</strong></td>
+                <td>Escasa cantidad</td>
+                <td>Escasos o nulos</td>
+                <td><span class="badge-tag green">Fisiológico</span></td>
+              </tr>
+              <tr>
+                <td><strong>Flora Bacteriana / Leucocitos</strong></td>
+                <td>Normal (0 - 1 por campo)</td>
+                <td>&lt; 2 por campo</td>
+                <td><span class="badge-tag green">Normal</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- FOOTER DEL INFORME (FIRMA Y QR) -->
+        <div class="report-footer">
+          <div class="qr-block">
+            <div class="qr-placeholder"></div>
+            <div>
+              <strong>Firma Digital SSU</strong>
+              <p>Dra. M. Elena Siles R. • Mat. Bioq. N° 4519-CBBA</p>
+              <small>Validado en el Servidor Central SSU UMSS • Expedido con validez médico-legal</small>
+            </div>
+          </div>
+
+          <div class="accreditation-box">
+            <i data-lucide="shield-check" class="accred-icon"></i>
+            <div>
+              <strong>LABORATORIO ACREDITADO</strong>
+              <p>ISO 15189 • SSU UMSS</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- PIE DE PÁGINA INFERIOR DE LA PÁGINA -->
+  <footer class="app-footer">
+    <p>Seguro Social Universitario - UMSS | Av. Aniceto Arce N° 590, Cochabamba, Bolivia</p>
+    <p class="red-text"><strong>* Emergencias: (591) 4-4251234</strong></p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
