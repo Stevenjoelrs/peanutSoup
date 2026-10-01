@@ -31,6 +31,7 @@ import authRoutes from '../auth/auth.routes.js';
 import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
 import reservaRoutes from '../reserva/reserva.routes.js';
 import derivacionRoutes from '../especialista/derivacion.routes.js';
+import laboratorioRoutes from '../laboratorio/laboratorio.routes.js';
 
 // `especialista.routes.js` NO tiene export default: expone un router con nombre
 // por cada prefijo de dominio, porque un mismo controlador atiende tanto la
@@ -110,6 +111,13 @@ export const apiModules = [
     descripcion: 'Órdenes de derivación del estudiante (US-08)',
     prefijo: '/api/derivaciones',
     router: derivacionRoutes,
+    publica: false
+  },
+  {
+    dominio: 'laboratorio',
+    descripcion: 'Seguimiento de órdenes de laboratorio e informes (US-13)',
+    prefijo: '/api/laboratorio',
+    router: laboratorioRoutes,
     publica: false
   },
   {
