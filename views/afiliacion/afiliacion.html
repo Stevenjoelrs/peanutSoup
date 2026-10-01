@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8" />
+  <title>Afiliación Semestral Estudiantil - SSU UMSS</title>
+  <link rel="stylesheet" href="../globals.css">
+  <link rel="stylesheet" href="./afiliacion.css">
+  <style>
+    /* Estilos del modal de advertencia para TASK-01.2 */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      font-family: inherit;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #991b1b;
+      margin-bottom: 12px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .modal-body p {
+      margin: 8px 0;
+      color: #374151;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .modal-footer {
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .btn-modal-cerrar {
+      background-color: #1e3a8a;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-modal-cerrar:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+  <div class="afiliacin-semestral">
+    <div class="container">
+      <div class="main">
+        <div class="div">
+          <div class="encabezado-de">
+            <div class="container-2">
+              <div class="container-3"></div>
+              <div class="container-wrapper"><div class="container-4"></div></div>
+              <div class="div-2"><div class="text">Afiliación Semestral Estudiantil</div></div>
+            </div>
+          </div>
+          <div class="bento-grid-de">
+            <div class="COLUMNA-IZQUIERDA">
+              <div class="div-3">
+                <div class="container-5">
+                  <div class="container-6">
+                    <div class="background"><div class="container-7"><img class="icon" src="./img/icon-18.svg" /></div></div>
+                    <div class="container-7"><div class="div-2"><div class="text-wrapper">Datos del Asegurado</div></div></div>
+                  </div>
+                  <div class="div-wrapper"><div class="text-2">ESTUDIANTIL</div></div>
+                </div>
+                <div class="container-8">
+                  <div class="grid-SIS-CI">
+                    <div class="item-nombre">
+                      <div class="div-2"><div class="text-wrapper-2">NOMBRE COMPLETO</div></div>
+                      <div class="div-2"><div class="text-wrapper-3">Alejandro Flores Montaño</div></div>
+                    </div>
+                    <div class="overlay">
+                      <div class="div-2"><div class="text-wrapper-2">CÓDIGO SIS</div></div>
+                      <div class="div-2"><div class="text-wrapper-4">202104829</div></div>
+                    </div>
+                    <div class="overlay-2">
+                      <div class="div-2"><div class="c-DULA-DE-IDENTIDAD">CÉDULA DE<br/>IDENTIDAD</div></div>
+                      <div class="div-2"><div class="text-wrapper-3">7894561 Cbba.</div></div>
+                    </div>
+                  </div>
+                  <div class="item-matrcula">
+                    <div class="item-carrera">
+                      <div class="div-2"><div class="text-wrapper-2">CARRERA / DEPENDENCIA</div></div>
+                      <div class="div-2"><p class="p">Licenciatura en Ingeniería de Sistemas</p></div>
+                      <div class="div-2"><p class="text-wrapper-5">Facultad de Ciencias y Tecnología</p></div>
+                    </div>
+                    <div class="container-7">
+                      <div class="div-2"><div class="text-3">MATRÍCULA UNIVERSITARIA</div></div>
+                      <div class="div-2"><div class="text-4">Regular Gestión 2025</div></div>
+                    </div>
+                    <div class="background-2">
+                      <div class="container-7"><img class="img" src="./img/icon-11.svg" /></div>
+                      <div class="text-5">WebSIS OK</div>
+                    </div>
+                  </div>
+                  <div class="item-tipo-cobertura">
+                    <div class="container-7">
+                      <div class="div-2"><div class="text-3">TIPO DE COBERTURA</div></div>
+                      <div class="div-2"><div class="text-6">Estudiante Regular Titular</div></div>
+                    </div>
+                    <div class="background-3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="barra-de-acciones-y">
+            <button class="button">
+              <div class="container-9"><img class="icon-2" src="./img/icon-8.svg" /></div>
+              <div class="container-10"><div class="text-7">Descargar Carnet Digital<br/>(PDF)</div></div>
+            </button>
+            <button class="button-2">
+              <div class="container-9"><img class="icon-3" src="./img/icon-17.svg" /></div>
+              <div class="container-11"><div class="text-8">Imprimir Comprobante de<br/>Afiliación</div></div>
+            </button>
+          </div>
+          <div class="seccin-historial">
+            <div class="div-3">
+              <div class="container-12">
+                <div class="container-6">
+                  <div class="background-4"><div class="container-7"><img class="icon-4" src="./img/icon-10.svg" /></div></div>
+                  <div class="container-7">
+                    <div class="div-2"><div class="text-wrapper">Historial de Afiliaciones Semestrales</div></div>
+                    <div class="div-2"><p class="text-9">Registro histórico de cobertura médica institucional del estudiante</p></div>
+                  </div>
+                </div>
+                <div class="container-13">
+                  <div class="container-7"><p class="text-10">Total de semestres cursados con seguro:</p></div>
+                  <div class="background-5"><div class="text-11">3 Periodos</div></div>
+                </div>
+              </div>
+              <div class="tabla-limpia-de">
+                <div class="header-row">
+                  <div class="cell"><div class="text-wrapper-6">GESTIÓN<br/>SEMESTRAL</div></div>
+                  <div class="cell-2"><div class="text-wrapper-6">CÓDIGO DE<br/>AFILIACIÓN</div></div>
+                  <div class="cell-3"><div class="text-wrapper-6">VIGENCIA<br/>REGISTRADA</div></div>
+                  <div class="cell-4"><div class="text-12">CENTRO MÉDICO</div></div>
+                  <div class="ESTADO-DEL-PERIODO-wrapper"><div class="text-wrapper-6">ESTADO DEL<br/>PERIODO</div></div>
+                  <div class="cell-5"><div class="text-13">ACCIÓN</div></div>
+                </div>
+                <div class="div-2">
+                  <div class="row-registro-actual">
+                    <div class="data">
+                      <div class="background-6"></div>
+                      <div class="text-14">Gestión I-2025</div>
+                    </div>
+                    <div class="data-2"><div class="text-15">SSU-EST-2025-<br/>04829-CB</div></div>
+                    <div class="data-3"><div class="text-16">01/02/2025 –<br/>31/07/2025</div></div>
+                    <div class="data-4"><div class="text-17">Policlínico Central<br/>UMSS</div></div>
+                    <div class="background-wrapper">
+                      <div class="background-7">
+                        <div class="background-8"></div>
+                        <div class="text-18">Afiliado Activo</div>
+                      </div>
+                    </div>
+                    <div class="button-wrapper">
+                      <button class="button-3">
+                        <div class="container-9"><div class="text-19">Ver Carnet</div></div>
+                        <div class="container-9"><img class="icon-5" src="./img/icon-6.svg" /></div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Advertencia (TASK-01.2) -->
+  <div id="modal-advertencia" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span style="font-size: 1.5rem;">⚠️</span>
+        <h3>Afiliación Activa Detectada</h3>
+      </div>
+      <div class="modal-body">
+        <p>La matrícula ingresada ya cuenta con una afiliación vigente para el presente periodo semestral.</p>
+        <p>No es necesario registrar una nueva afiliación en este momento.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-cerrar-modal" class="btn-modal-cerrar">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnCerrar = document.getElementById('btn-cerrar-modal');
+      const modal = document.getElementById('modal-advertencia');
+
+      if (btnCerrar && modal) {
+        btnCerrar.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
