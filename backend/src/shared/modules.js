@@ -4,18 +4,18 @@
  * Este archivo es el índice del sistema: al leerlo de arriba abajo se ve el
  * negocio completo del SSU, no la infraestructura. Cada entrada de API declara:
  *
- *   - `dominio`      nombre del módulo de negocio
- *   - `descripcion`  qué resuelve, con su código de Historia de Usuario
- *   - `prefijo`      URL base del módulo (contrato público, no se modifica)
- *   - `router`       Express Router con los endpoints
- *   - `publica`      si el módulo se sirve sin sesión iniciada
+ *   - `dominio`     nombre del módulo de negocio
+ *   - `descripcion` qué resuelve, con su código de Historia de Usuario
+ *   - `prefijo`     URL base del módulo (contrato público, no se modifica)
+ *   - `router`      Express Router con los endpoints
+ *   - `publica`     si el módulo se sirve sin sesión iniciada
  *
  * Y cada entrada de vista declara:
  *
- *   - `ruta`         URL limpia que ve el estudiante
- *   - `carpeta`      subcarpeta dentro de frontend/dist/ que la sirve
+ *   - `ruta`        URL limpia que ve el estudiante
+ *   - `carpeta`     subcarpeta dentro de frontend/dist/ que la sirve
  *   - `requiereAuth` si la vista exige sesión (el token igual lo exige la API)
- *   - `titulo`       texto de la pestaña
+ *   - `titulo`      texto de la pestaña
  *
  * DAR DE ALTA UNA FUNCIONALIDAD = una entrada aquí + una carpeta en
  * `backend/src/<dominio>/` (con sus capas routes/controller/service/repository)
@@ -31,6 +31,7 @@ import authRoutes from '../auth/auth.routes.js';
 import estudiantesRoutes from '../estudiantes/estudiantes.routes.js';
 import reservaRoutes from '../reserva/reserva.routes.js';
 import derivacionRoutes from '../especialista/derivacion.routes.js';
+import laboratorioRoutes from '../laboratorio/laboratorio.routes.js';
 
 // `especialista.routes.js` NO tiene export default: expone un router con nombre
 // por cada prefijo de dominio, porque un mismo controlador atiende tanto la
@@ -110,6 +111,13 @@ export const apiModules = [
     descripcion: 'Órdenes de derivación del estudiante (US-08)',
     prefijo: '/api/derivaciones',
     router: derivacionRoutes,
+    publica: false
+  },
+  {
+    dominio: 'laboratorio',
+    descripcion: 'Seguimiento de órdenes de laboratorio y obtención de resultados (US-13)',
+    prefijo: '/api/laboratorio',
+    router: laboratorioRoutes,
     publica: false
   },
   {

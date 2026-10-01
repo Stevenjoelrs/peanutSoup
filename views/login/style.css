@@ -1,0 +1,599 @@
+.access-and-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0px;
+  position: relative;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(250, 248, 255, 1) 0%,
+      rgba(250, 248, 255, 1) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  width: 100%;
+  min-width: 1280px;
+  min-height: 904px;
+}
+
+.access-and-login .main {
+  display: flex;
+  flex-direction: column;
+  width: 1256px;
+  align-items: flex-start;
+  padding: 0px 52px;
+  position: relative;
+}
+
+.access-and-login .container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1152px;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 0px 32px;
+  position: relative;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .main-dual-panel {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  height: 796px;
+  gap: 32px;
+}
+
+.access-and-login .section-left-primary {
+  position: relative;
+  grid-row: 1 / 2;
+  grid-column: 4 / 11;
+  justify-self: center;
+  align-self: center;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0px 2px 4px -2px #0000001a,
+    0px 4px 6px -1px #0000001a;
+}
+
+.access-and-login .header-branding {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .modern-styled-SSU {
+  position: relative;
+  width: 67px;
+  height: 66px;
+  margin-bottom: -1px;
+  margin-left: -5px;
+}
+
+.access-and-login .div-2 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.access-and-login .container-2 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .text {
+  font-family: "Plus Jakarta Sans-Bold", Helvetica;
+  font-weight: 700;
+  color: #003178;
+  font-size: 24px;
+  letter-spacing: -0.6px;
+  line-height: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .background {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2px 8px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #dce1ff;
+  border-radius: 9999px;
+}
+
+.access-and-login .text-wrapper {
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #001551;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  line-height: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .div-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .text-2 {
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #1d4ed8;
+  font-size: 14px;
+  letter-spacing: 0.7px;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .p {
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #434652;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .div-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .text-wrapper-2 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  margin-top: -1px;
+  font-family: "Plus Jakarta Sans-Bold", Helvetica;
+  font-weight: 700;
+  color: #131b2e;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 28px;
+}
+
+.access-and-login .auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 8px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .container-3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 1.14e-13px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.access-and-login .icon {
+  position: relative;
+  width: 13.33px;
+  height: 13.33px;
+}
+
+.access-and-login .text-3 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #131b2e;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.access-and-login .text-4 {
+  font-family: "JetBrains Mono-Medium", Helvetica;
+  font-weight: 500;
+  color: #737783;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .input {
+  display: flex;
+  height: 44px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  background-color: #f2f3ff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 1px 2px #0000000d;
+}
+
+.access-and-login .div-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+  overflow: scroll;
+}
+
+.access-and-login .div-wrapper::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+.access-and-login .text-wrapper-3 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  font-family: "JetBrains Mono-Regular", Helvetica;
+  font-weight: 400;
+  color: #131b2e;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.access-and-login .button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px 1px;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+}
+
+.access-and-login .icon-wrapper {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.access-and-login .img {
+  position: relative;
+  width: 12px;
+  height: 12px;
+}
+
+.access-and-login .icon-2 {
+  position: relative;
+  width: 13.33px;
+  height: 10.67px;
+}
+
+.access-and-login .text-wrapper-4 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #131b2e;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.access-and-login .img-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 0px 1px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.access-and-login .icon-3 {
+  position: relative;
+  width: 12px;
+  height: 15.75px;
+}
+
+.access-and-login .checkbox-recordar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 1.14e-13px 8px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .label-2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.access-and-login .input-2 {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  background-color: #0075ff;
+  border-radius: 2.5px;
+}
+
+.access-and-login .text-5 {
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 500;
+  color: #131b2e;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.99px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.access-and-login .icon-4 {
+  position: relative;
+  width: 11.67px;
+  height: 11.67px;
+}
+
+.access-and-login .text-6 {
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #1d4ed8;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .botn-principal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #003178;
+  border-radius: 8px;
+}
+
+.access-and-login .button-shadow {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 4px);
+  top: 0;
+  left: 0;
+  background-color: #ffffff01;
+  border-radius: 8px;
+  box-shadow:
+    0px 2px 4px -2px #0000001a,
+    0px 4px 6px -1px #0000001a;
+}
+
+.access-and-login .container-4 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.access-and-login .text-7 {
+  justify-content: center;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .link-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  border: 2px solid;
+  border-color: #1d4ed8;
+}
+
+.access-and-login .icon-5 {
+  position: relative;
+  width: 16.5px;
+  height: 12px;
+}
+
+.access-and-login .text-8 {
+  justify-content: center;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #1d4ed8;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .bottom-footer-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.access-and-login .text-9 {
+  justify-content: center;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #434652;
+  font-size: 13px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
+
+.access-and-login .text-10 {
+  justify-content: center;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #c3c6d4;
+  font-size: 13px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  white-space: nowrap;
+}
