@@ -14,11 +14,11 @@
 <div class="text-wrapper-2" >Semestre I-2025 • Activa</div></div></div>
 <div class="metrics-split" ><div class="expiration-date" ><div class="container-2" ><div class="text-wrapper-3" >FECHA DE VENCIMIENTO</div></div>
 <div class="container-3" ><div class="div-2" ><img class="icon" src="img/icon-6.svg" /></div>
-<div class="container-4" ><div class="text-2" >31 de Julio de<br/>2025</div></div></div>
+<div class="container-4" ><div class="text-2" id="fecha-vencimiento">31 de Julio de<br/>2025</div></div></div>
 <div class="container-2" ><div class="text-wrapper-4" >Límite oficial<br/>Gestión I-2025</div></div></div>
 <div class="div-3" ><div class="container-2" ><div class="text-wrapper-3" >TIEMPO RESTANTE</div></div>
 <div class="container-3" ><div class="div-2" ><img class="img" src="img/icon-15.svg" /></div>
-<div class="div-2" ><div class="text-3" >134 Días</div></div></div>
+<div class="div-2" ><div class="text-3" id="dias-restantes">134 Días</div></div></div>
 <div class="container-2" ><div class="text-wrapper-4" >Vigencia activa sin<br/>interrupción</div></div></div>
 <div class="div-3" ><div class="container-2" ><div class="text-wrapper-3" >MATRÍCULA UNIVERSITARIA</div></div>
 <div class="container-3" ><div class="div-2" ><img class="icon-2" src="img/icon-13.svg" /></div>
@@ -41,9 +41,12 @@
 <span class="span" >.</span></p></div></div></div>
 <div class="action-execution" ><div class="container-14" ><div class="div-2" ><img class="icon-4" src="img/icon-10.svg" /></div>
 <div class="div-2" ><p class="text-10" >Verificación automática de matrícula SIS UMSS al día</p></div></div>
-<div class="div-2" ><div class="disabled-button-real" ><div class="container-15" ><img class="icon-5" src="img/image.svg" /></div>
-<div class="container-15" ><p class="renovar" ><span class="text-wrapper-7" >Renovar</span>
-<span class="text-wrapper-8" ></span></p></div></div></div></div></div></div></div></div>
+<div class="div-2">
+    <button id="btn-renovar" class="disabled-button-real" disabled style="cursor: not-allowed; border: none; background: transparent; width: 100%; display: flex; align-items: center; justify-content: center;">
+        <div class="container-15"><img class="icon-5" src="img/image.svg" /></div>
+        <div class="container-15"><p class="renovar"><span class="text-wrapper-7">Renovar</span><span class="text-wrapper-8"></span></p></div>
+    </button>
+</div>
 <header class="header" ><div class="container-16" ><img class="icon-6" src="img/icon-4.svg" />
 <div class="link-logotipo" ><div class="logotipo-oficial" ></div></div>
 <div class="container-17" ><div class="div-2" ><div class="container-18" ><div class="text-11" >Univ. Alejandro Flores Montaño</div></div>
@@ -69,5 +72,6 @@
 <div class="div-2" ><div class="text-wrapper-10" >Mi Cuenta y Perfil</div></div></div></div></div>
 <div class="logout-action-button" ><button class="button" ><div class="container-15" ><img class="icon-13" src="img/icon-11.svg" /></div>
 <div class="container-15" ><div class="text-14" >Cerrar Sesión del Portal</div></div></button></div></div></div>
+<script src="renovacion.js"></script>
 </body>
 </html>

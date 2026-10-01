@@ -190,7 +190,7 @@ export const pageModules = [
   {
     dominio: 'afiliacion',
     ruta: '/renovacion',
-    carpeta: 'en-desarrollo',
+    carpeta: 'renovacion',
     requiereAuth: true,
     titulo: 'Renovación de Afiliación'
   },
