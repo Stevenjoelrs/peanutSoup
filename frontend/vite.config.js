@@ -12,7 +12,7 @@ const fuente = path.join(raiz, 'src');
  * monolítico ni un router de SPA: cada página importa solo lo que usa y el
  * backend entrega el HTML ya compilado en la ruta limpia correspondiente.
  *
- *   frontend/src/inicio/index.html   ->  frontend/dist/inicio/index.html
+  *   frontend/src/inicio/index.html   ->  frontend/dist/inicio/index.html  ->  GET /status
  *   frontend/src/auth/login/index.html -> frontend/dist/auth/login/index.html
  *
  * Para agregar una página hay que hacer DOS cosas: declararla en `entradas`
@@ -21,6 +21,7 @@ const fuente = path.join(raiz, 'src');
  */
 const entradas = {
   inicio: 'inicio/index.html',
+  welcome: 'welcome/index.html',
   auth: 'auth/login/index.html',
   reserva: 'reserva/index.html',
   especialista: 'especialista/index.html',

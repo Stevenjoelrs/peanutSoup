@@ -23,7 +23,7 @@ carpeta que Express monta como estático: cada subcarpeta de `dist/` corresponde
 una URL limpia.
 
 ```
-frontend/src/inicio/index.html  ->  frontend/dist/inicio/index.html  ->  GET /
+frontend/src/inicio/index.html  ->  frontend/dist/inicio/index.html  ->  GET /status
 ```
 
 ## Cómo se agrega una página

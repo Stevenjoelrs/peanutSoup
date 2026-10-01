@@ -88,10 +88,10 @@ export const iniciarSesion = (credenciales, { recordar = false, destino = '/afil
   window.location.assign(retorno && retorno.startsWith('/') ? retorno : destino);
 };
 
-/** Cierra sesión y vuelve al portal de acceso. */
+/** Cierra sesión y vuelve a la portada pública. */
 export const cerrarSesion = () => {
   sesion.limpiar();
-  window.location.assign('/login');
+  window.location.assign('/');
 };
 
 /**

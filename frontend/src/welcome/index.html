@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguro Social Universitario - SSU UMSS</title>
+  <link rel="stylesheet" href="../shared/estilos/globals.css">
+  <link rel="stylesheet" href="./welcome.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script type="module" src="./main.js"></script>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN SUPERIOR -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand-logo">
+        <img src="../shared/recursos/logo.svg" alt="SSU UMSS Logo">
+      </div>
+      <nav class="nav-links">
+        <a href="#" class="active">Servicios</a>
+        <a href="#">Anuncios</a>
+        <a href="#">Convocatoria</a>
+        <a href="#">Especialidades</a>
+        <a href="#">Horarios de atención</a>
+        <a href="#">Ubicación</a>
+      </nav>
+      <a href="/login" class="btn-login">
+        <i data-lucide="user"></i>
+        <span>Ingresar</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="page-container">
+
+    <!-- HERO / HORARIO DE VISITAS -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i data-lucide="clock"></i>
+        </div>
+        <div class="hero-text">
+          <h2>HORARIO DE VISITAS</h2>
+          <h3>INTERNACIÓN</h3>
+          <p class="time">11:00 a 14:00</p>
+          <p class="subtext">y de horas</p>
+          <p class="time">16:00 a 20:00</p>
+        </div>
+      </div>
+      <div class="hero-decorative">
+        <img src="../shared/recursos/banner-hospital.jpg" alt="Fachada SSU Hospital" class="hero-img">
+      </div>
+    </section>
+
+    <!-- SECCIÓN: SERVICIOS Y TRÁMITES -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>SERVICIOS Y TRÁMITES</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="grid-cards grid-3">
+        <!-- Tarjeta 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="file-text" class="card-icon"></i>
+              <h3>Formularios</h3>
+            </div>
+            <span class="badge blue">Seguro</span>
+          </div>
+          <p class="card-desc">Reclamos y/o denuncias, sugerencias y reconocimientos.</p>
+          <a href="#" class="card-action">Llenar Formulario Ahora &rarr;</a>
+        </div>
+
+        <!-- Tarjeta 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="calendar" class="card-icon"></i>
+              <h3>Reserva de Fichas Médicas</h3>
+            </div>
+            <span class="badge blue">Diario</span>
+          </div>
+          <p class="card-desc">Reserve su ficha de manera online.</p>
+          <a href="/reserva" class="card-action">Reservar Ficha Ahora &rarr;</a>
+        </div>
+
+        <!-- Tarjeta 3 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="refresh-cw" class="card-icon"></i>
+              <h3>Afiliación y Renovación</h3>
+            </div>
+            <span class="badge blue">SSU</span>
+          </div>
+          <p class="card-desc">Proceso de renovación y afiliación de estudiantes y titulares.</p>
+          <a href="/afiliacion" class="card-action">Requisitos y Trámite &rarr;</a>
+        </div>
+
+        <!-- Tarjeta 4 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="file-check" class="card-icon"></i>
+              <h3>Resultados de Laboratorio</h3>
+            </div>
+            <span class="badge blue">SSU</span>
+          </div>
+          <p class="card-desc">Descarga tus informes con firma electrónica y validación por código QR.</p>
+          <a href="/laboratorio" class="card-action">Consultar Informe &rarr;</a>
+        </div>
+
+        <!-- Tarjeta 5 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="pill" class="card-icon"></i>
+              <h3>Farmacia</h3>
+            </div>
+            <span class="badge green">Próximamente</span>
+          </div>
+          <p class="card-desc">Función en desarrollo.</p>
+          <a href="#" class="card-action">Ver Farmacia &rarr;</a>
+        </div>
+
+        <!-- Tarjeta 6 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="award" class="card-icon"></i>
+              <h3>Emisión de Certificados</h3>
+            </div>
+            <span class="badge blue">Legislaciones</span>
+          </div>
+          <p class="card-desc">Emisión de certificados médicos oficiales para justificación de inasistencias académicas o laborales en la UMSS, visados y homologaciones de reposo.</p>
+          <a href="#" class="card-action">Trámite de Certificación &rarr;</a>
+        </div>
+
+        <!-- Tarjeta 7 (Emergencia) -->
+        <div class="card highlight-red grid-col-span">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="siren" class="card-icon red-text"></i>
+              <h3 class="red-text">Emergencias y Ambulancia</h3>
+            </div>
+            <span class="badge red">24/7</span>
+          </div>
+          <p class="card-desc">Servicio ininterrumpido de urgencias médicas.</p>
+          <p class="phone-link"><i data-lucide="phone"></i> Línea directa: <strong>4251234</strong></p>
+          <a href="tel:+59144251234" class="card-action red-text">Llamar a Emergencias &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: ANUNCIOS Y COMUNICADOS -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>ANUNCIOS Y COMUNICADOS</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="banner-announcement">
+        <div class="announcement-content">
+          <span class="badge white-border">Proceso Obligatorio Semestral</span>
+          <h3>Campaña de Afiliación y Renovación Semestral Gestión I/2025</h3>
+          <div class="announcement-meta">
+            <span><i data-lucide="calendar"></i> Límite: 28 de Marzo de 2025</span>
+            <span><i data-lucide="map-pin"></i> Campus Central & Policlínico</span>
+          </div>
+        </div>
+        <a href="#" class="btn-white">Iniciar Renovación</a>
+      </div>
+
+      <div class="grid-cards grid-3 mt-4">
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">MOD-US03</span>
+            <span class="text-subtle">Medicina General</span>
+          </div>
+          <h4 class="card-subtitle">Comunicado UESA-CINS 004-25</h4>
+          <a href="#" class="card-action">Ver comunicado &rarr;</a>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">CAMPAÑA</span>
+            <span class="text-subtle">Salud Preventiva</span>
+          </div>
+          <h4 class="card-subtitle">Lucha contra el ITS/VIH/SIDA</h4>
+          <a href="#" class="card-action">Ver comunicado &rarr;</a>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">MOD-US13</span>
+            <span class="text-subtle">Resultados Digitales</span>
+          </div>
+          <h4 class="card-subtitle">Capacitación Enfermería Septiembre 2025</h4>
+          <a href="#" class="card-action">Ver comunicado &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: CONVOCATORIAS -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>CONVOCATORIAS</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="grid-cards grid-3">
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">Convocatoria Pública</span>
+            <span class="text-subtle">Febrero 2025</span>
+          </div>
+          <p class="card-body-text">Concurso de Méritos para Médicos Especialistas</p>
+          <div class="card-footer-flex">
+            <span class="subtext">Plazo: 28/02/2025</span>
+            <a href="#" class="card-action">Ver Requisitos &rarr;</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">Comunicado Oficial</span>
+            <span class="text-subtle">Vigente</span>
+          </div>
+          <p class="card-body-text">Ejecución presupuestaria de gastos</p>
+          <div class="card-footer-flex">
+            <span class="subtext">Gestión I/2025</span>
+            <a href="#" class="card-action">Ver PDF &rarr;</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge green">Sistema de Contratación</span>
+            <span class="text-subtle">SICOES</span>
+          </div>
+          <p class="card-body-text">Trabaja con Nosotros</p>
+          <div class="card-footer-flex">
+            <span class="subtext">Online</span>
+            <a href="#" class="card-action">Aplicar &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: SERVICIOS MÉDICOS Y ESPECIALIDADES -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>SERVICIOS MÉDICOS Y ESPECIALIDADES SSU</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="grid-cards grid-4">
+        <div class="card flex-row-align">
+          <i data-lucide="stethoscope" class="icon-lg"></i>
+          <div>
+            <h4>Medicina General e Integral</h4>
+            <p class="subtext">Turnos: Mañana y Tarde · Consultorios 1 al 6</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="user-plus" class="icon-lg"></i>
+          <div>
+            <h4>Especialidades Médicas</h4>
+            <p class="subtext">Requiere transferencia · 2do Nivel</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="smile" class="icon-lg"></i>
+          <div>
+            <h4>Unidad Odontológica</h4>
+            <p class="subtext">Horario continuo · Pabellón Dental</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="flask-conical" class="icon-lg"></i>
+          <div>
+            <h4>Laboratorio y Bioquímica</h4>
+            <p class="subtext">Muestras: 07:00 a 10:00 · Bioquímica Central</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="activity" class="icon-lg"></i>
+          <div>
+            <h4>Diagnóstico por Imágenes</h4>
+            <p class="subtext">Citas programadas · Sala de Rayos X</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="person-standing" class="icon-lg"></i>
+          <div>
+            <h4>Fisioterapia y Kinesiología</h4>
+            <p class="subtext">Sesiones guiadas · Gimnasio Terapéutico</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="building" class="icon-lg"></i>
+          <div>
+            <h4>Farmacia Institucional</h4>
+            <p class="subtext">Ventanilla continua · Planta Baja</p>
+          </div>
+        </div>
+
+        <div class="card flex-row-align">
+          <i data-lucide="heart-pulse" class="icon-lg"></i>
+          <div>
+            <h4>Enfermería y Curaciones</h4>
+            <p class="subtext">Atención permanente · 24 Horas</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: HORARIOS DE ATENCIÓN -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>HORARIOS DE ATENCION</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="grid-cards grid-4">
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">Continuado</span>
+          </div>
+          <h4>Consultorios Externos</h4>
+          <p class="subtext">Medicina General y Especialidades</p>
+          <hr class="card-divider">
+          <div class="schedule-row"><span>Lunes a Viernes</span><strong>07:30 - 19:30</strong></div>
+          <div class="schedule-row"><span>Sábados</span><strong>08:00 - 12:00</strong></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">En Ayunas</span>
+          </div>
+          <h4>Laboratorio Clínico</h4>
+          <p class="subtext">Extracción de Sangre y Muestras</p>
+          <hr class="card-divider">
+          <div class="schedule-row"><span>Toma de Muestras</span><strong>07:00 - 10:00</strong></div>
+          <div class="schedule-row"><span>Entrega Resultados</span><strong>11:00 - 18:30</strong></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge blue">Ventanilla</span>
+          </div>
+          <h4>Afiliaciones y Registros</h4>
+          <p class="subtext">Altas, Bajas y Boletas WebSIS</p>
+          <hr class="card-divider">
+          <div class="schedule-row"><span>Lunes a Viernes</span><strong>07:30 - 15:30</strong></div>
+          <div class="schedule-row"><span>Trámite Online</span><strong>Disponible 24h</strong></div>
+        </div>
+
+        <div class="card highlight-red-border">
+          <div class="card-header">
+            <span class="badge red">Sin Pausas</span>
+          </div>
+          <h4 class="red-text">Guardia y Emergencias</h4>
+          <p class="subtext">Urgencias Médicas de Choque</p>
+          <hr class="card-divider">
+          <div class="schedule-row"><span>Servicio Permanente</span><strong>24 Horas / Día</strong></div>
+          <div class="schedule-row"><span>Días del Año</span><strong>365 Días Activo</strong></div>
+          <div class="schedule-row red-text"><span>Línea Directa</span><strong>(4) 4251234</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: UBICACIÓN -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>UBICACIÓN</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="location-container">
+        <div class="location-info">
+          <p class="location-desc">Nuestra sede principal se encuentra ubicada estratégicamente frente a las facultades médicas de la UMSS, brindando atención integral a la comunidad universitaria.</p>
+          
+          <div class="info-box">
+            <i data-lucide="map-pin"></i>
+            <div>
+              <strong>Dirección Policlínico Central</strong>
+              <p>Av. Aniceto Arce Nº 590 (Frente a la Facultad de Odontología UMSS), Casilla Postal 2949, Cochabamba, Bolivia.</p>
+            </div>
+          </div>
+
+          <div class="grid-cards grid-2">
+            <div class="info-box border-blue">
+              <i data-lucide="phone"></i>
+              <div>
+                <strong>Central Telefónica</strong>
+                <p class="phone-number">(4) 4252631 - 4252632</p>
+                <small>Información de Ayuda</small>
+              </div>
+            </div>
+
+            <div class="info-box border-red">
+              <i data-lucide="siren" class="red-text"></i>
+              <div>
+                <strong class="red-text">Línea de Emergencias 24h</strong>
+                <p class="phone-number red-text">(4) 4251234</p>
+                <small>Ambulancia y Choque</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="whatsapp-banner">
+            <i data-lucide="message-square"></i>
+            <span>WhatsApp de Orientación Estudiantil: <strong>+591 71720044</strong></span>
+            <a href="#" class="btn-whatsapp">CHAT WHATSAPP</a>
+          </div>
+
+          <div class="info-box">
+            <i data-lucide="clock"></i>
+            <div>
+              <strong>Farmacia y Caja Central</strong>
+              <p>Lunes a Viernes 07:30 a 19:30 | Sábados 08:00 a 12:00 · Referencia: Zona central, Av. Aniceto Arce esq. Ramón Rivero</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="location-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.489140411305!2d-66.14917892408332!3d-17.388226083501712!2m3!1f0!0f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e370b306b3e71d%3A0x6bdc64ee3fb7aa5b!2sSeguro%20Social%20Universitario!5e0!3m2!1ses!2sbo!4v1710000000000!5m2!1ses!2sbo" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <img src="../shared/recursos/logo.svg" alt="SSU Logo" class="footer-logo">
+        <button class="btn-outline">LÍNEA DE EMERGENCIAS | (4) 4251234</button>
+      </div>
+
+      <div class="footer-col">
+        <h5>Ubicación y Contacto Directo</h5>
+        <p>Av. Aniceto Arce Nº 590, Casilla 2949, Cochabamba - Bolivia</p>
+        <p>Emergencias 24h: (4) 4251234</p>
+        <p>Central Telefónica: (4) 4252631 - 4252632</p>
+        <p>Email: contacto@ssu.umss.edu.bo</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Servicios Médicos</h5>
+        <ul>
+          <li><a href="#">Consulta Externa y Especialidades</a></li>
+          <li><a href="#">Laboratorio Clínico y Diagnóstico</a></li>
+          <li><a href="#">Afiliación, Registro y Bajas</a></li>
+          <li><a href="#">Farmacia Hospitalaria y Dispensación</a></li>
+          <li><a href="#">Guardia y Atención Permanente</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Portal UMSS Institucional</h5>
+        <ul>
+          <li><a href="#">Universidad Mayor de San Simón</a></li>
+          <li><a href="#">Sistema de Información SSU</a></li>
+          <li><a href="#">Reglamento del Plan de Salud</a></li>
+          <li><a href="#">Guía del Asegurado Universitario</a></li>
+          <li><a href="#">Transparencia y Publicaciones</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Seguro Social Universitario SSU - UMSS. Todos los derechos reservados. Cochabamba, Bolivia.</p>
+      <div class="footer-links">
+        <a href="#">Términos de Servicio</a>
+        <a href="#">Aviso de Privacidad</a>
+        <a href="#">Mesa de Entrada</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

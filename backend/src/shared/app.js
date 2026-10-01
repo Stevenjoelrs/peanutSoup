@@ -41,7 +41,8 @@ export const createApp = () => {
             "'self'",
             "'unsafe-inline'",
             'https://cdn.tailwindcss.com',
-            'https://cdnjs.cloudflare.com'
+            'https://cdnjs.cloudflare.com',
+            'https://unpkg.com'
           ],
           styleSrc: [
             "'self'",
@@ -51,6 +52,7 @@ export const createApp = () => {
           ],
           fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://fonts.googleapis.com'],
           imgSrc: ["'self'", 'data:', 'https:'],
+          frameSrc: ['https://www.google.com', 'https://maps.google.com'],
           connectSrc: ["'self'"],
           upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null
         }
@@ -69,7 +71,7 @@ export const createApp = () => {
 
   // --- Artefactos compilados por Vite (frontend/dist) ---------------------
   // `index: false` y `redirect: false` evitan el 301 de express.static al
-  // pedir /inicio (que existe como carpeta en dist/): así la ruta limpia la
+  // pedir /status (que existe como carpeta en dist/): así la ruta limpia la
   // resuelve directamente la MPA de abajo y responde 200 sin salto extra.
   app.use(
     express.static(FRONTEND_DIST_DIR, {
@@ -93,7 +95,7 @@ export const createApp = () => {
        <h1>Falta compilar el frontend</h1>
        <p>En el host: <code>pnpm build</code> o <code>docker compose up -d --build</code>.</p>
        <p>Dentro del contenedor: <code>pnpm build</code>.</p>
-       <p><a href="/api">Ver la API</a></p></body></html>`
+        <p><a href="/status">Ver el estado del sistema</a></p></body></html>`
     );
 
   pageModules.forEach(({ ruta, carpeta }) => {
@@ -105,22 +107,11 @@ export const createApp = () => {
   });
 
   // --- Catálogo de la API ------------------------------------------------
-  // Se genera desde el registro, de modo que nunca queda desactualizado: si un
-  // módulo se da de alta en modules.js, aparece aquí automáticamente.
+  // La portada (welcome) es lo primero que ve el navegador, así que el
+  // catálogo JSON se mudó: GET /api redirige al panel de estado (/status).
+  // Los routers /api/* están montados antes y no se ven afectados.
   app.get('/api', (req, res) => {
-    res.json({
-      nombre: 'API REST - Seguro Social Universitario (SSU - UMSS)',
-      version: '1.0.0',
-      autenticacion: 'JWT Bearer Token',
-      modulos: apiModules.map(({ dominio, descripcion, prefijo, publica }) => ({
-        dominio,
-        descripcion,
-        prefijo,
-        publica
-      })),
-      interfaz: Object.fromEntries(pageModules.map(({ ruta, titulo }) => [ruta, titulo])),
-      documentacion_ui: `http://localhost:${PORT}/`
-    });
+    return res.redirect(302, '/status');
   });
 
   // --- Ruta desconocida --------------------------------------------------

@@ -30,13 +30,14 @@ const server = app.listen(PORT, async () => {
   console.log('=============================================================');
   console.log(' SSU - UMSS :: API REST + interfaz web');
   console.log(` Interfaz:  http://localhost:${PORT}/`);
-  console.log(` Catálogo:  http://localhost:${PORT}/api`);
+  console.log(` Estado:    http://localhost:${PORT}/status  (GET /api redirige aquí)`);
   console.log(` Salud:     http://localhost:${PORT}/api/system/health`);
   console.log(` Entorno:   ${process.env.NODE_ENV || 'development'}`);
   console.log('=============================================================');
 
-  const frontendListo = fs.existsSync(path.join(FRONTEND_DIST_DIR, 'inicio', 'index.html'));
-  if (!frontendListo) {
+  const portadaLista = fs.existsSync(path.join(FRONTEND_DIST_DIR, 'welcome', 'index.html'));
+  const inicioListo = fs.existsSync(path.join(FRONTEND_DIST_DIR, 'inicio', 'index.html'));
+  if (!portadaLista || !inicioListo) {
     console.warn(`[frontend] Sin compilar en ${FRONTEND_DIST_DIR}. Ejecuta \`pnpm build\`.`);
   }
 

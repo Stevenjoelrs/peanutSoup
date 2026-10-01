@@ -137,9 +137,16 @@ export const pageModules = [
   {
     dominio: 'sistema',
     ruta: '/',
-    carpeta: 'inicio',
+    carpeta: 'welcome',
     requiereAuth: false,
     titulo: 'SSU - UMSS'
+  },
+  {
+    dominio: 'sistema',
+    ruta: '/status',
+    carpeta: 'inicio',
+    requiereAuth: false,
+    titulo: 'Estado del Sistema'
   },
   {
     dominio: 'auth',
