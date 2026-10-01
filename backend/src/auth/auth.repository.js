@@ -1,15 +1,21 @@
 import { query } from '../shared/config/db.js';
 
+/**
+ * Fechas (Fase 3): el "hoy" contra columnas DATE se calcula en
+ * America/La_Paz, no con CURRENT_DATE (zona de la sesión PG).
+ */
+const HOY_LP = `(now() AT TIME ZONE 'America/La_Paz')::date`;
+
 export const buscarEstudiantePorCredenciales = async (sis, cedula_identidad) => {
   const result = await query(
     `SELECT e.id_estudiante, e.sis, e.cedula_identidad, e.nombre_completo, e.facultad, e.carrera, e.created_at,
             a.id_afiliacion, a.periodo_semestral, a.fecha_inicio, a.fecha_vencimiento, a.estado AS estado_afiliacion,
             CASE
               WHEN a.estado = 'INACTIVA' THEN 'INACTIVA'
-              WHEN a.fecha_vencimiento < CURRENT_DATE THEN 'VENCIDA'
+              WHEN a.fecha_vencimiento < ${HOY_LP} THEN 'VENCIDA'
               ELSE 'ACTIVA'
             END AS estado_afiliacion_efectivo,
-            (a.fecha_vencimiento - CURRENT_DATE) AS dias_para_vencer
+            (a.fecha_vencimiento - ${HOY_LP}) AS dias_para_vencer
      FROM estudiantes e
      LEFT JOIN LATERAL (
        SELECT id_afiliacion, periodo_semestral, fecha_inicio, fecha_vencimiento, estado
@@ -28,13 +34,13 @@ export const buscarEstudiantePorId = async (id_estudiante) => {
   const result = await query(
     `SELECT e.id_estudiante, e.sis, e.cedula_identidad, e.nombre_completo, e.facultad, e.carrera, e.created_at,
             a.id_afiliacion, a.periodo_semestral, a.fecha_inicio, a.fecha_vencimiento, a.estado AS estado_afiliacion,
-            (a.fecha_vencimiento - CURRENT_DATE) AS dias_para_vencer,
+            (a.fecha_vencimiento - ${HOY_LP}) AS dias_para_vencer,
             CASE
               WHEN a.estado = 'INACTIVA' THEN 'INACTIVA'
-              WHEN a.fecha_vencimiento < CURRENT_DATE THEN 'VENCIDA'
+              WHEN a.fecha_vencimiento < ${HOY_LP} THEN 'VENCIDA'
               ELSE 'ACTIVA'
             END AS estado_afiliacion_efectivo,
-            CASE WHEN (a.fecha_vencimiento - CURRENT_DATE) <= 30 THEN true ELSE false END AS elegible_renovacion
+            CASE WHEN (a.fecha_vencimiento - ${HOY_LP}) BETWEEN 0 AND 30 THEN true ELSE false END AS elegible_renovacion
      FROM estudiantes e
      LEFT JOIN LATERAL (
        SELECT id_afiliacion, periodo_semestral, fecha_inicio, fecha_vencimiento, estado

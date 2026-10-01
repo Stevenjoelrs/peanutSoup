@@ -1,4 +1,12 @@
 import { badRequest, conflict, notFound } from '../shared/http/errors.js';
+import {
+  calcularProgresoSemestral,
+  compararFechas,
+  esFechaCalendarioValida,
+  evaluarVentanaRenovacion,
+  hoyLaPazISO,
+  normalizarFecha
+} from '../shared/http/fechas.js';
 import * as repo from './afiliacion.repository.js';
 
 /**
@@ -9,27 +17,22 @@ import * as repo from './afiliacion.repository.js';
  * a la respuesta HTTP vigente.
  */
 
-/** Regla de política: solo se puede renovar con 30 días o menos restantes. */
+/**
+ * Regla de política US-12: ventana de renovación cerrada de 0 a 30 días
+ * restantes. Con más de 30 días no procede; vencida (días negativos)
+ * corresponde afiliación nueva, no renovación.
+ */
 export const LIMITE_RENOVACION_DIAS = 30;
 
-const esFechaInvalida = (valor) => Number.isNaN(new Date(valor).getTime());
+const esFechaInvalida = (valor) => !esFechaCalendarioValida(valor);
 
 /**
  * El driver `pg` devuelve las columnas DATE como objetos Date en la medianoche
  * local de ese día. Interpolar ese objeto en un mensaje produciría algo como
  * "Sun Jan 31 2027 00:00:00 GMT-0400 (Bolivia Time)", que no es un mensaje de
- * producto. Se reconstruye el calendario con los getters locales, que son
- * exactos independientemente de la zona horaria del proceso.
+ * producto. Se normaliza a calendario 'YYYY-MM-DD' (ver fechas.js).
  */
-const fechaComoTexto = (valor) => {
-  if (!valor) return null;
-  if (typeof valor === 'string') return valor.slice(0, 10);
-  const d = new Date(valor);
-  if (Number.isNaN(d.getTime())) return null;
-  const mes = String(d.getMonth() + 1).padStart(2, '0');
-  const dia = String(d.getDate()).padStart(2, '0');
-  return `${d.getFullYear()}-${mes}-${dia}`;
-};
+const fechaComoTexto = (valor) => normalizarFecha(valor);
 
 /**
  * US-01 — registrar la afiliación semestral del estudiante del token.
@@ -43,7 +46,7 @@ export const registrarAfiliacion = async ({ id_estudiante, periodo_semestral, fe
     throw badRequest('Las fechas deben tener formato YYYY-MM-DD.');
   }
 
-  if (new Date(fecha_vencimiento) < new Date(fecha_inicio)) {
+  if (compararFechas(fecha_vencimiento, fecha_inicio) < 0) {
     throw badRequest('La fecha de vencimiento no puede ser anterior a la fecha de inicio.');
   }
 
@@ -120,10 +123,14 @@ export const consultarVigencia = async (id_estudiante) => {
   }
 
   const dias = parseInt(vigente.dias_para_vencer, 10);
-  const inicio = new Date(vigente.fecha_inicio);
-  const fin = new Date(vigente.fecha_vencimiento);
-  const total = fin - inicio;
-  const progreso = total > 0 ? Math.max(0, Math.min(100, Math.round(((Date.now() - inicio) / total) * 100))) : 0;
+  // Avance en días calendario (America/La_Paz), no en milisegundos de
+  // instante: mezclar `Date.now()` con fechas DATE desfasa el porcentaje
+  // cerca de la medianoche y con zonas distintas a la del servidor.
+  const progreso = calcularProgresoSemestral(
+    vigente.fecha_inicio,
+    vigente.fecha_vencimiento,
+    hoyLaPazISO()
+  );
 
   return {
     mensaje: 'Vigencia de la afiliación consultada.',
@@ -147,7 +154,8 @@ export const consultarVigencia = async (id_estudiante) => {
 /**
  * US-12 — renovar la afiliación.
  *
- * Regla dura: solo se renueva con 30 días o menos para el vencimiento, y el
+ * Regla dura: solo se renueva dentro de la ventana cerrada de 0 a 30 días
+ * para el vencimiento (vencida = afiliación nueva, no renovación), y el
  * traspaso tiene que ser atómico. Si se cerrara la afiliación vieja antes de
  * abrir la nueva y la inserción fallara, el estudiante se quedaría sin cobertura
  * por un error ajeno.
@@ -166,7 +174,7 @@ export const renovarAfiliacion = async ({
   if (esFechaInvalida(nueva_fecha_inicio) || esFechaInvalida(nueva_fecha_vencimiento)) {
     throw badRequest('Las fechas deben tener formato YYYY-MM-DD.');
   }
-  if (new Date(nueva_fecha_vencimiento) < new Date(nueva_fecha_inicio)) {
+  if (compararFechas(nueva_fecha_vencimiento, nueva_fecha_inicio) < 0) {
     throw badRequest('La nueva fecha de vencimiento no puede ser anterior a la fecha de inicio.');
   }
 
@@ -177,7 +185,20 @@ export const renovarAfiliacion = async ({
         throw notFound('No se encontró ninguna afiliación previa para este estudiante.');
       }
       const diasRestantes = parseInt(actual.dias_para_vencer, 10);
-      if (diasRestantes > LIMITE_RENOVACION_DIAS) {
+      // Ventana cerrada 0-30 días (ver evaluarVentanaRenovacion en fechas.js):
+      // ni muy temprano ni ya vencida.
+      const ventana = evaluarVentanaRenovacion(diasRestantes, LIMITE_RENOVACION_DIAS);
+      if (ventana.motivo === 'vencida') {
+        throw badRequest(
+          `No procede la renovación. La afiliación venció el ${fechaComoTexto(actual.fecha_vencimiento)} (hace ${Math.abs(diasRestantes)} días). Corresponde registrar una afiliación nueva, no renovar.`,
+          {
+            dias_restantes: diasRestantes,
+            fecha_vencimiento_actual: fechaComoTexto(actual.fecha_vencimiento),
+            limite_politica_dias: LIMITE_RENOVACION_DIAS
+          }
+        );
+      }
+      if (!ventana.procede) {
         throw badRequest(
           `No procede la renovación. Faltan ${diasRestantes} días para el vencimiento (${fechaComoTexto(actual.fecha_vencimiento)}). El SSU solo permite renovar cuando restan ${LIMITE_RENOVACION_DIAS} días o menos.`,
           {
