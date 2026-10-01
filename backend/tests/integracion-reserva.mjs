@@ -68,6 +68,8 @@ const limpiarFixtures = async () => {
   await q('DELETE FROM horarios_atencion WHERE consultorio = $1', ['PRUEBA']);
   await q('DELETE FROM medicos WHERE nombre_completo LIKE $1', [`${MARCA}%`]);
   await q('DELETE FROM especialidades WHERE nombre LIKE $1', [`${MARCA}%`]);
+  await q(`DELETE FROM afiliaciones WHERE periodo_semestral LIKE 'PRUEBA%'`);
+  await q(`DELETE FROM estudiantes WHERE sis LIKE 'PRUEBA-%'`);
 };
 
 before(async () => {
@@ -110,7 +112,25 @@ before(async () => {
   );
   idMedicoEspecialista = espMed[0].id_medico;
 
-  estudiantes = await q('SELECT id_estudiante, sis, nombre_completo FROM estudiantes ORDER BY sis LIMIT 2');
+  // Las reservas exigen afiliación vigente. Se usan
+  // estudiantes dedicados con cobertura de prueba en vez del padrón: así la
+  // prueba no depende del estado real de la base ni choca con la exclusión
+  // `no_solapar_afiliaciones_activas` de Supabase. limpiarFixtures los borra
+  // (CASCADE arrastra sus afiliaciones).
+  estudiantes = [];
+  for (const sufijo of ['RES1', 'RES2']) {
+    const r = await q(
+      `INSERT INTO estudiantes (sis, cedula_identidad, nombre_completo, facultad, carrera)
+       VALUES ($1, $2, $3, $4, $5) RETURNING id_estudiante, sis, nombre_completo`,
+      [`PRUEBA-${sufijo}`, `PRUEBA-CI-${sufijo}`, `${MARCA} Estudiante ${sufijo}`, 'Medicina', 'Medicina']
+    );
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, 'PRUEBA', CURRENT_DATE - 10, CURRENT_DATE + 100, 'ACTIVA')`,
+      [r[0].id_estudiante]
+    );
+    estudiantes.push(r[0]);
+  }
 });
 
 after(async () => {
@@ -139,6 +159,16 @@ const crearDerivacion = async (idEstudiante) => {
     [idEstudiante, idMedicoGeneral, idEspecialidad]
   );
   return d[0].id_derivacion;
+};
+
+/** Estudiante de prueba sin cobertura (lo borra limpiarFixtures por sis PRUEBA-). */
+const crearEstudianteSinCobertura = async (sufijo) => {
+  const r = await q(
+    `INSERT INTO estudiantes (sis, cedula_identidad, nombre_completo, facultad, carrera)
+     VALUES ($1, $2, $3, $4, $5) RETURNING id_estudiante, sis, nombre_completo`,
+    [`PRUEBA-${sufijo}`, `PRUEBA-CI-${sufijo}`, `${MARCA} Estudiante ${sufijo}`, 'Medicina', 'Medicina']
+  );
+  return r[0];
 };
 
 const tokenDe = (e) =>
@@ -388,5 +418,77 @@ describe('reserva de ficha con especialista (US-08)', () => {
       cuerpo: { id_horario: 'x', id_derivacion: 'y' }
     });
     assert.equal(r.status, 401);
+  });
+});
+
+describe('gate de cobertura', () => {
+  test('sin afiliacion: reserva general devuelve 403 SIN_AFILIACION', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('SINAFIL');
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-10');
+
+    const r = await pedir('POST', '/api/fichas/reservar', {
+      token: tokenDe(e),
+      cuerpo: { id_horario: horario }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'SIN_AFILIACION');
+    assert.equal(r.cuerpo.error.accion_sugerida, '/registro');
+
+    const h = (await q('SELECT disponible FROM horarios_atencion WHERE id_horario = $1', [horario]))[0];
+    assert.equal(h.disponible, true, 'el rechazo no debe consumir el horario');
+  });
+
+  test('afiliacion vencida: reserva general devuelve 403 VENCIDA', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('VENCIDA');
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, 'PRUEBA-V', CURRENT_DATE - 100, CURRENT_DATE - 5, 'ACTIVA')`,
+      [e.id_estudiante]
+    );
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-11');
+
+    const r = await pedir('POST', '/api/fichas/reservar', {
+      token: tokenDe(e),
+      cuerpo: { id_horario: horario }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'VENCIDA');
+    assert.equal(r.cuerpo.error.accion_sugerida, '/renovacion');
+  });
+
+  test('afiliacion vencida: emitir derivacion devuelve 403', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('DERIV');
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, 'PRUEBA-V', CURRENT_DATE - 100, CURRENT_DATE - 5, 'ACTIVA')`,
+      [e.id_estudiante]
+    );
+
+    const r = await pedir('POST', '/api/derivaciones/', {
+      token: tokenDe(e),
+      cuerpo: { id_medico_emisor: idMedicoGeneral, id_especialidad_requerida: idEspecialidad }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'VENCIDA');
+
+    const n = (await q('SELECT COUNT(*)::int AS n FROM ordenes_derivacion WHERE id_estudiante = $1', [e.id_estudiante]))[0];
+    assert.equal(n.n, 0, 'el rechazo no debe crear la derivacion');
+  });
+
+  test('cobertura futura: reserva devuelve 403 FUTURA', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('FUTURA');
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, 'PRUEBA-V', CURRENT_DATE + 5, CURRENT_DATE + 100, 'ACTIVA')`,
+      [e.id_estudiante]
+    );
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-12');
+
+    const r = await pedir('POST', '/api/fichas/reservar', {
+      token: tokenDe(e),
+      cuerpo: { id_horario: horario }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'FUTURA');
   });
 });

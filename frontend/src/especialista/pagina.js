@@ -8,7 +8,7 @@
 import { $, $$, alCargar, alSeleccionar, estadoVacio, escapar, plural } from '../shared/dom.js';
 import { fechaLarga, fechaCorta, horaCorta, soloFechaIso } from '../shared/formato.js';
 import { montarShell } from '../shared/armazon.js';
-import { notificar, reportarError, conBotonOcupado } from '../shared/notificaciones.js';
+import { notificar, reportarError, conBotonOcupado, redirigirSinCobertura } from '../shared/notificaciones.js';
 import { sesion, exigirSesion } from '../shared/sesion.js';
 import { abrirDocumento } from '../shared/documentos.js';
 import { ErrorApi } from '../shared/http.js';
@@ -321,7 +321,9 @@ const confirmar = async () => {
     notificar.exito('Turno con especialista confirmado. La orden pasó a estado UTILIZADA.', 'US-08 · Reserva confirmada');
     await Promise.all([cargarOrdenes(), cargarFicha()]);
   } catch (error) {
-    if (error instanceof ErrorApi && [400, 404, 409].includes(error.status)) {
+    if (redirigirSinCobertura(error)) {
+      await Promise.all([cargarOrdenes(), cargarFicha()]);
+    } else if (error instanceof ErrorApi && [400, 404, 409].includes(error.status)) {
       notificar.aviso(error.message, 'No se pudo completar el canje');
       await Promise.all([cargarOrdenes(), cargarFicha()]);
     } else {

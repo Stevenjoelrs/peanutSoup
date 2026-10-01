@@ -94,6 +94,19 @@ export const reportarError = (error) => {
   if (import.meta.env?.DEV) console.error('[SSU]', error);
 };
 
+/**
+ * Sin cobertura (HTTP 403 de requireCoberturaActiva): avisa y redirige a la
+ * ruta sugerida por el backend (/renovacion o /registro). Devuelve true si
+ * consumió el error para que la página no lo reporte dos veces.
+ */
+export const redirigirSinCobertura = (error) => {
+  const destino = error?.status === 403 ? error?.detalles?.accion_sugerida : null;
+  if (!destino || typeof destino !== 'string' || !destino.startsWith('/')) return false;
+  notificar.aviso(error.message ?? 'Sin cobertura activa.', 'Afiliación requerida');
+  window.setTimeout(() => window.location.assign(destino), 1600);
+  return true;
+};
+
 /** Presenta un error dentro de un contenedor (no como toast). */
 export const mostrarErrorEn = (elemento, error) => {
   if (!elemento) return;

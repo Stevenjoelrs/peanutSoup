@@ -5,6 +5,7 @@ import {
   forbidden
 } from '../shared/http/errors.js';
 import * as repo from './reserva.repository.js';
+import { requireCoberturaActiva } from '../shared/policies/cobertura.service.js';
 
 // `pg` entrega las columnas DATE como Date a medianoche local; se formatea en la
 // misma zona para no correr el día al mostrarlo.
@@ -66,6 +67,7 @@ export const reservarFichaGeneral = async (id_estudiante, id_horario) => {
   }
 
   return repo.conTransaccion(async (client) => {
+    await requireCoberturaActiva(client, id_estudiante);
     const horario = await repo.bloquearHorario(client, id_horario);
 
     if (!horario) {
@@ -110,6 +112,7 @@ export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_de
   }
 
   return repo.conTransaccion(async (client) => {
+    await requireCoberturaActiva(client, id_estudiante);
     const derivacion = await repo.bloquearDerivacionEstudiante(client, id_derivacion, id_estudiante);
 
     if (!derivacion) {
