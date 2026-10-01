@@ -1,0 +1,714 @@
+/* Variables del tema para Reserva de Ficha Médica General */
+:root {
+  --primary-blue: #0b3c7d;
+  --primary-dark: #082d60;
+  --bg-main: #f0f3f8;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+
+  --accent-blue: #2563eb;
+  --accent-light-blue: #eff6ff;
+  --accent-red: #dc2626;
+
+  --font-bold: "Plus Jakarta Sans-Bold", sans-serif;
+  --font-semibold: "Inter-SemiBold", sans-serif;
+  --font-regular: "Inter-Regular", sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-regular);
+}
+
+/* NAVBAR Y LAYOUT */
+.top-nav {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 24px;
+}
+
+.nav-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-logo img { height: 36px; }
+
+.user-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.user-name { font-family: var(--font-semibold); font-size: 13px; }
+.user-dept { font-size: 11px; color: var(--text-muted); }
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.dashboard-layout {
+  display: flex;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: calc(100vh - 100px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid var(--border-color);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-family: var(--font-bold);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: var(--font-semibold);
+  transition: all 0.2s;
+}
+
+.nav-item i { width: 18px; height: 18px; color: var(--text-muted); }
+.nav-item:hover { background-color: var(--bg-main); }
+
+.nav-item.active {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+}
+
+.nav-item.active i { color: #ffffff; }
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-red);
+  font-family: var(--font-semibold);
+  font-size: 12px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* ÁREA DE CONTENIDO */
+.dashboard-content {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ENCABEZADO Y CONTADOR DE CUPOS */
+.page-title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-heading {
+  font-family: var(--font-bold);
+  font-size: 20px;
+  color: var(--primary-blue);
+}
+
+.remaining-spots-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.label-spots {
+  font-size: 9px;
+  font-family: var(--font-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.spots-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-blue);
+}
+
+.spots-counter strong {
+  font-size: 18px;
+  font-family: var(--font-bold);
+}
+
+.icon-kit { width: 20px; height: 20px; }
+
+/* BANNER ALERTA */
+.info-alert-banner {
+  background-color: #eff6ff;
+  border-left: 4px solid var(--accent-blue);
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.alert-icon { width: 20px; height: 20px; color: var(--accent-blue); flex-shrink: 0; }
+.info-alert-banner strong { color: var(--primary-blue); display: block; }
+.info-alert-banner p { color: #334155; margin-top: 2px; }
+
+/* LAYOUT GRID DE 2 COLUMNAS */
+.main-grid-layout {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* COLUMNA IZQUIERDA: PASOS */
+.selection-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-number {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-family: var(--font-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-header h3 {
+  font-family: var(--font-bold);
+  font-size: 14px;
+  color: var(--primary-blue);
+  flex: 1;
+}
+
+.badge-required {
+  font-size: 9px;
+  font-family: var(--font-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.active-count, .duration-tag {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* PASO 1: TURNOS */
+.shifts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.shift-option {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px;
+  background-color: #f8fafc;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shift-option.selected {
+  border-color: var(--accent-blue);
+  background-color: #eff6ff;
+}
+
+.shift-title {
+  font-family: var(--font-bold);
+  font-size: 13px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shift-title i { width: 16px; height: 16px; color: var(--accent-blue); }
+
+.shift-hours { font-size: 10px; color: var(--text-muted); }
+.spots-label.blue-text { font-size: 11px; color: var(--accent-blue); font-family: var(--font-semibold); }
+
+/* PASO 2: MÉDICOS */
+.doctors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.doctor-item {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.doctor-item.selected {
+  border-color: var(--accent-blue);
+  background-color: #eff6ff;
+}
+
+.doc-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.doc-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.doc-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.icon-check { width: 14px; height: 14px; color: var(--accent-blue); }
+
+.doc-subtext { font-size: 10px; color: var(--text-muted); }
+.doc-hours { font-size: 10px; color: var(--accent-blue); font-family: var(--font-semibold); }
+
+.doctor-badge {
+  font-size: 10px;
+  font-family: var(--font-semibold);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.selected-badge { background-color: #dbeafe; color: #1e40af; }
+.available-badge { background-color: #e2e8f0; color: #475569; }
+
+/* PASO 3: DÍAS Y HORARIOS */
+.days-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.day-btn {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  background-color: #f8fafc;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.day-btn.active {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+  border-color: var(--primary-blue);
+}
+
+.day-name { font-size: 9px; font-family: var(--font-bold); opacity: 0.8; }
+.day-num { font-size: 16px; font-family: var(--font-bold); }
+.day-month { font-size: 9px; }
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.slot-item {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.slot-item.available { background-color: #ffffff; }
+.slot-item.selected { background-color: var(--primary-blue); color: #ffffff; border-color: var(--primary-blue); }
+.slot-item.disabled { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; text-decoration: line-through; }
+.slot-item.triage { background-color: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+
+.btn-confirm-booking {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: var(--font-bold);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn-confirm-booking:hover { background-color: var(--primary-dark); }
+
+/* NOTAS INFERIORES */
+.bottom-notes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.note-box {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.note-box i { width: 18px; height: 18px; color: var(--primary-blue); }
+.note-box p { font-size: 10px; color: var(--text-muted); }
+
+/* COLUMNA DERECHA: TICKET */
+.generated-ticket-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.ticket-card-header {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ssu-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-family: var(--font-bold);
+  letter-spacing: 0.5px;
+}
+
+.ticket-subtext { font-size: 9px; opacity: 0.8; }
+.ticket-number { font-family: var(--font-bold); font-size: 28px; letter-spacing: 1px; }
+
+.shift-badge-top {
+  font-size: 10px;
+  font-family: var(--font-semibold);
+  background-color: rgba(255,255,255,0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.ticket-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ticket-section-label {
+  font-size: 9px;
+  font-family: var(--font-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.data-flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.student-name { font-family: var(--font-bold); font-size: 13px; }
+.student-faculty { font-size: 10px; color: var(--text-muted); }
+
+.sis-box {
+  background-color: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 10px;
+  text-align: right;
+}
+
+.sis-label { color: var(--text-muted); }
+.sis-num { font-family: var(--font-bold); }
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 0;
+}
+
+.doc-assigned-name, .consultory-num { font-size: 11px; display: block; color: var(--text-primary); }
+.doc-assigned-sub, .consultory-sub { font-size: 10px; color: var(--text-muted); }
+
+.time-highlight-box {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-clock-big { width: 22px; height: 22px; color: var(--accent-blue); }
+.time-main { font-size: 12px; color: var(--primary-blue); display: block; }
+.time-detail { font-size: 10px; color: var(--text-muted); }
+
+.barcode-qr-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px dashed var(--border-color);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.barcode-box { display: flex; flex-direction: column; }
+.barcode-lines { font-family: monospace; font-size: 14px; letter-spacing: 2px; }
+.barcode-text { font-size: 8px; color: var(--text-muted); font-family: monospace; }
+
+.qr-mini-box i { width: 32px; height: 32px; color: var(--primary-blue); }
+
+.ticket-instructions {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--text-muted);
+  background-color: #f8fafc;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.ticket-instructions i { width: 16px; height: 16px; color: var(--primary-blue); flex-shrink: 0; }
+
+.ticket-actions-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn-ticket-pdf, .btn-ticket-cancel {
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: var(--font-semibold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.btn-ticket-pdf {
+  background-color: #f1f5f9;
+  color: var(--primary-blue);
+  border: 1px solid var(--border-color);
+}
+
+.btn-ticket-cancel {
+  background-color: #fff5f5;
+  color: var(--accent-red);
+  border: 1px solid #fecaca;
+}
+
+.btn-ticket-cancel small { font-size: 9px; opacity: 0.8; }
+
+/* PIE DE PÁGINA */
+.app-footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.red-text { color: var(--accent-red); }
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  .main-grid-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout { flex-direction: column; }
+  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
+  .shifts-grid, .days-selector, .time-slots-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ==========================================================================
+   ESTILOS DE IMPRESIÓN PARA COMPROBANTE DE FICHA (SOPORTE PARA IMPRESIÓN / PDF)
+   ========================================================================== */
+
+@media print {
+  /* Ocultar interfaz no necesaria para la vista de impresión */
+  .top-nav,
+  .sidebar,
+  .page-title-section,
+  .info-alert-banner,
+  .selection-column,
+  .bottom-notes-grid,
+  .app-footer,
+  .ticket-actions-row {
+    display: none !important;
+  }
+
+  /* Formato limpio de impresión A4 / Carta */
+  html, body {
+    background-color: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: #000000 !important;
+  }
+
+  .dashboard-layout {
+    display: block !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .dashboard-content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .main-grid-layout {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .ticket-column {
+    width: 100% !important;
+    max-width: 650px !important;
+    margin: 20px auto !important;
+  }
+
+  .generated-ticket-card {
+    border: 2px solid #1e293b !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    background-color: #ffffff !important;
+  }
+
+  .ticket-card-header {
+    background-color: var(--primary-blue) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .time-highlight-box,
+  .shift-badge-top,
+  .sis-box,
+  .ticket-instructions {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
