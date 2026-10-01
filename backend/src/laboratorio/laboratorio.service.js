@@ -5,17 +5,39 @@ export const obtenerOrdenesLaboratorioPorEstudiante = async (estudianteId) => {
 };
 
 export const obtenerOrdenLaboratorioPorId = async (ordenId, estudianteId) => {
-  const orden = await laboratorioRepo.obtenerOrdenPorId(ordenId);
-  
-  if (!orden) {
-    return null;
+  return await laboratorioRepo.obtenerOrdenPorIdYEstudiante(ordenId, estudianteId);
+};
+
+export const informeDisponible = async (enlaceInforme) => {
+  let url;
+  try {
+    url = new URL(enlaceInforme);
+  } catch {
+    return false;
   }
 
-  // Verificar que la orden pertenezca al estudiante autenticado
-  const idEstudianteOrden = orden.estudiante_id || orden.id_estudiante || orden.paciente_id;
-  if (idEstudianteOrden && String(idEstudianteOrden) !== String(estudianteId)) {
-    return null;
-  }
+  if (url.protocol !== 'https:') return false;
 
-  return orden;
+  const opciones = {
+    method: 'HEAD',
+    redirect: 'manual',
+    signal: AbortSignal.timeout(5000)
+  };
+
+  try {
+    let respuesta = await fetch(url, opciones);
+
+    if (respuesta.status === 405 || respuesta.status === 501) {
+      respuesta = await fetch(url, {
+        ...opciones,
+        method: 'GET',
+        headers: { Range: 'bytes=0-0' }
+      });
+      await respuesta.body?.cancel();
+    }
+
+    return respuesta.ok;
+  } catch {
+    return false;
+  }
 };

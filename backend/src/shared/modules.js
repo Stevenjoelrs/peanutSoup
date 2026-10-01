@@ -197,7 +197,7 @@ export const pageModules = [
   {
     dominio: 'laboratorio',
     ruta: '/laboratorio',
-    carpeta: 'en-desarrollo',
+    carpeta: 'laboratorio',
     requiereAuth: true,
     titulo: 'Laboratorio y Resultados'
   }
