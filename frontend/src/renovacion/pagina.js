@@ -113,18 +113,23 @@ const cargarVigencia = async () => {
   }
 };
 
+const abrirConfirmacion = () => {
+  if (!vigenciaActual?.elegible_renovacion || !periodoSiguiente) return;
+  escribir('#modal-periodo-semestral', periodoSiguiente.etiqueta);
+  escribir('#modal-fecha-inicio', fechaLarga(periodoSiguiente.inicio));
+  escribir('#modal-fecha-vencimiento', fechaLarga(periodoSiguiente.vencimiento));
+  $('#modal-confirmacion-renovacion').showModal();
+};
+
 const confirmarRenovacion = async () => {
   if (!vigenciaActual?.elegible_renovacion || !periodoSiguiente) return;
-  const confirmada = window.confirm(
-    `¿Confirmas la renovación para el periodo ${periodoSiguiente.etiqueta} (${fechaCorta(periodoSiguiente.inicio)} al ${fechaCorta(periodoSiguiente.vencimiento)})?`
-  );
-  if (!confirmada) return;
 
   const boton = $('#btn-renovar');
-  const etiqueta = $('.text-wrapper-7');
+  const botonConfirmar = $('#btn-confirmar-renovacion');
   boton.disabled = true;
   boton.style.cursor = 'wait';
-  escribir('.text-wrapper-7', 'Procesando…');
+  botonConfirmar.disabled = true;
+  botonConfirmar.textContent = 'Procesando…';
 
   try {
     const resultado = await api.renovarAfiliacion({
@@ -132,23 +137,33 @@ const confirmarRenovacion = async () => {
       nueva_fecha_inicio: periodoSiguiente.inicio,
       nueva_fecha_vencimiento: periodoSiguiente.vencimiento
     });
+    $('#modal-confirmacion-renovacion').close();
     const afiliacionRenovada = resultado?.afiliacion_renovada;
-    escribir('#estado-afiliacion', `Semestre ${afiliacionRenovada?.periodo_semestral ?? periodoSiguiente.etiqueta} • Activa`);
-    escribir('#fecha-vencimiento', fechaLarga(afiliacionRenovada?.fecha_vencimiento ?? periodoSiguiente.vencimiento));
-    escribir('#fecha-inicio', fechaCorta(afiliacionRenovada?.fecha_inicio ?? periodoSiguiente.inicio));
-    escribir('#fecha-fin', fechaCorta(afiliacionRenovada?.fecha_vencimiento ?? periodoSiguiente.vencimiento));
+    const periodoConfirmado = afiliacionRenovada?.periodo_semestral ?? periodoSiguiente.etiqueta;
+    const inicioConfirmado = afiliacionRenovada?.fecha_inicio ?? periodoSiguiente.inicio;
+    const vencimientoConfirmado = afiliacionRenovada?.fecha_vencimiento ?? periodoSiguiente.vencimiento;
+    escribir('#estado-afiliacion', `Semestre ${periodoConfirmado} • Activa`);
+    escribir('#fecha-vencimiento', fechaLarga(vencimientoConfirmado));
+    escribir('#fecha-inicio', fechaCorta(inicioConfirmado));
+    escribir('#fecha-fin', fechaCorta(vencimientoConfirmado));
     escribir('.text-wrapper-7', 'Renovación confirmada');
     escribir('#mensaje-estado', 'Tu afiliación fue renovada correctamente.');
+    escribir('#exito-periodo', periodoConfirmado);
+    escribir('#exito-fecha-inicio', fechaLarga(inicioConfirmado));
+    escribir('#exito-fecha-vencimiento', fechaLarga(vencimientoConfirmado));
     boton.disabled = true;
     boton.style.cursor = 'not-allowed';
+    $('#modal-exito-renovacion').showModal();
 
     try {
       await refrescarPerfil();
     } catch {
       // La renovación ya fue confirmada por el servidor.
     }
-    window.alert('Tu afiliación fue renovada correctamente.');
   } catch (error) {
+    $('#modal-confirmacion-renovacion').close();
+    botonConfirmar.disabled = false;
+    botonConfirmar.textContent = 'Confirmar renovación';
     boton.disabled = false;
     boton.style.cursor = 'pointer';
     escribir('.text-wrapper-7', 'Renovar');
@@ -160,7 +175,10 @@ export const iniciarPagina = () => {
   if (!exigirSesion()) return;
 
   alCargar({
-    '#btn-renovar': [['click', confirmarRenovacion]],
+    '#btn-renovar': [['click', abrirConfirmacion]],
+    '#btn-cancelar-renovacion': [['click', () => $('#modal-confirmacion-renovacion').close()]],
+    '#btn-confirmar-renovacion': [['click', confirmarRenovacion]],
+    '#btn-cerrar-modal-exito': [['click', () => $('#modal-exito-renovacion').close()]],
     '#btn-cerrar-sesion': [['click', cerrarSesion]]
   });
   escribir('#nombre-estudiante', sesion.usuario?.nombre_completo ?? 'Estudiante');

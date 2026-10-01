@@ -71,5 +71,39 @@
 <div class="div-2"><div class="text-wrapper-10">Mi Cuenta y Perfil</div></div></a></nav></div>
 <div class="logout-action-button"><button class="button" id="btn-cerrar-sesion" type="button"><div class="container-15"><img class="icon-13" src="../../../views/renovacion/img/icon-11.svg" alt="" /></div>
 <div class="container-15"><div class="text-14">Cerrar Sesión del Portal</div></div></button></div></div></div>
+<dialog class="modal-confirmacion" id="modal-confirmacion-renovacion" aria-labelledby="modal-titulo-renovacion">
+    <div class="modal-caja">
+        <div class="modal-icono" aria-hidden="true">?</div>
+        <p class="modal-etiqueta">Confirmación de trámite</p>
+        <h2 id="modal-titulo-renovacion">¿Deseas renovar tu afiliación?</h2>
+        <p class="modal-descripcion">Se solicitará la cobertura para el siguiente periodo:</p>
+        <dl class="modal-periodo">
+            <div><dt>Periodo</dt><dd id="modal-periodo-semestral">—</dd></div>
+            <div><dt>Vigente desde</dt><dd id="modal-fecha-inicio">—</dd></div>
+            <div><dt>Vigente hasta</dt><dd id="modal-fecha-vencimiento">—</dd></div>
+        </dl>
+        <p class="modal-nota">Al confirmar, tu cobertura actual se cerrará y se registrará la nueva.</p>
+        <div class="modal-acciones">
+            <button class="modal-cancelar" id="btn-cancelar-renovacion" type="button">Cancelar</button>
+            <button class="modal-confirmar" id="btn-confirmar-renovacion" type="button">Confirmar renovación</button>
+        </div>
+    </div>
+</dialog>
+<dialog class="modal-confirmacion" id="modal-exito-renovacion" aria-labelledby="modal-titulo-exito" aria-describedby="modal-mensaje-exito">
+    <div class="modal-caja">
+        <div class="modal-exito-icono" aria-hidden="true">✓</div>
+        <p class="modal-etiqueta">Trámite completado</p>
+        <h2 id="modal-titulo-exito">Renovación exitosa</h2>
+        <p class="modal-descripcion" id="modal-mensaje-exito">Tu afiliación fue renovada correctamente.</p>
+        <dl class="modal-periodo">
+            <div><dt>Nuevo periodo</dt><dd id="exito-periodo">—</dd></div>
+            <div><dt>Vigente desde</dt><dd id="exito-fecha-inicio">—</dd></div>
+            <div><dt>Vigente hasta</dt><dd id="exito-fecha-vencimiento">—</dd></div>
+        </dl>
+        <div class="modal-acciones modal-acciones-exito">
+            <button class="modal-confirmar" id="btn-cerrar-modal-exito" type="button">Entendido</button>
+        </div>
+    </div>
+</dialog>
 </body>
 </html>

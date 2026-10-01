@@ -357,3 +357,113 @@
 		flex-wrap: wrap;
 	}
 }
+
+.modal-confirmacion {
+	width: min(480px, calc(100% - 32px));
+	max-width: none;
+	max-height: calc(100vh - 32px);
+	padding: 0;
+	border: 1px solid #c3c6d4;
+	border-radius: 12px;
+	background: #ffffff;
+	color: #131b2e;
+	box-shadow: 0 20px 60px #131b2e33;
+}
+
+.modal-confirmacion::backdrop {
+	background: #131b2e80;
+	backdrop-filter: blur(2px);
+}
+
+.modal-caja { padding: 28px; }
+.modal-icono {
+	width: 42px;
+	height: 42px;
+	display: grid;
+	place-items: center;
+	margin-bottom: 18px;
+	border-radius: 10px;
+	background: #e2e7ff;
+	color: #003178;
+	font-size: 22px;
+	font-weight: 700;
+}
+.modal-exito-icono {
+	width: 42px;
+	height: 42px;
+	display: grid;
+	place-items: center;
+	margin-bottom: 18px;
+	border-radius: 50%;
+	background: #e2f2e8;
+	color: #28734e;
+	font-size: 24px;
+	font-weight: 700;
+}
+.modal-etiqueta {
+	margin: 0 0 6px;
+	color: #737783;
+	font-size: 11px;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.modal-caja h2 {
+	margin: 0;
+	color: #131b2e;
+	font-size: 21px;
+	line-height: 1.3;
+}
+.modal-descripcion,
+.modal-nota {
+	color: #434652;
+	font-size: 13px;
+	line-height: 1.55;
+}
+.modal-descripcion { margin: 10px 0 16px; }
+.modal-periodo {
+	margin: 0;
+	padding: 4px 14px;
+	border-radius: 8px;
+	background: #f2f3ff;
+}
+.modal-periodo > div {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 10px 0;
+	border-bottom: 1px solid #dce1ff;
+}
+.modal-periodo > div:last-child { border-bottom: 0; }
+.modal-periodo dt { color: #737783; font-size: 12px; }
+.modal-periodo dd {
+	margin: 0;
+	color: #131b2e;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: right;
+}
+.modal-nota { margin: 14px 0 22px; font-size: 12px; }
+.modal-acciones { display: flex; justify-content: flex-end; gap: 10px; }
+.modal-cancelar,
+.modal-confirmar {
+	min-height: 42px;
+	padding: 9px 14px;
+	border: 1px solid #003178;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 600;
+}
+.modal-cancelar { background: #ffffff; color: #003178; }
+.modal-confirmar { background: #003178; color: #ffffff; }
+.modal-acciones-exito { margin-top: 20px; }
+.modal-cancelar:hover { background: #f2f3ff; }
+.modal-confirmar:hover { background: #0d47a1; }
+.modal-cancelar:focus-visible,
+.modal-confirmar:focus-visible { outline: 3px solid #4a90e2; outline-offset: 2px; }
+
+@media (max-width: 480px) {
+	.modal-caja { padding: 22px; }
+	.modal-acciones { flex-direction: column-reverse; }
+	.modal-cancelar,
+	.modal-confirmar { width: 100%; }
+}
