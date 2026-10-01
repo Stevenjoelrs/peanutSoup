@@ -7,7 +7,8 @@ const router = Router();
 // Todas las rutas de laboratorio requieren autenticación de estudiante
 router.use(authenticateStudent, requireAuth);
 
-// US-13: Obtener órdenes de laboratorio del estudiante autenticado
+// HU-13: la ruta original queda como alias compatible.
+router.get('/ordenes', listarOrdenesLaboratorio);
 router.get('/', listarOrdenesLaboratorio);
 
 // US-13: Endpoint seguro para descargar/obtener el informe de una orden específica
