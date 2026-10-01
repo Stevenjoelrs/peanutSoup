@@ -73,13 +73,14 @@ export const registrarAfiliacion = async ({ id_estudiante, periodo_semestral, fe
     });
 
     return {
-      mensaje: `Afiliación semestral (${periodo_semestral}) registrada exitosamente para ${estudiante.nombre_completo}.`,
+      mensaje: 'Afiliado con cobertura activa',
       data: {
         estudiante: {
           id_estudiante: estudiante.id_estudiante,
           sis: estudiante.sis,
           nombre_completo: estudiante.nombre_completo,
-          carrera: estudiante.carrera
+          carrera: estudiante.carrera,
+          estado_cuenta: 'Afiliado con cobertura activa'
         },
         afiliacion
       }
@@ -112,7 +113,8 @@ export const consultarVigencia = async (id_estudiante) => {
         vigente: null,
         dias_para_vencer: null,
         limite_renovacion_dias: LIMITE_RENOVACION_DIAS,
-        elegible_renovacion: false
+        elegible_renovacion: false,
+        estado_cuenta: 'Sin afiliación registrada'
       }
     };
   }
@@ -132,7 +134,12 @@ export const consultarVigencia = async (id_estudiante) => {
       dias_para_vencer: dias,
       limite_renovacion_dias: LIMITE_RENOVACION_DIAS,
       elegible_renovacion: vigente.elegible_renovacion,
-      progreso_semestre_porcentaje: Number.isNaN(progreso) ? 0 : progreso
+      progreso_semestre_porcentaje: Number.isNaN(progreso) ? 0 : progreso,
+      estado_cuenta: vigente.estado_efectivo === 'ACTIVA'
+        ? 'Afiliado con cobertura activa'
+        : vigente.estado_efectivo === 'VENCIDA'
+          ? 'Afiliación vencida'
+          : 'Sin cobertura activa'
     }
   };
 };
@@ -188,9 +195,9 @@ export const renovarAfiliacion = async ({
         fecha_vencimiento: nueva_fecha_vencimiento
       });
       return {
-        mensaje: `Renovación exitosa para el periodo ${nuevo_periodo_semestral}. Cobertura extendida hasta ${nueva_fecha_vencimiento}.`,
+        mensaje: 'Afiliado con cobertura activa',
         data: {
-          estudiante: { id_estudiante: actual.id_estudiante, nombre_completo: actual.nombre_completo, sis: actual.sis },
+          estudiante: { id_estudiante: actual.id_estudiante, nombre_completo: actual.nombre_completo, sis: actual.sis, estado_cuenta: 'Afiliado con cobertura activa' },
           afiliacion_anterior: {
             id_afiliacion: actual.id_afiliacion,
             periodo_semestral: actual.periodo_semestral,

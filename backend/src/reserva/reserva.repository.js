@@ -74,9 +74,12 @@ export const bloquearHorario = async (client, id_horario) => {
   return result.rows[0] ?? null;
 };
 
-export const obtenerEstudianteTransaccional = async (client, id_estudiante) => {
+// Bloquear la fila del estudiante serializa sus reservas: sin esto, dos
+// peticiones simultáneas para horarios distintos del mismo día no encuentran
+// ninguna ficha que bloquear en buscarFichaMismaFecha y ambas se insertan.
+export const bloquearEstudiante = async (client, id_estudiante) => {
   const result = await client.query(
-    `SELECT id_estudiante, sis, nombre_completo FROM estudiantes WHERE id_estudiante = $1`,
+    `SELECT id_estudiante, sis, nombre_completo FROM estudiantes WHERE id_estudiante = $1 FOR UPDATE`,
     [id_estudiante]
   );
   return result.rows[0] ?? null;
