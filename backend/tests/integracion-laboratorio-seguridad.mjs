@@ -52,9 +52,18 @@ before(async () => {
     return;
   }
 
+  // `node --test` lanza los cuatro archivos de pruebas en paralelo y cada uno abre
+  // su app (y su pool) contra la misma base de Supabase. En modo sesion el tope
+  // es de 15 conexiones por proyecto y unas 10 ya las ocupan los servicios
+  // internos, asi que el PG_POOL_MAX=20 del .env no cabe. El presupuesto se
+  // reparte de forma explicita entre archivos en lugar de heredar el del .env.
+  process.env.PG_POOL_MAX = process.env.PG_POOL_MAX_TEST || '3';
+  process.env.PG_CONNECT_TIMEOUT_MS = process.env.PG_CONNECT_TIMEOUT_MS || '60000';
+
   pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.PGSSL === 'false' ? undefined : { rejectUnauthorized: false }
+    ssl: process.env.PGSSL === 'false' ? undefined : { rejectUnauthorized: false },
+    max: 1
   });
   await pool.query('SELECT 1');
   await limpiarFixtures();

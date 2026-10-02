@@ -133,13 +133,14 @@ before(async () => {
   //
   // El presupuesto se reparte entre los archivos: `node --test` los lanza en
   // paralelo y cada uno abre su app (y su pool) contra la misma base. Este
-  // archivo toma 7 + 1 propios; los 5 restantes se los quedan
-  // integracion-reserva.mjs y los servicios de Supabase.
+  // archivo toma 6 + 1 propios; los 2 restantes se los reparten
+  // integracion-reserva.mjs e integracion-laboratorio-seguridad.mjs, mas los
+  // servicios de Supabase.
   //
-  // Ni 8 es suficiente por si solo si los pools se solapan: con menos, las
+  // Ni 6 es suficiente por si solo si los pools se solapan: con menos, las
   // peticiones en cola agotan el connectionTimeoutMillis y el caso falla por
   // tiempo de espera en lugar de por concurrencia.
-  process.env.PG_POOL_MAX = '7';
+  process.env.PG_POOL_MAX = '6';
   // El caso de 15 estudiantes abre 30 transacciones a la vez sobre 7 conexiones,
   // asi que la cola tarda mas que los 5s por defecto.
   process.env.PG_CONNECT_TIMEOUT_MS = process.env.PG_CONNECT_TIMEOUT_MS || '60000';

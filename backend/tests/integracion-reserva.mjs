@@ -78,14 +78,14 @@ before(async () => {
     return;
   }
 
-  // `node --test` lanza este archivo en paralelo con integracion-reserva-stress.mjs,
-  // y los dos abren su propia app contra la misma base de Supabase. Supabase en
+  // `node --test` lanza este archivo en paralelo con los otros tres de pruebas,
+  // y cada uno abre su propia app contra la misma base de Supabase. Supabase en
   // modo sesion limita a 15 conexiones por proyecto, y unas 10 ya las ocupan sus
   // servicios internos, asi que el .env con PG_POOL_MAX=20 no cabe. Se reparte el
-  // presupuesto: 5 para la app de este archivo + 1 aqui, y los 7 restantes se
-  // pueden en el de estres. Este archivo hace pocas peticiones simultaneas, asi
-  // que no necesita mas.
-  process.env.PG_POOL_MAX = process.env.PG_POOL_MAX_TEST || '5';
+  // presupuesto de forma explicita: 2 para la app de este archivo + 1 aqui, y el
+  // resto entre el de estres y el de laboratorio. Este archivo hace pocas
+  // peticiones simultaneas, asi que no necesita mas.
+  process.env.PG_POOL_MAX = process.env.PG_POOL_MAX_TEST || '2';
 
   pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
