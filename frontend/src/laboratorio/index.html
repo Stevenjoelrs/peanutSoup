@@ -1,118 +1,251 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio y Resultados - SSU UMSS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./laboratorio.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="shell-type" content="web_dashboard"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+      ::-webkit-scrollbar { display: none; }
+    }
+    #ssu-sidebar { transition: transform .22s ease, visibility .22s; }
+    #ssu-sidebar.su-menu-oculto { transform: translateX(-100%); visibility: hidden; }
+    #ssu-contenido { transition: padding-left .22s ease; }
+    #ssu-contenido.su-contenido-abierto { padding-left: 0; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#001551",
+            "on-secondary-fixed-variant": "#0039b5",
+            "tertiary": "#003858",
+            "error": "#ba1a1a",
+            "on-tertiary-container": "#7bc3ff",
+            "surface-container": "#eaedff",
+            "surface-dim": "#d2d9f4",
+            "on-tertiary": "#ffffff",
+            "outline-variant": "#c3c6d4",
+            "secondary-fixed": "#dce1ff",
+            "tertiary-fixed-dim": "#93ccff",
+            "secondary": "#1d4ed8",
+            "inverse-primary": "#b0c6ff",
+            "on-tertiary-fixed-variant": "#004b73",
+            "on-secondary": "#ffffff",
+            "on-surface": "#131b2e",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#b0c6ff",
+            "surface-container-high": "#e2e7ff",
+            "on-primary": "#ffffff",
+            "on-primary-fixed": "#001945",
+            "tertiary-fixed": "#cce5ff",
+            "secondary-fixed-dim": "#b7c4ff",
+            "surface-container-low": "#f2f3ff",
+            "inverse-on-surface": "#eef0ff",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#434652",
+            "on-background": "#131b2e",
+            "primary": "#003178",
+            "on-primary-fixed-variant": "#00429c",
+            "background": "#faf8ff",
+            "on-error-container": "#93000a",
+            "secondary-container": "#4069f2",
+            "on-secondary-container": "#fffbff",
+            "primary-fixed": "#d9e2ff",
+            "surface-variant": "#dae2fd",
+            "primary-container": "#0d47a1",
+            "on-primary-container": "#a1bbff",
+            "on-tertiary-fixed": "#001d31",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#2b5bb5",
+            "outline": "#737783",
+            "tertiary-container": "#00507b",
+            "inverse-surface": "#283044",
+            "surface": "#faf8ff",
+            "surface-container-highest": "#dae2fd"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem"
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body>
-    <header class="top-nav">
-        <div class="nav-container">
-            <a class="brand-lockup" href="/" aria-label="SSU UMSS, inicio">
-                <span class="brand-symbol material-symbols-outlined" aria-hidden="true">health_and_safety</span>
-                <span class="brand-copy"><strong>SSU · UMSS</strong><small>Seguro Social Universitario</small></span>
-            </a>
-            <div class="user-profile-header">
-                <div class="user-info-text">
-                    <span class="user-name" id="lab-user-name">Estudiante</span>
-                    <span class="user-dept" id="lab-user-meta">Sesión activa</span>
-                </div>
-                <span class="user-avatar material-symbols-outlined" aria-hidden="true">account_circle</span>
-            </div>
+<body class="bg-background font-body-md text-on-surface antialiased" data-ssu-page="laboratorio">
+  <header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="w-full h-16 px-gutter flex items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-md min-w-[280px]">
+        <button aria-controls="ssu-sidebar" aria-expanded="true" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors shrink-0" id="ssu-sidebar-toggle" title="Mostrar u ocultar el menú lateral" type="button">
+          <span class="material-symbols-outlined text-[1.35rem]" id="ssu-sidebar-icono">close</span>
+        </button>
+        <img alt="Logo SSU UMSS Seguro Social Universitario" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VES4A1NRDG6l5mztIK53KANWic9iahxGTZ8yN6qV83PkLeZWd9LtsH1Dn3PdX0T_DH2AtjbRyE9QicEvzJ5wH_0mVS69_nXTUwJwYOBHhFmOQ_jCvwI9RP1zLS8ZrhegfFZIITVwoqm0BTr4CEzdB4y8dAWoBsSZWkrVD9SScXFeG7mDRMNo0BCmr7fZ9Nb3eVdZW3QRBuepQV5V_RbQAXrv3O8w5RPCDaQh64N9u8cp4BTWCa0LNFpA"/>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-primary leading-tight tracking-tight">Portal de Salud Estudiantil</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">SSU - UMSS Cochabamba</span>
         </div>
-    </header>
-
-    <div class="dashboard-layout">
-        <aside class="sidebar" aria-label="Menú principal">
-            <span class="sidebar-title">MÓDULOS DE ATENCIÓN</span>
-            <nav class="sidebar-nav">
-                <a href="/registro" class="nav-item"><span class="material-symbols-outlined" aria-hidden="true">person_add</span><span>Nueva Afiliación / Registro</span></a>
-                <a href="/afiliacion" class="nav-item"><span class="material-symbols-outlined" aria-hidden="true">description</span><span>Afiliación Semestral (US-01)</span></a>
-                <a href="/reserva" class="nav-item"><span class="material-symbols-outlined" aria-hidden="true">calendar_month</span><span>Ficha Médica General (US-03)</span></a>
-                <a href="/especialista" class="nav-item"><span class="material-symbols-outlined" aria-hidden="true">stethoscope</span><span>Ficha Especialista (US-08)</span></a>
-                <a href="/renovacion" class="nav-item"><span class="material-symbols-outlined" aria-hidden="true">autorenew</span><span>Renovación Afiliación (US-12)</span></a>
-                <a href="/laboratorio" class="nav-item active" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">science</span><span>Laboratorio y Resultados (US-13)</span></a>
-                <a href="/perfil" class="nav-item"><span class="material-symbols-outlined" aria-hidden="true">person</span><span>Mi Cuenta y Perfil</span></a>
-            </nav>
-        </aside>
-
-        <main class="dashboard-content">
-            <div class="page-heading">
-                <p class="eyebrow">SSU · UMSS / ATENCIÓN CLÍNICA</p>
-                <h1 class="page-title">Seguimiento de Laboratorio Clínico y Resultados Médicos</h1>
-                <p class="subtitle">Consulta el estado de tus órdenes y descarga los informes disponibles.</p>
-            </div>
-
-            <section class="section-card" aria-labelledby="titulo-ordenes">
-                <div class="orders-heading">
-                    <span class="section-icon material-symbols-outlined" aria-hidden="true">science</span>
-                    <div>
-                        <h2 id="titulo-ordenes">Órdenes de laboratorio</h2>
-                        <p>Estados de solicitud e informes disponibles</p>
-                    </div>
-                </div>
-
-                <div id="alertaError" class="alert-message alert-error" role="alert" hidden></div>
-
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>N° ORDEN</th>
-                                <th>TIPO DE ANÁLISIS / EXAMEN</th>
-                                <th>MÉDICO SOLICITANTE</th>
-                                <th>FECHA DE ORDEN</th>
-                                <th>ESTADO DE LA PRUEBA</th>
-                                <th>ACCIÓN / INFORME</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaOrdenesBody">
-                            <tr><td colspan="6" class="empty-state">Cargando órdenes de laboratorio…</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <footer class="app-footer">
-                <span>Seguro Social Universitario · Universidad Mayor de San Simón</span>
-                <span class="red-text">Emergencias: (591) 4-4251234</span>
-            </footer>
-        </main>
+      </div>
+      <div class="hidden xl:flex items-center gap-space-lg text-on-surface-variant font-label-md text-label-md">
+        <div class="flex items-center gap-space-xs">
+          <span class="material-symbols-outlined text-outline text-[1.125rem]">calendar_today</span>
+          <span id="ssu-fecha-actual">Sistema SSU: --/--/---- --:--:--</span>
+        </div>
+        <div class="flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container-high">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          <span class="font-label-sm text-label-sm text-on-surface font-medium">Servidor Operativo</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-md">
+        <div class="hidden sm:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-high">
+          <span class="material-symbols-outlined text-secondary text-[1.125rem]">badge</span>
+          <span class="font-label-sm text-label-sm text-on-surface font-semibold" id="ssu-sis-usuario">SIS: —</span>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0" id="ssu-avatar">
+          <span class="material-symbols-outlined text-[1.35rem]">account_circle</span>
+        </div>
+      </div>
     </div>
-    <dialog class="report-dialog" id="modal-informe" aria-labelledby="modal-informe-titulo" aria-describedby="modal-informe-descripcion">
-        <div class="report-dialog-content">
-            <div class="report-dialog-heading">
-                <span class="report-dialog-icon material-symbols-outlined" aria-hidden="true">description</span>
-                <div>
-                    <p class="report-dialog-eyebrow">Informe de laboratorio</p>
-                        <h2 id="modal-informe-titulo">Detalle del informe</h2>
-                </div>
-            </div>
-                <p id="modal-informe-descripcion" class="report-dialog-description">Revisa los datos de la orden y el estado del archivo.</p>
-            <dl class="report-dialog-details">
-                <div><dt>N° de orden</dt><dd id="modal-informe-codigo">—</dd></div>
-                <div><dt>Análisis</dt><dd id="modal-informe-analisis">—</dd></div>
-                <div><dt>Médico solicitante</dt><dd id="modal-informe-medico">—</dd></div>
-                <div><dt>Fecha de orden</dt><dd id="modal-informe-fecha">—</dd></div>
-                <div><dt>Estado</dt><dd id="modal-informe-estado">Terminado</dd></div>
-            </dl>
-            <p class="report-status is-checking" id="modal-informe-estado-archivo" role="status" aria-live="polite">
-                <span class="material-symbols-outlined" aria-hidden="true">hourglass_top</span>
-                Verificando disponibilidad del informe…
-            </p>
-            <div class="report-dialog-actions">
-                <button class="btn-sm btn-light" id="btn-cerrar-informe" type="button">Cerrar</button>
-                <a class="btn-sm btn-primary is-disabled" id="btn-abrir-informe" aria-disabled="true" tabindex="-1" target="_blank" rel="noopener noreferrer">
-                    <span class="material-symbols-outlined" aria-hidden="true">download</span>
-                    Abrir informe PDF
-                </a>
-            </div>
+  </header>
+
+  <aside class="fixed top-16 left-0 bottom-0 w-72 z-40 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/30" id="ssu-sidebar" role="navigation" aria-label="Menú principal">
+    <nav class="h-full flex flex-col overflow-y-auto px-space-md py-space-lg">
+      <div class="flex flex-col gap-space-sm" id="ssu-bienvenida"></div>
+      <div id="ssu-sidebar-status" class="p-space-md bg-surface-container/60 m-space-sm rounded-xl">
+        <div class="flex items-start gap-space-sm">
+          <span class="material-symbols-outlined text-secondary text-[1.25rem]">verified_user</span>
+          <div>
+            <p class="font-label-sm text-label-sm font-semibold text-on-surface">Consultando cobertura…</p>
+            <p class="font-code-sm text-code-sm text-on-surface-variant" id="ssu-cobertura-texto">—</p>
+          </div>
         </div>
-    </dialog>
-    <script type="module" src="./main.js"></script>
+      </div>
+      <ul class="flex flex-col gap-1 mt-space-md" role="list">
+        <li><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="/"><span class="material-symbols-outlined text-[1.25rem]">home</span><span class="font-label-md text-label-md">Inicio</span></a></li>
+        <li><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="/reserva"><span class="material-symbols-outlined text-[1.25rem]">medical_information</span><span class="font-label-md text-label-md">Reserva de Ficha</span></a></li>
+        <li><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="/especialista"><span class="material-symbols-outlined text-[1.25rem]">stethoscope</span><span class="font-label-md text-label-md">Especialista</span></a></li>
+        <li><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-primary/10 text-primary font-semibold" href="/laboratorio"><span class="material-symbols-outlined text-[1.25rem]">science</span><span class="font-label-md text-label-md">Laboratorio</span></a></li>
+      </ul>
+      <div class="mt-auto p-space-md border-t border-outline-variant/30">
+        <a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-error hover:bg-error-container transition-colors" href="#" id="ssu-cerrar-sesion"><span class="material-symbols-outlined text-[1.25rem]">logout</span><span class="font-label-md text-label-md">Cerrar sesión</span></a>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="pl-72" id="ssu-contenido">
+    <main class="relative w-full pt-16 min-h-screen bg-background px-gutter py-space-lg">
+      <div class="flex flex-col w-full gap-space-lg">
+        <!-- Header de página -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+          <div class="flex items-start gap-space-md">
+            <div class="w-12 h-12 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[1.75rem]">science</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-space-sm mb-1 flex-wrap">
+                <span class="px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-code-sm text-code-sm font-semibold">Módulo US-13</span>
+                <span class="px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Laboratorio Clínico</span>
+              </div>
+              <h1 class="font-headline-md text-headline-md text-primary tracking-tight">Mis Órdenes de Laboratorio</h1>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-1">Consulta el estado de tus órdenes de laboratorio y descarga los resultados cuando estén listos.</p>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm shrink-0">
+            <div class="px-space-md py-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-secondary text-[1.25rem]">security</span>
+              <div class="flex flex-col">
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Titular SSU</span>
+                <span class="font-title-md text-title-md text-on-surface" id="lab-titular-sis">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner informativo -->
+        <div class="bg-secondary/5 rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center gap-space-md relative overflow-hidden">
+          <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+          <div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[1.5rem]">info</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-space-xs">
+              <span class="font-title-md text-title-md text-secondary font-bold">Cómo funciona</span>
+              <span class="px-space-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-code-sm text-code-sm uppercase font-semibold">Protocolo SSU</span>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+              Las órdenes de laboratorio son emitidas por un médico como parte de una derivación o indicación clínica.
+              <br>Estados: <strong class="text-on-surface font-semibold">EMITIDA</strong> (orden generada) → <strong class="text-on-surface font-semibold">EN_CURSO</strong> (laboratorio procesando) → <strong class="text-on-surface font-semibold">FINALIZADA</strong> (resultado disponible para descarga).
+              <br>Los cambios de estado los realiza el personal del laboratorio; tú solo consultas.
+            </p>
+          </div>
+        </div>
+
+        <!-- Lista de órdenes -->
+        <section class="flex flex-col gap-space-md" id="seccion-ordenes">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+              <span class="w-2.5 h-6 bg-secondary rounded-full"></span>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Tus Órdenes de Laboratorio</h2>
+            </div>
+            <span class="font-label-md text-label-md text-on-surface-variant" id="ordenes-conteo">Cargando…</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md" id="ordenes-lista"></div>
+        </section>
+
+        <!-- Detalle de orden seleccionada (se muestra al hacer click) -->
+        <section class="flex flex-col gap-space-md hidden" id="seccion-detalle">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+              <span class="w-2.5 h-6 bg-primary rounded-full"></span>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Detalle de la Orden</h2>
+            </div>
+            <button class="px-space-md py-space-sm rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-space-xs hover:bg-surface-container transition-colors" type="button" id="btn-volver-lista">
+              <span class="material-symbols-outlined text-[1.125rem]">arrow_back</span>
+              <span>Volver a la lista</span>
+            </button>
+          </div>
+
+          <div class="bg-surface-container-lowest rounded-xl shadow-md p-space-lg overflow-hidden" id="detalle-contenido">
+            <!-- Se llena dinámicamente -->
+          </div>
+        </section>
+
+        <!-- Estado vacío -->
+        <div class="hidden text-center py-space-xl" id="estado-vacio">
+          <div class="w-20 h-20 mx-auto rounded-full bg-surface-container flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-[2.5rem] text-on-surface-variant">science</span>
+          </div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">No tienes órdenes de laboratorio</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">Cuando un médico emita una orden, aparecerá aquí automáticamente.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="w-full bg-surface-container-low py-space-md px-gutter text-center shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+      <div class="w-full flex flex-col md:flex-row items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+        <p class="font-medium">Seguro Social Universitario - UMSS | Av. Aniceto Arce N° 590, Cochabamba, Bolivia</p>
+        <div class="flex items-center gap-space-sm text-error font-semibold">
+          <span class="material-symbols-outlined text-[1rem]">emergency</span>
+          <span>Emergencias: (591) 4-4251234</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
