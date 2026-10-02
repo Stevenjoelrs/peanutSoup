@@ -1,0 +1,1622 @@
+in-de #btn-renovar {
+	width: 100%;
+	border: 0;
+	cursor: not-allowed;
+	transition: background-color .18s ease, opacity .18s ease;
+}
+
+.renovacin-de #btn-renovar:not(:disabled) {
+	background-color: #0d47a1;
+	opacity: 1;
+}
+
+.renovacin-de #btn-renovar:not(:disabled) .renovar,
+.renovacin-de #btn-renovar:not(:disabled) .text-wrapper-7 {
+	color: #ffffff;
+}
+
+.renovacin-de #btn-renovar:not(:disabled):hover {
+	background-color: #003178;
+}
+
+.renovacin-de .container-12 {
+	display: none;
+}
+
+.renovacin-de .container-13 {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	height: auto;
+}
+
+.renovacin-de .container-13 > .p,
+.renovacin-de .container-13 > .strong,
+.renovacin-de .container-13 > .para-el-vencimiento,
+.renovacin-de .container-13 > .universitario-este {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	white-space: normal;
+}
+
+.renovacin-de .container-13 > .strong {
+	gap: 8px;
+}
+
+.renovacin-de .container-13 > .strong .text-wrapper-5,
+.renovacin-de .container-13 > .strong .text-9 {
+	width: auto;
+	height: auto;
+	margin: 0;
+}
+
+.renovacin-de {
+	height: auto;
+	min-height: 100vh;
+	overflow: visible;
+}
+
+.renovacin-de > .container {
+	height: auto;
+	min-height: 100vh;
+	padding: 64px 0 0 280px;
+}
+
+.renovacin-de .main {
+	z-index: auto;
+	height: auto;
+	min-height: calc(100vh - 64px);
+	padding: 24px clamp(20px, 3vw, 48px);
+}
+
+.renovacin-de .div {
+	height: auto;
+	gap: 20px;
+	margin-bottom: 0;
+}
+
+.renovacin-de .top-triage {
+	min-height: 84px;
+	justify-content: flex-start;
+	padding: 20px 24px;
+}
+
+.renovacin-de .div-wrapper {
+	width: auto;
+	max-width: 100%;
+}
+
+.renovacin-de .text-wrapper {
+	width: auto;
+	font-size: 28px;
+	line-height: 1.25;
+	white-space: normal;
+}
+
+.renovacin-de .primary-interactive {
+	display: flex;
+	flex-direction: column;
+	grid-template-rows: auto;
+	height: auto;
+	gap: 16px;
+}
+
+.renovacin-de .main-status-card {
+	height: auto;
+}
+
+.renovacin-de .active-insurance {
+	gap: 20px;
+}
+
+.renovacin-de .header-block-of-the {
+	justify-content: flex-start;
+	gap: 16px;
+	padding-bottom: 0;
+}
+
+.renovacin-de .text-wrapper-2 {
+	width: auto;
+	white-space: normal;
+}
+
+.renovacin-de .metrics-split {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+	justify-content: stretch;
+}
+
+.renovacin-de .expiration-date,
+.renovacin-de .metrics-split > .div-3 {
+	width: auto;
+	min-width: 0;
+}
+
+.renovacin-de .container-4 {
+	padding-right: 0;
+}
+
+.renovacin-de .text-2,
+.renovacin-de .text-3,
+.renovacin-de .text-4,
+.renovacin-de .text-10,
+.renovacin-de .text-11,
+.renovacin-de .text-12,
+.renovacin-de .text-13 {
+	width: auto;
+	white-space: normal;
+}
+
+.renovacin-de .background-2 {
+	width: 0;
+	transition: width .25s ease;
+}
+
+.renovacin-de .action-execution {
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: space-between;
+}
+
+.renovacin-de .action-execution > .div-2 {
+	flex: 0 0 auto;
+}
+
+.renovacin-de #btn-renovar {
+	width: auto;
+	min-width: 180px;
+}
+
+.renovacin-de .header {
+	position: fixed;
+	z-index: 30;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 64px;
+}
+
+.renovacin-de .container-16 {
+	width: 100%;
+	height: 64px;
+	gap: 12px;
+	margin: 0;
+	padding: 0 24px;
+}
+
+.renovacin-de .link-logotipo {
+	flex: 1 1 auto;
+	width: auto;
+	min-width: 0;
+}
+
+.renovacin-de .container-17 {
+	margin-left: auto;
+}
+
+.renovacin-de .aside {
+	position: fixed;
+	z-index: 20;
+	top: 64px;
+	left: 0;
+	width: 280px;
+	height: calc(100vh - 64px);
+	max-height: none;
+}
+
+.renovacin-de .footer {
+	height: auto;
+	min-height: 44px;
+}
+
+.renovacin-de .container-19 {
+	flex-wrap: wrap;
+	gap: 8px 20px;
+}
+
+@media (max-width: 900px) {
+	.renovacin-de > .container {
+		padding-left: 252px;
+	}
+
+	.renovacin-de .aside {
+		width: 252px;
+	}
+
+	.renovacin-de .metrics-split {
+		gap: 16px;
+		padding: 16px;
+	}
+
+	.renovacin-de .text-11 {
+		max-width: 180px;
+	}
+}
+
+@media (max-width: 700px) {
+	.renovacin-de {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.renovacin-de > .container {
+		order: 1;
+		min-height: 0;
+		padding: 0;
+	}
+
+	.renovacin-de .aside {
+		position: relative;
+		order: 0;
+		top: auto;
+		left: auto;
+		width: 100%;
+		height: auto;
+		margin-top: 64px;
+		overflow: visible;
+	}
+
+	.renovacin-de .container-20 {
+		padding: 10px 16px;
+	}
+
+	.renovacin-de .container-21,
+	.renovacin-de .logout-action-button {
+		display: none;
+	}
+
+	.renovacin-de .nav {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 4px;
+	}
+
+	.renovacin-de .link,
+	.renovacin-de .link-2 {
+		min-width: 0;
+		gap: 8px;
+		padding: 8px;
+	}
+
+	.renovacin-de .text-wrapper-10,
+	.renovacin-de .text-wrapper-11 {
+		width: auto;
+		font-size: 12px;
+		white-space: normal;
+	}
+
+	.renovacin-de .main {
+		min-height: calc(100vh - 64px);
+		padding: 18px 16px 24px;
+	}
+
+	.renovacin-de .metrics-split {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+
+	.renovacin-de .footer {
+		padding: 14px 16px;
+	}
+}
+
+@media (max-width: 480px) {
+	.renovacin-de .top-triage {
+		min-height: 0;
+		padding: 16px;
+	}
+
+	.renovacin-de .text-wrapper {
+		font-size: 23px;
+	}
+
+	.renovacin-de .active-insurance {
+		gap: 16px;
+		padding: 16px;
+	}
+
+	.renovacin-de .text-wrapper-2 {
+		font-size: 19px;
+		line-height: 1.3;
+	}
+
+	.renovacin-de .container-7 {
+		gap: 10px;
+	}
+
+	.renovacin-de .container-8,
+	.renovacin-de .container-9,
+	.renovacin-de .container-10 {
+		min-width: 0;
+		padding: 0;
+	}
+
+	.renovacin-de .text-7,
+	.renovacin-de .text-8 {
+		font-size: 11px;
+		line-height: 1.4;
+	}
+
+	.renovacin-de .text-10,
+	.renovacin-de .text-12,
+	.renovacin-de .text-13 {
+		font-size: 11px;
+	}
+
+	.renovacin-de #btn-renovar {
+		width: 100%;
+	}
+
+	.renovacin-de .container-13 > .strong {
+		flex-wrap: wrap;
+	}
+}
+
+.modal-confirmacion {
+	width: min(480px, calc(100% - 32px));
+	max-width: none;
+	max-height: calc(100vh - 32px);
+	padding: 0;
+	border: 1px solid #c3c6d4;
+	border-radius: 12px;
+	background: #ffffff;
+	color: #131b2e;
+	box-shadow: 0 20px 60px #131b2e33;
+}
+
+.modal-confirmacion::backdrop {
+	background: #131b2e80;
+	backdrop-filter: blur(2px);
+}
+
+.modal-caja { padding: 28px; }
+.modal-icono {
+	width: 42px;
+	height: 42px;
+	display: grid;
+	place-items: center;
+	margin-bottom: 18px;
+	border-radius: 10px;
+	background: #e2e7ff;
+	color: #003178;
+	font-size: 22px;
+	font-weight: 700;
+}
+.modal-exito-icono {
+	width: 42px;
+	height: 42px;
+	display: grid;
+	place-items: center;
+	margin-bottom: 18px;
+	border-radius: 50%;
+	background: #e2f2e8;
+	color: #28734e;
+	font-size: 24px;
+	font-weight: 700;
+}
+.modal-etiqueta {
+	margin: 0 0 6px;
+	color: #737783;
+	font-size: 11px;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.modal-caja h2 {
+	margin: 0;
+	color: #131b2e;
+	font-size: 21px;
+	line-height: 1.3;
+}
+.modal-descripcion,
+.modal-nota {
+	color: #434652;
+	font-size: 13px;
+	line-height: 1.55;
+}
+.modal-descripcion { margin: 10px 0 16px; }
+.modal-periodo {
+	margin: 0;
+	padding: 4px 14px;
+	border-radius: 8px;
+	background: #f2f3ff;
+}
+.modal-periodo > div {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 10px 0;
+	border-bottom: 1px solid #dce1ff;
+}
+.modal-periodo > div:last-child { border-bottom: 0; }
+.modal-periodo dt { color: #737783; font-size: 12px; }
+.modal-periodo dd {
+	margin: 0;
+	color: #131b2e;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: right;
+}
+.modal-nota { margin: 14px 0 22px; font-size: 12px; }
+.modal-acciones { display: flex; justify-content: flex-end; gap: 10px; }
+.modal-cancelar,
+.modal-confirmar {
+	min-height: 42px;
+	padding: 9px 14px;
+	border: 1px solid #003178;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 600;
+}
+.modal-cancelar { background: #ffffff; color: #003178; }
+.modal-confirmar { background: #003178; color: #ffffff; }
+.modal-acciones-exito { margin-top: 20px; }
+.modal-cancelar:hover { background: #f2f3ff; }
+.modal-confirmar:hover { background: #0d47a1; }
+.modal-cancelar:focus-visible,
+.modal-confirmar:focus-visible { outline: 3px solid #4a90e2; outline-offset: 2px; }
+
+@media (max-width: 480px) {
+	.modal-caja { padding: 22px; }
+	.modal-acciones { flex-direction: column-reverse; }
+	.modal-cancelar,
+	.modal-confirmar { width: 100%; }
+}
+
+/* Maqueta original (era views/renovacion/renovacion.css).
+ * Se incluye aqui para que el modulo no dependa de views/, que el PR #89 retira.
+ */
+.renovacin-de {
+  display: flex;
+  flex-direction: column;
+  height: 896px;
+  align-items: flex-start;
+  position: relative;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(250, 248, 255, 1) 0%,
+      rgba(250, 248, 255, 1) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  overflow-y: scroll;
+}
+
+.renovacin-de .container {
+  display: flex;
+  flex-direction: column;
+  height: 844px;
+  align-items: flex-start;
+  padding: 0px 0px 0px 288px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+}
+
+.renovacin-de .main {
+  display: flex;
+  flex-direction: column;
+  height: 800px;
+  align-items: flex-start;
+  padding: 64px 24px 24px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  z-index: 1;
+  background-color: #faf8ff;
+}
+
+.renovacin-de .div {
+  display: flex;
+  flex-direction: column;
+  height: 777px;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  margin-bottom: -65px;
+}
+
+.renovacin-de .top-triage {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #f2f3ff;
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px #0000000d;
+}
+
+.renovacin-de .div-wrapper {
+  display: flex;
+  width: 903px;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.renovacin-de .text-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Plus Jakarta Sans-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #003178;
+  font-size: 36px;
+  letter-spacing: 0;
+  line-height: 28px;
+  white-space: nowrap;
+}
+
+.renovacin-de .primary-interactive {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: 939.5px;
+  height: 717px;
+  gap: 24px;
+}
+
+.renovacin-de .main-status-card {
+  position: relative;
+  grid-row: 1 / 2;
+  grid-column: 1 / 13;
+  justify-self: start;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.renovacin-de .active-insurance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 1px 2px #0000000d;
+}
+
+.renovacin-de .header-block-of-the {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 139.8px;
+  padding: 0px 0px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .paragraph {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.5px;
+  padding: 5.5px 0px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #737783;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.renovacin-de .text-wrapper-2 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  font-family: "Plus Jakarta Sans-Bold", Helvetica;
+  font-weight: 700;
+  color: #131b2e;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 32px;
+  white-space: nowrap;
+}
+
+.renovacin-de .metrics-split {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #f2f3ff;
+  border-radius: 12px;
+}
+
+.renovacin-de .expiration-date {
+  display: flex;
+  flex-direction: column;
+  width: 169.77px;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+}
+
+.renovacin-de .container-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-wrapper-3 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #737783;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+
+.renovacin-de .container-3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .div-2 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .icon {
+  position: relative;
+  width: 15px;
+  height: 16.67px;
+}
+
+.renovacin-de .container-4 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 36.14px 0px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-2 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #131b2e;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.renovacin-de .text-wrapper-4 {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  font-family: "JetBrains Mono-Regular", Helvetica;
+  font-weight: 400;
+  color: #434652;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.renovacin-de .div-3 {
+  display: flex;
+  flex-direction: column;
+  width: 169.78px;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0px 0px 24px;
+  position: relative;
+}
+
+.renovacin-de .img {
+  position: relative;
+  width: 13.33px;
+  height: 16.67px;
+}
+
+.renovacin-de .text-3 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #003178;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.renovacin-de .icon-2 {
+  position: relative;
+  width: 18.33px;
+  height: 15px;
+}
+
+.renovacin-de .text-4 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #131b2e;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.renovacin-de .visual-progress-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .container-5 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0px 1.14e-13px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .container-6 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-5 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #434652;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.renovacin-de .text-6 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #003178;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.renovacin-de .background {
+  display: flex;
+  height: 10px;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  background-color: #eaedff;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.renovacin-de .background-2 {
+  position: relative;
+  align-self: stretch;
+  width: 183.45px;
+  background-color: #1d4ed8;
+  border-radius: 9999px;
+}
+
+.renovacin-de .container-7 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 4px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .container-8 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 69.51px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-7 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "JetBrains Mono-Regular", Helvetica;
+  font-weight: 400;
+  color: #737783;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.renovacin-de .container-9 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 19.66px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-8 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "JetBrains Mono-Medium", Helvetica;
+  font-weight: 500;
+  color: #1d4ed8;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.renovacin-de .container-10 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 71.39px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .business-rule-US {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #e2e7ff;
+  border-radius: 12px;
+}
+
+.renovacin-de .container-wrapper {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.renovacin-de .icon-3 {
+  position: relative;
+  width: 15.83px;
+  height: 18.33px;
+}
+
+.renovacin-de .container-11 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.renovacin-de .container-12 {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 24px;
+}
+
+.renovacin-de .container-13 {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 84.5px;
+}
+
+.renovacin-de .p {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #434652;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 21.1px;
+  white-space: nowrap;
+}
+
+.renovacin-de .strong {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 461px;
+  height: 37px;
+  display: flex;
+  gap: 179.5px;
+}
+
+.renovacin-de .text-wrapper-5 {
+  display: flex;
+  align-items: center;
+  margin-top: 18.1px;
+  width: 43px;
+  height: 22px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #003178;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 21.1px;
+  white-space: nowrap;
+}
+
+.renovacin-de .text-9 {
+  display: flex;
+  align-items: center;
+  margin-top: -3px;
+  width: 238.16px;
+  height: 22px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #003178;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 21.1px;
+  white-space: nowrap;
+}
+
+.renovacin-de .para-el-vencimiento {
+  position: absolute;
+  top: 20px;
+  left: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #434652;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 21.1px;
+  white-space: nowrap;
+}
+
+.renovacin-de .universitario-este {
+  position: absolute;
+  top: 41px;
+  left: 0;
+  height: 43px;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: transparent;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 21.1px;
+}
+
+.renovacin-de .span {
+  color: #434652;
+}
+
+.renovacin-de .text-wrapper-6 {
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #131b2e;
+}
+
+.renovacin-de .action-execution {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .container-14 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .icon-4 {
+  position: relative;
+  width: 11.25px;
+  height: 16.5px;
+}
+
+.renovacin-de .text-10 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #737783;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.renovacin-de .disabled-button-real {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #dae2fd;
+  border-radius: 8px;
+  opacity: 0.6;
+}
+
+.renovacin-de .container-15 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .icon-5 {
+  position: relative;
+  width: 13.33px;
+  height: 17.5px;
+}
+
+.renovacin-de .renovar {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #737783;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.renovacin-de .text-wrapper-7 {
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #737783;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.renovacin-de .text-wrapper-8 {
+  font-size: 14px;
+}
+
+.renovacin-de .header {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% + 264px);
+  align-items: flex-start;
+  position: absolute;
+  top: 0;
+  left: -282px;
+  background-color: #faf8ffe6;
+  box-shadow: 0px 1px 8px #0000000a;
+  backdrop-filter: blur(6px) brightness(100%);
+  -webkit-backdrop-filter: blur(6px) brightness(100%);
+}
+
+.renovacin-de .container-16 {
+  display: flex;
+  width: 1280px;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 0px 0px 24px;
+  position: relative;
+  flex: 0 0 auto;
+  margin-right: -24px;
+}
+
+.renovacin-de .icon-6 {
+  position: relative;
+  width: 10.67px;
+  height: 10.67px;
+}
+
+.renovacin-de .link-logotipo {
+  display: flex;
+  width: 886px;
+  align-items: center;
+  padding: 0px 12px 0px 0px;
+  position: relative;
+}
+
+.renovacin-de .logotipo-oficial {
+  position: relative;
+  max-width: 188px;
+  width: 176px;
+  height: 44px;
+  aspect-ratio: 4;
+  background-image: url(./img/logotipo-oficial-seguro-social-universitario-UMSS-cochabamba.png);
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.renovacin-de .container-17 {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .container-18 {
+  display: flex;
+  flex-direction: column;
+  max-width: 280px;
+  align-items: flex-end;
+  position: relative;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-11 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #131b2e;
+  font-size: 14px;
+  text-align: right;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.renovacin-de .fac-de-ciencias-y-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 280px;
+  align-items: flex-end;
+  padding: 0px 6.98px 0px 0px;
+  position: relative;
+  width: 100%;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.renovacin-de .fac-de-ciencias-y {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "JetBrains Mono-Regular", Helvetica;
+  font-weight: 400;
+  color: #434652;
+  font-size: 13px;
+  text-align: right;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.renovacin-de .profile {
+  position: relative;
+  max-width: 296px;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  box-shadow: 0px 0px 0px 2px #d9e2ff;
+  background-image: url(./img/profile.png);
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.renovacin-de .footer {
+  display: flex;
+  flex-direction: column;
+  height: 44px;
+  align-items: flex-start;
+  padding: 16px 24px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  z-index: 0;
+  background-color: #f2f3ff;
+  box-shadow: 0px 1px 8px #0000000a;
+}
+
+.renovacin-de .container-19 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  margin-bottom: -4px;
+}
+
+.renovacin-de .text-12 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 500;
+  color: #434652;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.renovacin-de .icon-7 {
+  position: relative;
+  width: 11.53px;
+  height: 12px;
+}
+
+.renovacin-de .text-13 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #ba1a1a;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.renovacin-de .aside {
+  display: flex;
+  flex-direction: column;
+  width: 299px;
+  height: calc(100% - 496px);
+  align-items: flex-start;
+  justify-content: space-between;
+  position: absolute;
+  top: 64px;
+  left: 0;
+  background-color: #f2f3ff;
+  overflow: scroll;
+  box-shadow: 0px 1px 8px #0000000a;
+}
+
+.renovacin-de .aside::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+.renovacin-de .container-20 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .container-21 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 9.5px 8px 6.5px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-wrapper-9 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #737783;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  line-height: 16px;
+}
+
+.renovacin-de .nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  border-radius: 8px;
+}
+
+.renovacin-de .icon-8 {
+  position: relative;
+  width: 16.67px;
+  height: 13.67px;
+}
+
+.renovacin-de .text-wrapper-10 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 500;
+  color: #434652;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.renovacin-de .icon-9 {
+  position: relative;
+  width: 16.67px;
+  height: 16.67px;
+}
+
+.renovacin-de .container-22 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 8.02px 0px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .link-2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #0d47a1;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px #0000000d;
+}
+
+.renovacin-de .icon-10 {
+  position: relative;
+  width: 13.33px;
+  height: 18.33px;
+}
+
+.renovacin-de .container-23 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 20.91px 0px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .text-wrapper-11 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #a1bbff;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.renovacin-de .icon-11 {
+  position: relative;
+  width: 11.67px;
+  height: 15.83px;
+}
+
+.renovacin-de .container-24 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 21.37px 0px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .icon-12 {
+  position: relative;
+  width: 13.33px;
+  height: 13.33px;
+}
+
+.renovacin-de .logout-action-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px 0px 0px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.renovacin-de .button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #eaedff;
+  border-radius: 8px;
+}
+
+.renovacin-de .icon-13 {
+  position: relative;
+  width: 13.5px;
+  height: 13.5px;
+}
+
+.renovacin-de .text-14 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #ba1a1a;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.renovacin-de::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
