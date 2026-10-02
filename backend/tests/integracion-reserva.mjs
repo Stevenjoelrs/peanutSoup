@@ -568,3 +568,109 @@ describe('gate de cobertura', () => {
     assert.equal(h.disponible, true, 'el rechazo no debe consumir el horario de especialista');
   });
 });
+
+describe('cancelación de ficha (US-07)', () => {
+  const nuevaFicha = async (idEstudiante, idHorario, estado = 'RESERVADA') => {
+    const f = await q(
+      `INSERT INTO fichas_reservadas (id_estudiante, id_horario, tipo_ficha, estado)
+       VALUES ($1, $2, 'GENERAL', $3) RETURNING id_ficha`,
+      [idEstudiante, idHorario, estado]
+    );
+    return f[0].id_ficha;
+  };
+
+  test('cancelar una ficha propia futura: 200, estado CANCELADA_USUARIO y horario disponible', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('CANC');
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-20', '09:00');
+    const idFicha = await nuevaFicha(e.id_estudiante, horario);
+    await q('UPDATE horarios_atencion SET disponible = FALSE WHERE id_horario = $1', [horario]);
+
+    const r = await pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(e) });
+    assert.equal(r.status, 200, JSON.stringify(r.cuerpo));
+    assert.equal(r.cuerpo.data.ficha.estado, 'CANCELADA_USUARIO');
+
+    const h = (await q('SELECT disponible FROM horarios_atencion WHERE id_horario = $1', [horario]))[0];
+    assert.equal(h.disponible, true, 'al cancelar debe liberar el horario');
+  });
+
+  test('cancelar con menos de 2h para la cita: 409 y la ficha sigue RESERVADA', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('CANCPROX');
+    const ahora = new Date();
+    // Cita a +1h: dentro del margen de 2h exigido. fecha y hora se calculan en La Paz.
+    const prox = new Date(ahora.getTime() + 60 * 60 * 1000);
+    const fechaProx = prox.toLocaleDateString('en-CA', { timeZone: 'America/La_Paz' });
+    const horaProx = prox.toLocaleTimeString('en-GB', { timeZone: 'America/La_Paz', hour: '2-digit', minute: '2-digit' });
+
+    const h = await q(
+      `INSERT INTO horarios_atencion (id_medico, fecha, hora_inicio, hora_fin, consultorio)
+       VALUES ($1, $2, $3, $3, 'PRUEBA') RETURNING id_horario`,
+      [idMedicoGeneral, fechaProx, horaProx]
+    );
+    const idFicha = await nuevaFicha(e.id_estudiante, h[0].id_horario);
+
+    const r = await pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(e) });
+    assert.equal(r.status, 409, JSON.stringify(r.cuerpo));
+
+    const f = (await q('SELECT estado FROM fichas_reservadas WHERE id_ficha = $1', [idFicha]))[0];
+    assert.equal(f.estado, 'RESERVADA');
+  });
+
+  test('cancelar la ficha de otro estudiante: 403 y no cambia nada', omiteSiNoHayBase(), async () => {
+    const dueño = await crearEstudianteSinCobertura('CANCD1');
+    const otro = await crearEstudianteSinCobertura('CANCD2');
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-21', '10:00');
+    const idFicha = await nuevaFicha(dueño.id_estudiante, horario);
+    await q('UPDATE horarios_atencion SET disponible = FALSE WHERE id_horario = $1', [horario]);
+
+    const r = await pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(otro) });
+    assert.equal(r.status, 403);
+
+    const f = (await q('SELECT estado FROM fichas_reservadas WHERE id_ficha = $1', [idFicha]))[0];
+    assert.equal(f.estado, 'RESERVADA');
+    const h = (await q('SELECT disponible FROM horarios_atencion WHERE id_horario = $1', [horario]))[0];
+    assert.equal(h.disponible, false);
+  });
+
+  test('cancelar una ficha que ya no es activa: 409', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('CANC2');
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-22', '11:00');
+    const idFicha = await nuevaFicha(e.id_estudiante, horario, 'ASISTIO');
+
+    const r = await pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(e) });
+    assert.equal(r.status, 409);
+  });
+
+  test('tras cancelar, otro estudiante puede reservar el mismo horario (índice único parcial)', omiteSiNoHayBase(), async () => {
+    const primero = await crearEstudianteSinCobertura('CANCR1');
+    const segundo = await crearEstudianteSinCobertura('CANCR2');
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-23', '12:00');
+    const idFicha = await nuevaFicha(primero.id_estudiante, horario);
+    await q('UPDATE horarios_atencion SET disponible = FALSE WHERE id_horario = $1', [horario]);
+
+    const r = await pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(primero) });
+    assert.equal(r.status, 200, JSON.stringify(r.cuerpo));
+
+    // La cancelación libera el horario; el índice parcial permite una nueva ficha
+    // ACTIVA sobre el mismo horario. Se comprueba a nivel BD para no depender de
+    // cobertura, que ya tiene su propio gate.
+    const segunda = await q(
+      `INSERT INTO fichas_reservadas (id_estudiante, id_horario, tipo_ficha, estado)
+       VALUES ($1, $2, 'GENERAL', 'RESERVADA') RETURNING id_ficha`,
+      [segundo.id_estudiante, horario]
+    );
+    assert.equal(segunda.length, 1, 'debe poder insertarse una ficha activa sobre el horario liberado');
+  });
+
+  test('cancelar concurrente sobre la misma ficha: una gana y la otra 409', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('CANCX');
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-24', '13:00');
+    const idFicha = await nuevaFicha(e.id_estudiante, horario);
+    await q('UPDATE horarios_atencion SET disponible = FALSE WHERE id_horario = $1', [horario]);
+
+    const [r1, r2] = await Promise.all([
+      pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(e) }),
+      pedir('POST', `/api/fichas/${idFicha}/cancelar`, { token: tokenDe(e) })
+    ]);
+    assert.deepEqual([r1.status, r2.status].sort(), [200, 409].sort(), 'una debe ganar y la otra 409');
+  });
+});

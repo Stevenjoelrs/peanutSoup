@@ -104,3 +104,10 @@ export const listarFichasPorEstudiante = manejar(async (req, res) => {
   const fichas = await servicio.listarFichasPorEstudiante(id_estudiante);
   return successResponse(res, 'Fichas del estudiante autenticado recuperadas.', fichas);
 });
+
+export const cancelarFicha = manejar(async (req, res) => {
+  const id_estudiante = req.user.id_estudiante;
+  const { id } = req.params;
+  const { mensaje, data } = await servicio.cancelarFicha(id_estudiante, id);
+  return successResponse(res, mensaje, data);
+});

@@ -435,11 +435,32 @@ const descargarAgenda = () => {
   notificar.exito('Archivo de calendario descargado.', 'Agenda');
 };
 
-const cancelarReserva = () =>
-  notificar.aviso(
-    'La cancelación de fichas no está habilitada en el sistema; comunícate con ventanilla del Policlínico.',
-    'Cancelación no disponible'
+const cancelarReserva = async () => {
+  if (!fichaActiva) {
+    return notificar.aviso('No tienes una ficha reservada para cancelar.', 'Sin ficha activa');
+  }
+
+  const confirmar = window.confirm(
+    `¿Cancelar tu cita del ${fichaActiva.fecha} a las ${String(fichaActiva.hora_inicio).slice(0, 5)}? ` +
+      'Solo puedes cancelar hasta 2 horas antes de la atención.'
   );
+  if (!confirmar) return;
+
+  try {
+    await conBotonOcupado($('#btn-cancelar-reserva'), () => api.cancelarFicha(fichaActiva.id_ficha), 'Cancelando...');
+    notificar.exito('Tu cita fue cancelada y el horario quedó disponible.', 'Cancelación confirmada');
+    fichaActiva = null;
+    await Promise.all([cargarDisponibilidad(), cargarFichaActiva()]);
+  } catch (error) {
+    if (redirigirSinCobertura(error)) {
+      await Promise.all([cargarDisponibilidad(), cargarFichaActiva()]);
+    } else if (error instanceof ErrorApi) {
+      notificar.aviso(error.message, 'No se pudo cancelar');
+    } else {
+      reportarError(error);
+    }
+  }
+};
 
 export const iniciarPagina = () => {
   if (!exigirSesion()) return;
