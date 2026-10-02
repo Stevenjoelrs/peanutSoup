@@ -49,7 +49,11 @@ if (process.env.DATABASE_URL) {
 // Parámetros de optimización del pool
 poolConfig.max = parseInt(process.env.PG_POOL_MAX || '20', 10);
 poolConfig.idleTimeoutMillis = 30000;
-poolConfig.connectionTimeoutMillis = 5000;
+// Ajustable porque las pruebas de carga abren decenas de transacciones a la vez
+// sobre un pool acotado: las peticiones en cola tienen que aguantar mas que los
+// 5s por defecto o el caso falla por tiempo de espera y no por concurrencia.
+// El default no cambia para el resto del equipo.
+poolConfig.connectionTimeoutMillis = parseInt(process.env.PG_CONNECT_TIMEOUT_MS || '5000', 10);
 
 export const pool = new Pool(poolConfig);
 

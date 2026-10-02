@@ -12,8 +12,14 @@
  *   - Verificación de aislamiento de transacciones (no dirty reads)
  *   - Reservas con especialista bajo concurrencia
  *
- * AISLAMIENTO: usa prefijo PRUEBA-ESTRES y fechas en año 2099.
- * Cada caso usa fecha distinta para no interferir.
+ * AISLAMIENTO: medicos, especialidades y horarios usan el prefijo
+ * PRUEBA-ESTRES y fechas en año 2099; cada caso usa fecha distinta para no
+ * interferir. Los estudiantes son propios de esta prueba (prefijo ESTRES-) y
+ * no se toman del padron, porque las reservas exigen afiliacion vigente y el
+ * padron no la tiene de forma uniforme: mezclarlos haria fallar el analisis
+ * de codigos por cobertura en vez de por concurrencia. Los prefijos ESTRES- no
+ * chocan con los PRUEBA- de integracion-reserva.mjs, asi que ambos archivos
+ * pueden correr en paralelo (node --test lanza los archivos a la vez).
  *
  * Requiere DATABASE_URL. Si no está, se omite.
  *
@@ -31,6 +37,11 @@ const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 dotenv.config({ path: path.join(RAIZ, '.env') });
 
 const MARCA = 'PRUEBA-ESTRES';
+const PREFIJO_ESTUDIANTE = 'ESTRES-';
+// `periodo_semestral` es VARCHAR(10), asi que el prefijo tiene que caber con el
+// numero de estudiante pegado: 'ESTRES' + '-' + 2 digitos = 8.
+const PREFIJO_PERIODO = 'ESTRES';
+const CANTIDAD_ESTUDIANTES = 30;
 const HAY_BASE = Boolean(process.env.DATABASE_URL || process.env.PGHOST);
 
 let pool;
@@ -45,12 +56,61 @@ let TESTS_HABILITADOS = false;
 
 const q = async (texto, params = []) => (await pool.query(texto, params)).rows;
 
+/**
+ * Crea estudiantes propios de la prueba, cada uno con afiliacion vigente.
+ *
+ * No se toman del padron a proposito. Desde que las reservas exigen afiliacion
+ * vigente (`requireCoberturaActiva`), un estudiante sin cobertura recibe 403 y
+ * las aserciones de este archivo —que cuentan 201 y 409— dejarian de medir
+ * concurrencia y medirian cobertura. Con estudiantes propios y cobertura
+ * controlada, cada codigo de respuesta se puede atribuir a su causa.
+ *
+ * El periodo no empieza con PRUEBA a proposito: integracion-reserva.mjs borra
+ * `periodo_semestral LIKE 'PRUEBA%'` al limpiar sus fixtures, y como los dos
+ * archivos corren en paralelo, ese borrado se llevaria por delante estas
+ * afiliaciones en mitad de la corrida.
+ */
+const crearEstudiantesCubiertos = async (cantidad) => {
+  const creados = [];
+  for (let i = 1; i <= cantidad; i++) {
+    const sufijo = String(i).padStart(2, '0');
+    const r = await q(
+      `INSERT INTO estudiantes (sis, cedula_identidad, nombre_completo, facultad, carrera)
+       VALUES ($1, $2, $3, $4, $5) RETURNING id_estudiante, sis, nombre_completo`,
+      [`${PREFIJO_ESTUDIANTE}${sufijo}`, `E${sufijo.padStart(9, '0')}`, `Estudiante Estres ${sufijo}`, 'Medicina', 'Medicina']
+    );
+    const est = r[0];
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, $2, CURRENT_DATE - 10, CURRENT_DATE + 100, 'ACTIVA')`,
+      [est.id_estudiante, `${PREFIJO_PERIODO}-${sufijo}`]
+    );
+    creados.push(est);
+  }
+  return creados;
+};
+
+/**
+ * Borra los fixtures de la prueba. Se ejecuta AL EMPEZAR y AL TERMINAR, y en
+ * ambos casos con el mismo criterio que usa esta prueba para crear: los medicos
+ * se localizan por nombre y los horarios por consultorio, ambos con el prefijo
+ * PRUEBA-ESTRES.
+ *
+ * El orden importa por las claves foraneas: `fichas_medicas_id_horario_fkey` es
+ * RESTRICT, asi que la ficha tiene queirse antes que el horario. Si la limpieza
+ * no borra todas las fichas, el borrado de horarios falla con 23503 y la prueba
+ * se cancela en cascada; ademas el fallo es persistente, porque los fixtures a
+ * medias bloquean la siguiente corrida.
+ */
 const limpiarFixtures = async () => {
-  await q('DELETE FROM fichas_reservadas WHERE id_horario IN (SELECT id_horario FROM horarios_atencion WHERE consultorio = $1)', [`${MARCA}%`]);
+  await q('DELETE FROM fichas_reservadas WHERE id_horario IN (SELECT id_horario FROM horarios_atencion WHERE consultorio LIKE $1)', [`${MARCA}%`]);
   await q('DELETE FROM ordenes_derivacion WHERE id_medico_emisor IN (SELECT id_medico FROM medicos WHERE nombre_completo LIKE $1)', [`${MARCA}%`]);
   await q('DELETE FROM horarios_atencion WHERE consultorio LIKE $1', [`${MARCA}%`]);
   await q('DELETE FROM medicos WHERE nombre_completo LIKE $1', [`${MARCA}%`]);
   await q('DELETE FROM especialidades WHERE nombre LIKE $1', [`${MARCA}%`]);
+  // Los estudiantes dedicated se van al final: CASCADE arrastra sus afiliaciones,
+  // fichas y derivaciones, y asi no hay que perseguirlos uno por uno.
+  await q('DELETE FROM estudiantes WHERE sis LIKE $1', [`${PREFIJO_ESTUDIANTE}%`]);
 };
 
 before(async () => {
@@ -59,9 +119,38 @@ before(async () => {
     return;
   }
 
+  // Supabase en modo SESION (pooler en el puerto 5432) limita a 15 conexiones por
+  // proyecto, y no todas son del backend: PostgREST, pg_cron, pg_net y
+  // postgres_exporter ocupan unas 10 de forma permanente. El .env del equipo trae
+  // PG_POOL_MAX=20, que es mas que el presupuesto real, asi que el pico de
+  // peticiones simultaneas de estas pruebas revienta el tope del pooler con
+  // EMAXCONNSESSION: un error de infraestructura que no dice nada de la
+  // concurrencia de la reserva.
+//
+// Por eso el valor se sobrescribe en vez de respetar el del .env. Las peticiones
+ // simultaneas siguen siendo decenas (eso es lo que se pone a prueba); lo que se
+  // acota es cuantas pueden estar EN COLA en la base a la vez.
+  //
+  // El presupuesto se reparte entre los archivos: `node --test` los lanza en
+  // paralelo y cada uno abre su app (y su pool) contra la misma base. Este
+  // archivo toma 7 + 1 propios; los 5 restantes se los quedan
+  // integracion-reserva.mjs y los servicios de Supabase.
+  //
+  // Ni 8 es suficiente por si solo si los pools se solapan: con menos, las
+  // peticiones en cola agotan el connectionTimeoutMillis y el caso falla por
+  // tiempo de espera en lugar de por concurrencia.
+  process.env.PG_POOL_MAX = '7';
+  // El caso de 15 estudiantes abre 30 transacciones a la vez sobre 7 conexiones,
+  // asi que la cola tarda mas que los 5s por defecto.
+  process.env.PG_CONNECT_TIMEOUT_MS = process.env.PG_CONNECT_TIMEOUT_MS || '60000';
+
   pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.PGSSL === 'false' ? undefined : { rejectUnauthorized: false }
+    ssl: process.env.PGSSL === 'false' ? undefined : { rejectUnauthorized: false },
+    max: 1,
+    // Margen para las esperas en cola: con el pool repartido, las peticiones se
+    // serializan mas que antes y 5s (el default) se queda corto.
+    connectionTimeoutMillis: 30000
   });
   await pool.query('SELECT 1');
   await limpiarFixtures();
@@ -90,9 +179,9 @@ before(async () => {
   );
   idMedicoEspecialista = espMed[0].id_medico;
 
-  estudiantes = await q('SELECT id_estudiante, sis, nombre_completo FROM estudiantes ORDER BY sis LIMIT 30');
+  estudiantes = await crearEstudiantesCubiertos(CANTIDAD_ESTUDIANTES);
   if (estudiantes.length < 20) {
-    console.log(`  [omitida] Solo ${estudiantes.length} estudiantes en padrón; se necesitan 20+ para estrés.\n`);
+    console.log(`  [omitida] Solo ${estudiantes.length} estudiantes de prueba; se necesitan 20+ para estrés.\n`);
     TESTS_HABILITADOS = false;
     return;
   }
@@ -210,13 +299,27 @@ describe('estrés: thundering herd — mismo horario, muchos estudiantes (US-03)
 describe('estrés: regla una ficha por estudiante/día bajo carga (US-03)', () => {
   test('15 estudiantes: cada uno intenta 2 horarios mismo día — solo 1 éxito por estudiante', omiteSiNoHayBase(), async () => {
     const fecha = '2099-12-03';
-    const horarios = await crearHorarios(idMedicoGeneral, fecha, 8, 5); // 5 horarios: 08:00-13:00
+    const fechaSiguiente = '2099-12-10';
     const competidores = estudiantes.slice(0, 15);
 
-    // Cada estudiante intenta reservar 2 horarios distintos el mismo día
-    const promesas = competidores.flatMap((est) => [
-      pedir('POST', '/api/fichas/reservar', { token: tokenDeEst(est), cuerpo: { id_horario: horarios[0] } }),
-      pedir('POST', '/api/fichas/reservar', { token: tokenDeEst(est), cuerpo: { id_horario: horarios[1] } })
+    // Cada estudiante necesita un PAR PROPIO de horarios en un MISMO dia. Si todos
+    // compartieran los mismos dos, solo podrian ganar dos en total (uno por
+    // horario) y la asercion de "1 exito por estudiante" seria imposible de
+    // cumplir.
+    //
+    // Un dia no alcanza: `hora_inicio` es TIME y 15 pares desde las 08:00
+    // llegarian a las 25:00. Por eso los pares se reparten entre dos dias, con
+    // horas distintas en cada uno para no chocar con `uq_medico_horario`.
+    const horarios = [];
+    for (let i = 0; i < competidores.length; i++) {
+      const dia = i % 2 === 0 ? fecha : fechaSiguiente;
+      const bloque = Math.floor(i / 2);
+      horarios.push(...(await crearHorarios(idMedicoGeneral, dia, 8 + bloque * 2, 2)));
+    }
+
+    const promesas = competidores.flatMap((est, i) => [
+      pedir('POST', '/api/fichas/reservar', { token: tokenDeEst(est), cuerpo: { id_horario: horarios[i * 2] } }),
+      pedir('POST', '/api/fichas/reservar', { token: tokenDeEst(est), cuerpo: { id_horario: horarios[i * 2 + 1] } })
     ]);
 
     const resultados = await Promise.all(promesas);
@@ -234,7 +337,9 @@ describe('estrés: regla una ficha por estudiante/día bajo carga (US-03)', () =
       assert.equal(exitos, 1, 'cada estudiante debe tener exactamente 1 ficha exitosa');
     }
 
-    const totalFichas = await q('SELECT COUNT(*) AS n FROM fichas_reservadas WHERE id_horario = ANY($1)', [horarios.slice(0, 2)]);
+    // Se cuenta sobre TODOS los horarios creados, no sobre un par: cada
+    // estudiante aporta exactamente una ficha, asi que el total es 15.
+    const totalFichas = await q('SELECT COUNT(*) AS n FROM fichas_reservadas WHERE id_horario = ANY($1)', [horarios]);
     assert.equal(parseInt(totalFichas[0].n, 10), 15, 'deben crearse 15 fichas totales (una por estudiante)');
   });
 
