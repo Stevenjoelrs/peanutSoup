@@ -1,5 +1,8 @@
+import { query, conTransaccion } from '../shared/config/db.js';
 import { notFound, forbidden } from '../shared/http/errors.js';
 import * as repo from './laboratorio.repository.js';
+
+export { conTransaccion };
 
 /**
  * Obtiene la lista de órdenes de laboratorio del estudiante autenticado.
@@ -51,6 +54,3 @@ export const validarDescargaResultado = async (id_orden_laboratorio, id_estudian
   }
   return resultado.rows[0];
 };
-
-// Re-exportar query para la validación anterior
-import { query } from '../shared/config/db.js';
