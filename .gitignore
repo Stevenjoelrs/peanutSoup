@@ -41,3 +41,7 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Maquetas HTML/CSS. No son codigo de la app: viven en el pool `tools`
+# (origin/tools, ramatools) como referencia de diseno, fuera de git.
+views/
