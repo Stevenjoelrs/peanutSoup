@@ -6,7 +6,12 @@ import { query, conTransaccion } from '../shared/config/db.js';
  * Todo el SQL del módulo vive aquí. No conoce HTTP ni Express: recibe
  * parámetros y devuelve filas. Las reglas de negocio (y los mensajes que
  * forman parte del contrato) están en afiliacion.service.js.
+ *
+ * Fechas (Fase 3): `fecha_inicio`/`fecha_vencimiento` son DATE = calendario.
+ * El "hoy" se calcula en America/La_Paz y no con CURRENT_DATE (zona de la
+ * sesión PG, UTC en Supabase, que adelanta el vencimiento ~4h).
  */
+const HOY_LP = `(now() AT TIME ZONE 'America/La_Paz')::date`;
 
 export const buscarEstudiantePorId = async (id_estudiante) => {
   const result = await query(
@@ -46,20 +51,21 @@ export const insertarAfiliacion = async (datos) => {
  *
  * `estado_efectivo` se deriva en la consulta y no se almacena: "VENCIDA" no es
  * un valor de la columna `estado`, es la lectura de `fecha_vencimiento` contra
- * CURRENT_DATE. Lo mismo con `elegible_renovacion`, que replica aquí la
- * ventana de renovación para que el frontend no tenga que decidirlo.
+ * el hoy de La Paz. Lo mismo con `elegible_renovacion`, que replica aquí la
+ * ventana cerrada de renovación (0 a 30 días) para que el frontend no tenga
+ * que decidirlo.
  */
 export const buscarVigencia = async (id_estudiante) => {
   const result = await query(
     `SELECT a.id_afiliacion, a.periodo_semestral, a.fecha_inicio, a.fecha_vencimiento, a.estado,
-            (a.fecha_vencimiento - CURRENT_DATE) AS dias_para_vencer,
+            (a.fecha_vencimiento - ${HOY_LP}) AS dias_para_vencer,
             CASE
               WHEN a.estado = 'INACTIVA' THEN 'INACTIVA'
-              WHEN a.fecha_vencimiento < CURRENT_DATE THEN 'VENCIDA'
+              WHEN a.fecha_vencimiento < ${HOY_LP} THEN 'VENCIDA'
               ELSE 'ACTIVA'
             END AS estado_efectivo,
-            CASE WHEN (a.fecha_vencimiento - CURRENT_DATE) <= 30 THEN true ELSE false END AS elegible_renovacion,
-            CURRENT_DATE AS fecha_servidor
+            CASE WHEN (a.fecha_vencimiento - ${HOY_LP}) BETWEEN 0 AND 30 THEN true ELSE false END AS elegible_renovacion,
+            (${HOY_LP}) AS fecha_servidor
      FROM afiliaciones a
      WHERE a.id_estudiante = $1
      ORDER BY a.fecha_vencimiento DESC
@@ -73,7 +79,7 @@ export const buscarVigencia = async (id_estudiante) => {
 export const buscarUltimaAfiliacionActiva = async (client, id_estudiante) => {
   const resultado = await client.query(
     `SELECT a.id_afiliacion, a.id_estudiante, a.periodo_semestral, a.fecha_inicio, a.fecha_vencimiento,
-            a.estado, (a.fecha_vencimiento - CURRENT_DATE) AS dias_para_vencer,
+            a.estado, (a.fecha_vencimiento - ${HOY_LP}) AS dias_para_vencer,
             e.nombre_completo, e.sis
      FROM afiliaciones a
      JOIN estudiantes e ON a.id_estudiante = e.id_estudiante
