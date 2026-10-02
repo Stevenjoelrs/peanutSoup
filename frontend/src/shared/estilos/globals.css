@@ -107,9 +107,10 @@ a {
 .access-and-login .section-left-primary {
   position: relative;
   grid-row: 1 / 2;
-  grid-column: 4 / 11;
+  grid-column: 1 / -1;
   justify-self: center;
   align-self: center;
+  max-width: 480px;
   width: 100%;
   height: fit-content;
   display: flex;
