@@ -20,6 +20,7 @@ import { $$, $, alCargar, mostrar, escapar, plural } from './dom.js';
 import { sesion, cerrarSesion } from './sesion.js';
 import { fechaCorta } from './formato.js';
 import { api } from './http.js';
+import { perfil } from '../auth/api.js';
 
 /**
  * Rutas del menú lateral declaradas en los diseños con data-path.
@@ -455,6 +456,10 @@ const afinarRenovacion = async (usuario) => {
  * Repinta usuario, cobertura y menú sin volver a enlazar nada. Se usa después
  * de un trámite que cambia la afiliación, porque `montarShell()` solo lee la
  * sesión al arrancar y el panel del sidebar se quedaría con el estado anterior.
+ *
+ * No vigila la afiliación: quien lo llama ya está en una página del trámite,
+ * que es justo de donde `vigilarAfiliacion()` excluye el redirect para no armar
+ * un bucle.
  */
 export const refrescarArmazon = () => {
   const usuario = sesion.usuario;
@@ -468,10 +473,20 @@ export const refrescarArmazon = () => {
 /**
  * Monta el armazón de la aplicación. Idempotente: puede llamarse una vez por
  * página sin duplicar listeners.
+ *
+ * `vigilarAfiliacion()` decide a dónde cae el estudiante sin cobertura, así que
+ * tiene que ver el estado real y no el que quedó guardado en el login: si el
+ * estudiante renovó en otra pestaña, o su afiliación venció desde entonces,
+ * `sesion.usuario` describe el pasado y el redirect manda a un trámite que ya no
+ * corresponde.
+ *
+ * Por eso aquí NO se vigila con lo que hay en sesión: eso dispararía el redirect
+ * equivocado antes de que llegue la respuesta. Se pinta con lo guardado para que
+ * el armazón no aparezca vacío, y la vigilancia queda para `revalidarCobertura()`,
+ * que corre con el dato del servidor.
  */
 export const montarShell = () => {
   const usuario = sesion.usuario;
-  vigilarAfiliacion(usuario);
   pintarUsuario(usuario);
   pintarEstadoCobertura(usuario?.afiliacion);
   pintarBienvenida(usuario);
@@ -484,4 +499,35 @@ export const montarShell = () => {
 
   $$('#ssu-logout').forEach((boton) => boton.addEventListener('click', cerrarSesion));
   afinarRenovacion(usuario);
+  revalidarCobertura(usuario);
+};
+
+/**
+ * Vuelve a leer el perfil del servidor y, con ese dato, decide a dónde va el
+ * estudiante. Recibe lo que había en sesión solo para el caso de que la llamada
+ * falle.
+ *
+ * Si la red no responde se vigila igual con lo guardado. Puede ser un dato
+ * viejo, pero es el único dato disponible y el backend sigue rechazando las
+ * reservas sin cobertura: equivocarse de pantalla es molesto, dejar pasar el
+ * trámite no.
+ */
+const revalidarCobertura = async (guardado) => {
+  let actualizado;
+  try {
+    const respuesta = await perfil();
+    if (!respuesta?.data) throw new Error('perfil vacio');
+    sesion.actualizar(respuesta.data);
+    actualizado = respuesta.data;
+  } catch {
+    vigilarAfiliacion(guardado);
+    return;
+  }
+
+  pintarUsuario(actualizado);
+  pintarEstadoCobertura(actualizado?.afiliacion);
+  pintarBienvenida(actualizado);
+  pintarModulos(actualizado);
+  afinarRenovacion(actualizado);
+  vigilarAfiliacion(actualizado);
 };

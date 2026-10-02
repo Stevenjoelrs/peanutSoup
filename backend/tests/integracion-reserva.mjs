@@ -501,4 +501,70 @@ describe('gate de cobertura', () => {
     assert.equal(r.status, 403);
     assert.equal(r.cuerpo.error.estado_efectivo, 'FUTURA');
   });
+
+  test('afiliacion INACTIVA: reserva general devuelve 403 INACTIVA', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('INACTIVA');
+    // Fechas todavía por vencer a proposito: comprueba que el estado INACTIVA manda
+    // sobre el calendario, porque el servicio lo evalua antes que los dias que
+    // quedan. Con una afiliacion vencida el caso seria indistinguible de VENCIDA.
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, 'PRUEBA-I', CURRENT_DATE - 10, CURRENT_DATE + 100, 'INACTIVA')`,
+      [e.id_estudiante]
+    );
+    const horario = await crearHorario(idMedicoGeneral, '2099-12-13');
+
+    const r = await pedir('POST', '/api/fichas/reservar', {
+      token: tokenDe(e),
+      cuerpo: { id_horario: horario }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'INACTIVA');
+    assert.equal(r.cuerpo.error.accion_sugerida, '/renovacion');
+
+    const h = (await q('SELECT disponible FROM horarios_atencion WHERE id_horario = $1', [horario]))[0];
+    assert.equal(h.disponible, true, 'el rechazo no debe consumir el horario');
+  });
+
+  test('ficha de especialista sin afiliacion: devuelve 403 SIN_AFILIACION', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('ESPEC');
+    const horario = await crearHorario(idMedicoEspecialista, '2099-11-10');
+    const derivacion = await crearDerivacion(e.id_estudiante);
+
+    const r = await pedir('POST', '/api/fichas-especialista/reservar', {
+      token: tokenDe(e),
+      cuerpo: { id_horario: horario, id_derivacion: derivacion }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'SIN_AFILIACION');
+    assert.equal(r.cuerpo.error.accion_sugerida, '/registro');
+
+    const h = (await q('SELECT disponible FROM horarios_atencion WHERE id_horario = $1', [horario]))[0];
+    assert.equal(h.disponible, true, 'el rechazo no debe consumir el horario de especialista');
+
+    const fichas = await q('SELECT COUNT(*)::int AS n FROM fichas_reservadas WHERE id_horario = $1', [horario]);
+    assert.equal(fichas[0].n, 0, 'el rechazo no debe crear ficha');
+  });
+
+  test('ficha de especialista con afiliacion vencida: devuelve 403 VENCIDA', omiteSiNoHayBase(), async () => {
+    const e = await crearEstudianteSinCobertura('ESPECV');
+    await q(
+      `INSERT INTO afiliaciones (id_estudiante, periodo_semestral, fecha_inicio, fecha_vencimiento, estado)
+       VALUES ($1, 'PRUEBA-V', CURRENT_DATE - 100, CURRENT_DATE - 5, 'ACTIVA')`,
+      [e.id_estudiante]
+    );
+    const horario = await crearHorario(idMedicoEspecialista, '2099-11-11');
+    const derivacion = await crearDerivacion(e.id_estudiante);
+
+    const r = await pedir('POST', '/api/fichas-especialista/reservar', {
+      token: tokenDe(e),
+      cuerpo: { id_horario: horario, id_derivacion: derivacion }
+    });
+    assert.equal(r.status, 403);
+    assert.equal(r.cuerpo.error.estado_efectivo, 'VENCIDA');
+    assert.equal(r.cuerpo.error.accion_sugerida, '/renovacion');
+
+    const h = (await q('SELECT disponible FROM horarios_atencion WHERE id_horario = $1', [horario]))[0];
+    assert.equal(h.disponible, true, 'el rechazo no debe consumir el horario de especialista');
+  });
 });
