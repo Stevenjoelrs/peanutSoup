@@ -8,7 +8,7 @@
 import { $, $$, alCargar, alSeleccionar, estadoVacio, escapar, mostrar, plural } from '../shared/dom.js';
 import { fechaLarga, fechaCorta, horaCorta, soloFechaIso } from '../shared/formato.js';
 import { montarShell } from '../shared/armazon.js';
-import { notificar, reportarError, conBotonOcupado } from '../shared/notificaciones.js';
+import { notificar, reportarError, conBotonOcupado, redirigirSinCobertura } from '../shared/notificaciones.js';
 import { sesion, exigirSesion } from '../shared/sesion.js';
 import { abrirDocumento } from '../shared/documentos.js';
 import { ErrorApi } from '../shared/http.js';
@@ -382,7 +382,9 @@ const confirmarReserva = async () => {
     notificar.exito(respuesta?.ficha ? 'Tu ficha médica general fue reservada.' : 'Ficha reservada.', 'US-03 · Reserva confirmada');
     await Promise.all([cargarDisponibilidad(), cargarFichaActiva()]);
   } catch (error) {
-    if (error instanceof ErrorApi && error.status === 409) {
+    if (redirigirSinCobertura(error)) {
+      await Promise.all([cargarDisponibilidad(), cargarFichaActiva()]);
+    } else if (error instanceof ErrorApi && error.status === 409) {
       notificar.aviso(error.message, 'Cupo no disponible');
       await Promise.all([cargarDisponibilidad(), cargarFichaActiva()]);
     } else if (error instanceof ErrorApi && error.status === 400) {

@@ -1,4 +1,5 @@
 import { badRequest } from '../shared/http/errors.js';
+import { requireCoberturaActiva } from '../shared/policies/cobertura.service.js';
 import * as repo from './derivacion.repository.js';
 
 export const obtenerDerivacionesActivas = async (id_estudiante) => {
@@ -22,10 +23,14 @@ export const emitirDerivacion = async (id_estudiante, { id_medico_emisor, id_esp
     throw badRequest('Los campos id_medico_emisor e id_especialidad_requerida son requeridos.');
   }
 
-  const nuevaDerivacion = await repo.insertarDerivacion({
-    id_estudiante,
-    id_medico_emisor,
-    id_especialidad_requerida
+  const nuevaDerivacion = await repo.conTransaccion(async (client) => {
+    await requireCoberturaActiva(client, id_estudiante);
+
+    return repo.insertarDerivacionConCliente(client, {
+      id_estudiante,
+      id_medico_emisor,
+      id_especialidad_requerida
+    });
   });
 
   return {

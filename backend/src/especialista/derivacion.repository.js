@@ -1,4 +1,6 @@
-import { query } from '../shared/config/db.js';
+import { query, conTransaccion } from '../shared/config/db.js';
+
+export { conTransaccion };
 
 export const obtenerActivasPorEstudiante = async (id_estudiante) => {
   const result = await query(
@@ -35,6 +37,16 @@ export const obtenerHistorialPorEstudiante = async (id_estudiante) => {
 
 export const insertarDerivacion = async ({ id_estudiante, id_medico_emisor, id_especialidad_requerida }) => {
   const result = await query(
+    `INSERT INTO ordenes_derivacion (id_estudiante, id_medico_emisor, id_especialidad_requerida, estado)
+     VALUES ($1, $2, $3, 'ACTIVA')
+     RETURNING id_derivacion, id_estudiante, id_medico_emisor, id_especialidad_requerida, estado, fecha_emision`,
+    [id_estudiante, id_medico_emisor, id_especialidad_requerida]
+  );
+  return result.rows[0];
+};
+
+export const insertarDerivacionConCliente = async (client, { id_estudiante, id_medico_emisor, id_especialidad_requerida }) => {
+  const result = await client.query(
     `INSERT INTO ordenes_derivacion (id_estudiante, id_medico_emisor, id_especialidad_requerida, estado)
      VALUES ($1, $2, $3, 'ACTIVA')
      RETURNING id_derivacion, id_estudiante, id_medico_emisor, id_especialidad_requerida, estado, fecha_emision`,
