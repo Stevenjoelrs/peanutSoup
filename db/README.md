@@ -68,4 +68,4 @@ que quedaron en la base y los vocabularios que usa el código, para compararlos.
 | `fichas_reservadas`  | `RESERVADA` \| `CONFIRMADA` \| `CANCELADA_USUARIO` \| `ASISTIO` |
 | `fichas_reservadas`  | `GENERAL` \| `INCLUSIVA` \| `ESPECIALISTA` (tipo_ficha) |
 | `ordenes_derivacion` | `ACTIVA` \| `UTILIZADA`                          |
-| `ordenes_laboratorio`| `Solicitado` \| `En curso` \| `Aceptado` \| `Terminado` |
+| `ordenes_laboratorio`| `EMITIDA` \| `EN_CURSO` \| `FINALIZADA`          |
