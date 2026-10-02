@@ -3,7 +3,8 @@ import {
   reservarFichaGeneral,
   reservarFichaEspecialista,
   listarFichasPorEstudiante,
-  obtenerComprobanteFicha
+  obtenerComprobanteFicha,
+  cancelarFicha
 } from './reserva.controller.js';
 import { authenticateStudent, requireAuth } from '../shared/middleware/auth.js';
 
@@ -28,5 +29,8 @@ router.get('/mis-fichas', authenticateStudent, requireAuth, listarFichasPorEstud
 
 // US-03 / US-08 — Comprobante oficial imprimible de la ficha (solo su titular)
 router.get('/:id/comprobante', authenticateStudent, requireAuth, obtenerComprobanteFicha);
+
+// US-07 — Cancelar ficha propia con al menos 2h de anticipación
+router.post('/:id/cancelar', authenticateStudent, requireAuth, cancelarFicha);
 
 export default router;

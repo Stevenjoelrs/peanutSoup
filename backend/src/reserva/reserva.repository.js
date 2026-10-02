@@ -106,6 +106,37 @@ export const marcarHorarioNoDisponible = async (client, id_horario) => {
   );
 };
 
+export const marcarHorarioDisponible = async (client, id_horario) => {
+  await client.query(
+    `UPDATE horarios_atencion SET disponible = TRUE, updated_at = CURRENT_TIMESTAMP WHERE id_horario = $1`,
+    [id_horario]
+  );
+};
+
+/** Bloquea la ficha con su horario para poder cancelarla de forma segura. */
+export const bloquearFicha = async (client, id_ficha) => {
+  const result = await client.query(
+    `SELECT f.id_ficha, f.id_estudiante, f.id_horario, f.tipo_ficha, f.estado, f.fecha_reserva,
+            h.fecha, h.hora_inicio, h.hora_fin
+     FROM fichas_reservadas f
+     JOIN horarios_atencion h ON f.id_horario = h.id_horario
+     WHERE f.id_ficha = $1
+     FOR UPDATE OF f`,
+    [id_ficha]
+  );
+  return result.rows[0] ?? null;
+};
+
+export const marcarFichaCancelada = async (client, id_ficha) => {
+  const result = await client.query(
+    `UPDATE fichas_reservadas SET estado = 'CANCELADA_USUARIO'
+     WHERE id_ficha = $1
+     RETURNING id_ficha, id_estudiante, id_horario, tipo_ficha, estado, fecha_reserva`,
+    [id_ficha]
+  );
+  return result.rows[0] ?? null;
+};
+
 export const insertarFicha = async (client, { id_estudiante, id_horario, tipo_ficha, estado = 'RESERVADA' }) => {
   const result = await client.query(
     `INSERT INTO fichas_reservadas (id_estudiante, id_horario, tipo_ficha, estado)

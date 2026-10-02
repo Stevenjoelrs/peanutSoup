@@ -6,6 +6,7 @@ import {
 } from '../shared/http/errors.js';
 import * as repo from './reserva.repository.js';
 import { requireCoberturaActiva } from '../shared/policies/cobertura.service.js';
+import { normalizarFecha } from '../shared/http/fechas.js';
 
 // `pg` entrega las columnas DATE como Date a medianoche local; se formatea en la
 // misma zona para no correr el día al mostrarlo.
@@ -179,4 +180,68 @@ export const reservarFichaEspecialista = async (id_estudiante, id_horario, id_de
 
 export const listarFichasPorEstudiante = async (id_estudiante) => {
   return repo.obtenerFichasPorEstudiante(id_estudiante);
+};
+
+// Margen mínimo de cancelación: el estudiante debe avisar con al menos 2 horas
+// de anticipación. Pasado ese límite la cita se considera comprometida y la
+// inasistencia la procesa la clínica con una falta, no con una cancelación.
+const MARGEN_CANCELACION_MS = 2 * 60 * 60 * 1000;
+
+/** Instante de la cita interpretando fecha + hora en la zona de La Paz (UTC-4). */
+const instanteCita = (fecha, hora) => {
+  const dia = normalizarFecha(fecha);
+  if (!dia) return null;
+  const horaTexto = String(hora).slice(0, 5);
+  // Bolivia no tiene horario de verano: su offset es siempre UTC-4.
+  const instante = new Date(`${dia}T${horaTexto}:00-04:00`);
+  return Number.isNaN(instante.getTime()) ? null : instante;
+};
+
+/**
+ * US-07 — cancelar una ficha. Reglas:
+ *   - solo borra el compromiso del estudiante; no toca cobertura ni derivaciones;
+ *   - protege la fila con FOR UPDATE para que no haya dos cancelaciones a la vez;
+ *   - solo cancela fichas propias y todavía activas;
+ *   - exige aviso con 2 horas de anticipación.
+ * La clínica puede seguir viendo el horario como libre al momento.
+ */
+export const cancelarFicha = async (id_estudiante, id_ficha) => {
+  if (!id_ficha) {
+    throw badRequest('El campo id_ficha es requerido.');
+  }
+
+  return repo.conTransaccion(async (client) => {
+    const ficha = await repo.bloquearFicha(client, id_ficha);
+
+    if (!ficha) {
+      throw notFound('La ficha no existe.');
+    }
+
+    if (ficha.id_estudiante !== id_estudiante) {
+      throw forbidden('Esa ficha pertenece a otro estudiante.');
+    }
+
+    if (ficha.estado !== 'RESERVADA' && ficha.estado !== 'CONFIRMADA') {
+      throw conflict(`La ficha ya no se puede cancelar (estado actual: ${ficha.estado}).`);
+    }
+
+    const cita = instanteCita(ficha.fecha, ficha.hora_inicio);
+    if (!cita) {
+      throw conflict('No se pudo determinar la fecha de la cita.');
+    }
+
+    if (cita.getTime() - Date.now() < MARGEN_CANCELACION_MS) {
+      throw conflict('Solo puedes cancelar tu cita hasta 2 horas antes de la atención.');
+    }
+
+    const cancelada = await repo.marcarFichaCancelada(client, id_ficha);
+    await repo.marcarHorarioDisponible(client, ficha.id_horario);
+
+    return {
+      mensaje: 'Tu cita fue cancelada. El horario quedó disponible nuevamente.',
+      data: {
+        ficha: cancelada
+      }
+    };
+  });
 };

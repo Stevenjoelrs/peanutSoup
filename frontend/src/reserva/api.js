@@ -6,6 +6,7 @@
  *   GET  /api/fichas/mis-fichas                  -> 200 (fichas del estudiante)
  *   POST /api/fichas/reservar                    -> 201 | 400 | 404 | 409
  *   GET  /api/fichas/:id/comprobante             -> 200 (HTML imprimible)
+ *   POST /api/fichas/:id/cancelar                 -> 200 | 403 | 404 | 409
  *
  * La reserva nunca envía id_estudiante: el servidor lo toma del JWT.
  */
@@ -23,3 +24,7 @@ export const reservarFicha = (idHorario) =>
   api('/api/fichas/reservar', { method: 'POST', body: { id_horario: idHorario } });
 
 export const urlComprobante = (idFicha) => conParams(`/api/fichas/${idFicha}/comprobante`);
+
+/** Cancela una ficha propia (US-07). */
+export const cancelarFicha = (idFicha) =>
+  api(`/api/fichas/${idFicha}/cancelar`, { method: 'POST' });
